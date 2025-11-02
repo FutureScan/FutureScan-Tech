@@ -1799,3 +1799,14 @@
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
 [DEBUG] Metrics export disabled by organization setting
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message 6b9af05a-3c0c-4639-831e-0796cb95659e
+[DEBUG] FileHistory: Added snapshot for 6b9af05a-3c0c-4639-831e-0796cb95659e, tracking 23 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
