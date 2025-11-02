@@ -8,7 +8,6 @@ import { useAppStore } from '@/store/app-store';
 import { SentimentCard } from '@/components/SentimentCard';
 import { Watchlist } from '@/components/Watchlist';
 import { NewsList } from '@/components/NewsList';
-import { CryptoCalculator } from '@/components/CryptoCalculator';
 import Link from 'next/link';
 import { ArrowRight, Zap, TrendingUp, Newspaper, Activity } from 'lucide-react';
 import Image from 'next/image';
