@@ -39,6 +39,10 @@ export default function MarketplacePage() {
   const [submittingListing, setSubmittingListing] = useState(false);
   const [copiedWallet, setCopiedWallet] = useState(false);
 
+  // Tutorial state
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [tutorialStep, setTutorialStep] = useState(0);
+
   // Form state
   const [formData, setFormData] = useState({
     title: '',
