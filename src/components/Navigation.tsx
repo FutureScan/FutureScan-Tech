@@ -8,6 +8,7 @@ import {
   Newspaper,
   TrendingUp,
   Zap,
+  ShoppingCart,
   Settings,
   FileText,
   Mail,
@@ -18,6 +19,7 @@ const navItems = [
   { href: '/news', icon: Newspaper, label: 'News' },
   { href: '/insiders', icon: TrendingUp, label: 'Insiders' },
   { href: '/signals', icon: Zap, label: 'Signals' },
+  { href: '/marketplace', icon: ShoppingCart, label: 'Marketplace' },
   { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 

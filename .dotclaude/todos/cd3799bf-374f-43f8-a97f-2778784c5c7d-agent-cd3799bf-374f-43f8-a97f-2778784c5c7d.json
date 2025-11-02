@@ -21,12 +21,12 @@
   },
   {
     "content": "Update navigation to include marketplace",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Updating navigation to include marketplace"
   },
   {
     "content": "Build the project and verify",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Building the project and verifying"
   }
 ]
