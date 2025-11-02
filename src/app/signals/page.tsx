@@ -224,13 +224,14 @@ export default function SignalsPage() {
                 </div>
 
                 {/* Reasoning */}
-                <div className="mb-4 p-4 bg-[#0a0a0a] rounded-lg">
-                  <h4 className="text-sm font-semibold text-gray-300 mb-2">
-                    Analysis
+                <div className="mb-4 p-4 bg-[#0a0a0a] rounded-lg border border-[#ff6b35]/10">
+                  <h4 className="text-sm font-semibold text-[#ff6b35] mb-3 flex items-center gap-2">
+                    <Activity size={16} />
+                    Detailed Analysis
                   </h4>
-                  <p className="text-sm text-gray-400 leading-relaxed">
+                  <div className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
                     {signal.reasoning}
-                  </p>
+                  </div>
                 </div>
 
                 {/* Indicators */}
