@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { MarketplaceListing } from '@/types';
-import { getMarketplaceListings, calculatePlatformFee, MARKETPLACE_CONFIG } from '@/lib/marketplace-api';
+import { getMarketplaceListings, submitListing, MARKETPLACE_CONFIG } from '@/lib/marketplace-api';
 import {
   ShoppingCart,
   Star,
@@ -14,10 +14,14 @@ import {
   Bot,
   Code,
   CheckCircle,
-  AlertTriangle,
   Info,
   ExternalLink,
   Search,
+  Plus,
+  X,
+  Loader2,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -27,6 +31,21 @@ export default function MarketplacePage() {
   const [selectedCategory, setSelectedCategory] = useState<MarketplaceListing['category'] | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showTerms, setShowTerms] = useState(false);
+  const [showListingForm, setShowListingForm] = useState(false);
+  const [submittingListing, setSubmittingListing] = useState(false);
+  const [copiedWallet, setCopiedWallet] = useState(false);
+
+  // Form state
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    category: 'signals' as MarketplaceListing['category'],
+    price: '',
+    seller: '',
+    preview: '',
+    features: ['', '', ''],
+    transactionSignature: '',
+  });
 
   useEffect(() => {
     loadListings();
@@ -45,6 +64,60 @@ export default function MarketplacePage() {
       setLoading(false);
     }
   }
+
+  const copyWalletAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS);
+      setCopiedWallet(true);
+      setTimeout(() => setCopiedWallet(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const handleSubmitListing = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmittingListing(true);
+
+    try {
+      const result = await submitListing(
+        {
+          title: formData.title,
+          description: formData.description,
+          category: formData.category,
+          price: parseFloat(formData.price),
+          seller: formData.seller,
+          seller_rating: 0,
+          preview: formData.preview || undefined,
+          features: formData.features.filter(f => f.trim() !== ''),
+          verified: false,
+        },
+        formData.transactionSignature
+      );
+
+      if (result.success) {
+        alert('✅ Listing submitted successfully! It will appear after review.');
+        setShowListingForm(false);
+        setFormData({
+          title: '',
+          description: '',
+          category: 'signals',
+          price: '',
+          seller: '',
+          preview: '',
+          features: ['', '', ''],
+          transactionSignature: '',
+        });
+        loadListings();
+      } else {
+        alert(`❌ ${result.error || 'Failed to submit listing'}`);
+      }
+    } catch (error) {
+      alert('❌ An error occurred. Please try again.');
+    } finally {
+      setSubmittingListing(false);
+    }
+  };
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -100,9 +173,16 @@ export default function MarketplacePage() {
                 X403 Marketplace
               </h1>
               <p className="text-gray-400">
-                Premium crypto data, signals, tools, and research from verified sellers
+                Buy & sell premium crypto data, signals, tools, and research
               </p>
             </div>
+            <button
+              onClick={() => setShowListingForm(true)}
+              className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
+            >
+              <Plus size={20} />
+              Sell Your Product
+            </button>
           </div>
 
           {/* Legal Banner */}
@@ -110,8 +190,8 @@ export default function MarketplacePage() {
             <div className="flex items-start gap-3">
               <Info className="text-blue-400 flex-shrink-0 mt-0.5" size={20} />
               <div className="text-sm text-blue-200">
-                <strong>Legal Notice:</strong> All products are for informational and educational purposes only.
-                Not financial advice. Platform takes {MARKETPLACE_CONFIG.PLATFORM_FEE_PERCENTAGE}% fee on all transactions.
+                <strong>Platform Notice:</strong> Sellers pay a one-time {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL fee to list products.
+                Buyers pay directly to sellers with no platform fees. All products are for informational and educational purposes only.
                 <button
                   onClick={() => setShowTerms(true)}
                   className="underline ml-1 hover:text-blue-300"
@@ -188,9 +268,6 @@ export default function MarketplacePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredListings.map((listing) => {
-              const platformFee = calculatePlatformFee(listing.price);
-              const sellerReceives = listing.price - platformFee;
-
               return (
                 <div
                   key={listing.id}
@@ -258,14 +335,11 @@ export default function MarketplacePage() {
 
                   {/* Pricing */}
                   <div className="mb-4 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
-                    <div className="flex items-baseline justify-between mb-1">
+                    <div className="flex items-baseline justify-between">
                       <span className="text-2xl font-bold text-[#ff6b35]">
                         ${listing.price.toFixed(2)}
                       </span>
-                      <span className="text-xs text-gray-500">USD</span>
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Platform fee: ${platformFee.toFixed(2)} • Seller receives: ${sellerReceives.toFixed(2)}
+                      <span className="text-xs text-green-400">No platform fees</span>
                     </div>
                   </div>
 
@@ -317,9 +391,10 @@ export default function MarketplacePage() {
                 <section>
                   <h3 className="text-lg font-semibold text-white mb-2">💰 Platform Fees & Payments</h3>
                   <ul className="list-disc pl-5 space-y-1">
-                    <li>Platform charges a {MARKETPLACE_CONFIG.PLATFORM_FEE_PERCENTAGE}% fee on all transactions</li>
-                    <li>Fees are deducted automatically and sent to: <code className="bg-gray-800 px-2 py-0.5 rounded text-xs">{MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS}</code></li>
-                    <li>Supported payment methods: Cryptocurrency (ETH, USDT, USDC), Credit/Debit cards</li>
+                    <li>Sellers pay a one-time {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL fee to list products</li>
+                    <li>Fees are sent to Solana wallet: <code className="bg-gray-800 px-2 py-0.5 rounded text-xs break-all">{MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS}</code></li>
+                    <li>Buyers pay directly to sellers with NO platform fees</li>
+                    <li>Supported payment methods: Cryptocurrency (SOL, ETH, USDT, USDC), Credit/Debit cards</li>
                     <li>All sales are final - no refunds unless explicitly stated by seller</li>
                     <li>Buyers are responsible for any applicable taxes</li>
                   </ul>
