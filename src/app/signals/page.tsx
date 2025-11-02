@@ -12,6 +12,8 @@ import {
   Shield,
   Clock,
   Activity,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -20,10 +22,21 @@ export default function SignalsPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'hold'>('all');
   const [signalTypeFilter, setSignalTypeFilter] = useState<'all' | 'long-term' | 'medium-term' | 'short-term' | 'opportunity' | 'fundamental'>('all');
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     loadSignals();
   }, []);
+
+  const toggleCard = (id: string) => {
+    const newExpanded = new Set(expandedCards);
+    if (newExpanded.has(id)) {
+      newExpanded.delete(id);
+    } else {
+      newExpanded.add(id);
+    }
+    setExpandedCards(newExpanded);
+  };
 
   async function loadSignals() {
     try {

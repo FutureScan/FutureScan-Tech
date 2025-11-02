@@ -174,57 +174,56 @@ export default function InsidersPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {signals.map((signal) => {
+              const isExpanded = expandedCards.has(signal.id);
               return (
                 <div
                   key={signal.id}
-                  className={`card p-6 border-2 transition-all hover:scale-105 ${getActionColor(
-                    signal.action
-                  )}`}
+                  className={`card p-5 border transition-all ${getActionColor(signal.action)}`}
+                  style={{ minHeight: '220px' }}
                 >
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="text-xl font-bold">{signal.coin}</h3>
-                      <span className="text-sm text-gray-500 uppercase">{signal.symbol}</span>
+                      <h3 className="text-lg font-bold">{signal.coin}</h3>
+                      <span className="text-xs text-gray-500 uppercase">{signal.symbol}</span>
                     </div>
-                    <div className={`px-3 py-1 rounded-full ${getActionBadge(signal.action)} flex items-center gap-1.5`}>
-                      {signal.action === 'bullish' && <TrendingUp size={14} />}
-                      {signal.action === 'bearish' && <TrendingDown size={14} />}
-                      {signal.action === 'neutral' && <Minus size={14} />}
+                    <div className={`px-2 py-1 rounded-full ${getActionBadge(signal.action)} flex items-center gap-1`}>
+                      {signal.action === 'bullish' && <TrendingUp size={12} />}
+                      {signal.action === 'bearish' && <TrendingDown size={12} />}
+                      {signal.action === 'neutral' && <Minus size={12} />}
                       <span className="text-xs font-bold uppercase">{signal.action}</span>
                     </div>
                   </div>
 
                   {/* Activity Type */}
-                  <div className="mb-4 flex items-center gap-2 px-3 py-2 bg-[#0a0a0a] rounded-lg border border-[#ff6b35]/20">
+                  <div className="mb-3 flex items-center gap-2 px-2 py-1.5 bg-[#0a0a0a] rounded-lg">
                     <div className="text-[#ff6b35]">
                       {getActivityIcon(signal.activity_type)}
                     </div>
-                    <span className="text-sm font-semibold text-[#ff6b35]">
+                    <span className="text-xs font-semibold text-[#ff6b35]">
                       {getActivityLabel(signal.activity_type)}
                     </span>
                   </div>
 
-                  {/* Details */}
-                  <div className="mb-4 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
-                    <div className="text-xs text-gray-300 whitespace-pre-line leading-relaxed">
-                      {signal.details}
+                  {/* Volume & Price */}
+                  <div className="mb-3 text-xs">
+                    <div className="flex justify-between mb-1">
+                      <span className="text-gray-500">Volume:</span>
+                      <span className="font-mono font-semibold">${(signal.volume / 1e6).toFixed(1)}M</span>
                     </div>
-                  </div>
-
-                  {/* Whale Address */}
-                  <div className="mb-3 flex items-center gap-2 text-xs">
-                    <Wallet size={14} className="text-gray-500" />
-                    <span className="font-mono text-gray-400">{signal.whale_address}</span>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Price:</span>
+                      <span className="font-mono">${signal.price_at_signal.toLocaleString()}</span>
+                    </div>
                   </div>
 
                   {/* Confidence */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-1.5">
+                  <div className="mb-3">
+                    <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-gray-500">Confidence</span>
-                      <span className="text-sm font-bold text-[#ff6b35]">{signal.confidence}%</span>
+                      <span className="text-xs font-bold text-[#ff6b35]">{signal.confidence}%</span>
                     </div>
-                    <div className="w-full bg-gray-800 rounded-full h-1.5 overflow-hidden">
+                    <div className="w-full bg-gray-800 rounded-full h-1 overflow-hidden">
                       <div
                         className="h-full bg-gradient-to-r from-[#ff6b35] to-[#f7931e] transition-all"
                         style={{ width: `${signal.confidence}%` }}
@@ -232,13 +231,41 @@ export default function InsidersPage() {
                     </div>
                   </div>
 
-                  {/* Footer */}
-                  <div className="flex items-center justify-between pt-3 border-t border-gray-800 text-xs text-gray-500">
-                    <div className="flex items-center gap-1.5">
-                      <Clock size={12} />
+                  {/* Expandable Details */}
+                  {isExpanded && (
+                    <div className="mb-3 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
+                      <div className="text-xs text-gray-300 whitespace-pre-line leading-relaxed">
+                        {signal.details}
+                      </div>
+                      <div className="mt-2 pt-2 border-t border-gray-800 flex items-center gap-2 text-xs">
+                        <Wallet size={12} className="text-gray-500" />
+                        <span className="font-mono text-gray-400">{signal.whale_address}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Footer with Expand Button */}
+                  <div className="flex items-center justify-between pt-2 border-t border-gray-800">
+                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <Clock size={11} />
                       <span>{formatDistanceToNow(signal.timestamp, { addSuffix: true })}</span>
                     </div>
-                    <span className="font-mono">${signal.price_at_signal.toLocaleString()}</span>
+                    <button
+                      onClick={() => toggleCard(signal.id)}
+                      className="flex items-center gap-1 text-xs text-[#ff6b35] hover:text-[#ff8c5a] transition-colors"
+                    >
+                      {isExpanded ? (
+                        <>
+                          <span>Less</span>
+                          <ChevronUp size={14} />
+                        </>
+                      ) : (
+                        <>
+                          <span>Details</span>
+                          <ChevronDown size={14} />
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               );
