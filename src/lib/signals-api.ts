@@ -4,7 +4,7 @@ import { cache } from './api-client';
 import { getCryptoDetails } from './crypto-api';
 import { getCryptoNews } from './news-api';
 
-// Comprehensive coin list for analysis
+// Comprehensive coin list for analysis - Top 25+ coins
 const WHALE_WATCH_COINS = [
   { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
   { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
@@ -14,6 +14,23 @@ const WHALE_WATCH_COINS = [
   { id: 'ripple', symbol: 'XRP', name: 'XRP' },
   { id: 'polkadot', symbol: 'DOT', name: 'Polkadot' },
   { id: 'avalanche-2', symbol: 'AVAX', name: 'Avalanche' },
+  { id: 'dogecoin', symbol: 'DOGE', name: 'Dogecoin' },
+  { id: 'chainlink', symbol: 'LINK', name: 'Chainlink' },
+  { id: 'polygon', symbol: 'MATIC', name: 'Polygon' },
+  { id: 'litecoin', symbol: 'LTC', name: 'Litecoin' },
+  { id: 'uniswap', symbol: 'UNI', name: 'Uniswap' },
+  { id: 'cosmos', symbol: 'ATOM', name: 'Cosmos' },
+  { id: 'monero', symbol: 'XMR', name: 'Monero' },
+  { id: 'stellar', symbol: 'XLM', name: 'Stellar' },
+  { id: 'algorand', symbol: 'ALGO', name: 'Algorand' },
+  { id: 'vechain', symbol: 'VET', name: 'VeChain' },
+  { id: 'internet-computer', symbol: 'ICP', name: 'Internet Computer' },
+  { id: 'filecoin', symbol: 'FIL', name: 'Filecoin' },
+  { id: 'hedera-hashgraph', symbol: 'HBAR', name: 'Hedera' },
+  { id: 'near', symbol: 'NEAR', name: 'NEAR Protocol' },
+  { id: 'aptos', symbol: 'APT', name: 'Aptos' },
+  { id: 'optimism', symbol: 'OP', name: 'Optimism' },
+  { id: 'arbitrum', symbol: 'ARB', name: 'Arbitrum' },
 ];
 
 // Generate REAL insider signals with whale activity detection
