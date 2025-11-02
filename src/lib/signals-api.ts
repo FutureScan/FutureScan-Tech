@@ -4,6 +4,35 @@ import { cache } from './api-client';
 import { getCryptoDetails } from './crypto-api';
 import { getCryptoNews } from './news-api';
 
+// Comprehensive coin list with metadata for institutional-grade analysis
+const COIN_METADATA = {
+  'bitcoin': { useCase: 'Store of Value', tech: 'Proof of Work', sector: 'Currency', longTerm: true },
+  'ethereum': { useCase: 'Smart Contracts Platform', tech: 'Proof of Stake', sector: 'Platform', longTerm: true },
+  'binancecoin': { useCase: 'Exchange Utility', tech: 'BNB Chain', sector: 'Exchange', longTerm: true },
+  'solana': { useCase: 'High-Performance Blockchain', tech: 'Proof of History', sector: 'Platform', longTerm: true },
+  'cardano': { useCase: 'Academic Blockchain', tech: 'Ouroboros PoS', sector: 'Platform', longTerm: true },
+  'ripple': { useCase: 'Cross-Border Payments', tech: 'XRP Ledger', sector: 'Payments', longTerm: true },
+  'polkadot': { useCase: 'Interoperability', tech: 'Parachain', sector: 'Infrastructure', longTerm: true },
+  'avalanche-2': { useCase: 'DeFi Platform', tech: 'Avalanche Consensus', sector: 'Platform', longTerm: true },
+  'dogecoin': { useCase: 'Meme Currency', tech: 'Proof of Work', sector: 'Currency', longTerm: false },
+  'chainlink': { useCase: 'Oracle Network', tech: 'Decentralized Oracles', sector: 'Infrastructure', longTerm: true },
+  'polygon': { useCase: 'Ethereum Scaling', tech: 'Layer 2', sector: 'Infrastructure', longTerm: true },
+  'litecoin': { useCase: 'Digital Silver', tech: 'Proof of Work', sector: 'Currency', longTerm: true },
+  'uniswap': { useCase: 'Decentralized Exchange', tech: 'AMM Protocol', sector: 'DeFi', longTerm: true },
+  'cosmos': { useCase: 'Blockchain Ecosystem', tech: 'Tendermint', sector: 'Infrastructure', longTerm: true },
+  'monero': { useCase: 'Privacy Currency', tech: 'Ring Signatures', sector: 'Privacy', longTerm: true },
+  'stellar': { useCase: 'Financial Infrastructure', tech: 'Stellar Consensus', sector: 'Payments', longTerm: true },
+  'algorand': { useCase: 'Pure Proof of Stake', tech: 'PPoS', sector: 'Platform', longTerm: true },
+  'vechain': { useCase: 'Supply Chain', tech: 'PoA 2.0', sector: 'Enterprise', longTerm: true },
+  'internet-computer': { useCase: 'Decentralized Computing', tech: 'Chain Key', sector: 'Computing', longTerm: true },
+  'filecoin': { useCase: 'Decentralized Storage', tech: 'Proof of Space', sector: 'Storage', longTerm: true },
+  'hedera-hashgraph': { useCase: 'Enterprise DLT', tech: 'Hashgraph', sector: 'Enterprise', longTerm: true },
+  'near': { useCase: 'Sharded Blockchain', tech: 'Nightshade', sector: 'Platform', longTerm: true },
+  'aptos': { useCase: 'Next-Gen Layer 1', tech: 'Move Language', sector: 'Platform', longTerm: false },
+  'optimism': { useCase: 'Ethereum L2', tech: 'Optimistic Rollup', sector: 'Infrastructure', longTerm: true },
+  'arbitrum': { useCase: 'Ethereum Scaling', tech: 'Optimistic Rollup', sector: 'Infrastructure', longTerm: true },
+};
+
 // Comprehensive coin list for analysis - Top 25+ coins
 const WHALE_WATCH_COINS = [
   { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
