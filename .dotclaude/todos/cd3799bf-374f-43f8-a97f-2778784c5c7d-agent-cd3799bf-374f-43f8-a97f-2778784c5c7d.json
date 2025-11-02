@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "content": "Fix color scheme to match logo (black/orange)",
+    "status": "in_progress",
+    "activeForm": "Fixing color scheme to match logo"
+  },
+  {
+    "content": "Redesign UI to be futuristic and professional",
+    "status": "pending",
+    "activeForm": "Redesigning UI to be futuristic"
+  },
+  {
+    "content": "Fix API integration errors",
+    "status": "pending",
+    "activeForm": "Fixing API integration errors"
+  },
+  {
+    "content": "Add glowing effects and animations",
+    "status": "pending",
+    "activeForm": "Adding glowing effects and animations"
+  },
+  {
+    "content": "Ensure all tabs show data properly",
+    "status": "pending",
+    "activeForm": "Ensuring all tabs show data"
+  },
+  {
+    "content": "Add premium visual effects",
+    "status": "pending",
+    "activeForm": "Adding premium visual effects"
+  }
+]
