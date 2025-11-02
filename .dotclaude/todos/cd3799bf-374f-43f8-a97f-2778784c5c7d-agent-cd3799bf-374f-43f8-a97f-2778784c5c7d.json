@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "content": "Set up project structure and install dependencies",
+    "status": "in_progress",
+    "activeForm": "Setting up project structure and installing dependencies"
+  },
+  {
+    "content": "Create core types and API utilities for crypto data",
+    "status": "pending",
+    "activeForm": "Creating core types and API utilities"
+  },
+  {
+    "content": "Build main layout with navigation and dark theme",
+    "status": "pending",
+    "activeForm": "Building main layout with navigation"
+  },
+  {
+    "content": "Create Dashboard page with watchlist and sentiment",
+    "status": "pending",
+    "activeForm": "Creating Dashboard page"
+  },
+  {
+    "content": "Create News page with sentiment filters",
+    "status": "pending",
+    "activeForm": "Creating News page"
+  },
+  {
+    "content": "Create Insiders page with trading signals",
+    "status": "pending",
+    "activeForm": "Creating Insiders page"
+  },
+  {
+    "content": "Create Signals page with AI recommendations",
+    "status": "pending",
+    "activeForm": "Creating Signals page"
+  },
+  {
+    "content": "Create Settings page with watchlist configuration",
+    "status": "pending",
+    "activeForm": "Creating Settings page"
+  },
+  {
+    "content": "Create Privacy Policy page",
+    "status": "pending",
+    "activeForm": "Creating Privacy Policy page"
+  },
+  {
+    "content": "Create Support page with email form",
+    "status": "pending",
+    "activeForm": "Creating Support page"
+  },
+  {
+    "content": "Write comprehensive Whitepaper",
+    "status": "pending",
+    "activeForm": "Writing Whitepaper"
+  },
+  {
+    "content": "Integrate real crypto APIs with rate limiting",
+    "status": "pending",
+    "activeForm": "Integrating crypto APIs"
+  },
+  {
+    "content": "Add charts and crypto calculator components",
+    "status": "pending",
+    "activeForm": "Adding charts and calculator"
+  }
+]
