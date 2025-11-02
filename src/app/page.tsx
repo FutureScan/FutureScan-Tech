@@ -137,11 +137,8 @@ export default function Dashboard() {
       {/* Main content */}
       <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
-          {/* Sentiment + Calculator */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SentimentCard sentiment={sentiment} loading={loading} />
-            <CryptoCalculator />
-          </div>
+          {/* Sentiment */}
+          <SentimentCard sentiment={sentiment} loading={loading} />
 
           {/* Watchlist */}
           <Watchlist cryptos={watchlistCryptos} loading={loading} />
