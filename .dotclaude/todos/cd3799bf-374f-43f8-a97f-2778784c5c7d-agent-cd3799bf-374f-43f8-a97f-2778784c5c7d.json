@@ -46,12 +46,12 @@
   },
   {
     "content": "Create Support page with email form",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Creating Support page"
   },
   {
     "content": "Write comprehensive Whitepaper",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Writing Whitepaper"
   }
 ]
