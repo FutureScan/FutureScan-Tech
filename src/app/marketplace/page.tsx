@@ -57,6 +57,12 @@ export default function MarketplacePage() {
 
   useEffect(() => {
     loadListings();
+
+    // Check if user has seen tutorial
+    const hasSeenTutorial = localStorage.getItem('marketplace_tutorial_seen');
+    if (!hasSeenTutorial) {
+      setShowTutorial(true);
+    }
   }, [selectedCategory]);
 
   async function loadListings() {
@@ -154,6 +160,17 @@ export default function MarketplacePage() {
 
   const prevStep = () => {
     setListingStep(listingStep - 1);
+  };
+
+  const closeTutorial = () => {
+    localStorage.setItem('marketplace_tutorial_seen', 'true');
+    setShowTutorial(false);
+    setTutorialStep(0);
+  };
+
+  const reopenTutorial = () => {
+    setTutorialStep(0);
+    setShowTutorial(true);
   };
 
   const getCategoryIcon = (category: string) => {
