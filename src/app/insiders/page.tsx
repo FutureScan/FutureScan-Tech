@@ -224,9 +224,36 @@ export default function InsidersPage() {
                       <span className="text-gray-500">Volume:</span>
                       <span className="font-mono font-semibold">${(signal.volume / 1e6).toFixed(1)}M</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between mb-1">
                       <span className="text-gray-500">Price:</span>
                       <span className="font-mono">${signal.price_at_signal.toLocaleString()}</span>
+                    </div>
+                    {signal.destination && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">Destination:</span>
+                        <span className="font-semibold text-[#ff6b35]">{signal.destination}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Whale Address - Always visible and copyable */}
+                  <div className="mb-3 p-2 bg-[#0a0a0a] rounded border border-gray-800">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                        <Wallet size={11} className="text-gray-500 flex-shrink-0" />
+                        <span className="font-mono text-xs text-gray-400 truncate">{signal.whale_address}</span>
+                      </div>
+                      <button
+                        onClick={() => copyAddress(signal.whale_address)}
+                        className="flex-shrink-0 p-1 hover:bg-gray-700 rounded transition-colors ml-2"
+                        title="Copy address"
+                      >
+                        {copiedAddress === signal.whale_address ? (
+                          <Check size={12} className="text-green-500" />
+                        ) : (
+                          <Copy size={12} className="text-gray-500 hover:text-[#ff6b35]" />
+                        )}
+                      </button>
                     </div>
                   </div>
 
@@ -249,10 +276,6 @@ export default function InsidersPage() {
                     <div className="mb-3 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
                       <div className="text-xs text-gray-300 whitespace-pre-line leading-relaxed">
                         {signal.details}
-                      </div>
-                      <div className="mt-2 pt-2 border-t border-gray-800 flex items-center gap-2 text-xs">
-                        <Wallet size={12} className="text-gray-500" />
-                        <span className="font-mono text-gray-400">{signal.whale_address}</span>
                       </div>
                     </div>
                   )}
