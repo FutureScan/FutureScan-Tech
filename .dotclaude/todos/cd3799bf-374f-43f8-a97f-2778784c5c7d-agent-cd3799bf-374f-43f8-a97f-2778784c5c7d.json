@@ -11,17 +11,17 @@
   },
   {
     "content": "Overhaul Signals tab with categories: long-term holds, medium-term swings, new tech opportunities",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Overhauling Signals tab with comprehensive categories"
   },
   {
     "content": "Add filtering system for signal types (long-term, medium-term, opportunities, fundamentals)",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Adding advanced filtering system"
   },
   {
     "content": "Enhance reasoning with institutional-grade analysis",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Enhancing analysis quality"
   }
 ]
