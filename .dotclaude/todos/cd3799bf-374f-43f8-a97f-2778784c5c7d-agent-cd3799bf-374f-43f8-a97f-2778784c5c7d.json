@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "content": "Remove mock data from marketplace",
+    "status": "in_progress",
+    "activeForm": "Removing mock data from marketplace"
+  },
+  {
+    "content": "Create professional onboarding tutorial",
+    "status": "pending",
+    "activeForm": "Creating professional onboarding tutorial"
+  },
+  {
+    "content": "Add empty state with call-to-action",
+    "status": "pending",
+    "activeForm": "Adding empty state with call-to-action"
+  },
+  {
+    "content": "Enhance overall marketplace design",
+    "status": "pending",
+    "activeForm": "Enhancing overall marketplace design"
+  },
+  {
+    "content": "Test and build the project",
+    "status": "pending",
+    "activeForm": "Testing and building"
+  }
+]
