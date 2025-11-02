@@ -1,17 +1,1 @@
-[
-  {
-    "content": "Make all token cards same size across News, Insiders, and Signals tabs",
-    "status": "in_progress",
-    "activeForm": "Making all token cards uniform size"
-  },
-  {
-    "content": "Add collapsible dropdowns for detailed info to keep cards clean",
-    "status": "pending",
-    "activeForm": "Adding dropdown menus for details"
-  },
-  {
-    "content": "Ensure all users see same data with proper caching for fast loads",
-    "status": "pending",
-    "activeForm": "Optimizing data caching"
-  }
-]
+[]

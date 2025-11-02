@@ -363,3 +363,8 @@ export default function SignalsPage() {
               </div>
             )})}
           </div>
+        )}
+      </div>
+    </div>
+  );
+}
