@@ -79,8 +79,7 @@ export default function MarketplacePage() {
     }
   };
 
-  const handleSubmitListing = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmitListing = async () => {
     setSubmittingListing(true);
 
     try {
@@ -102,6 +101,7 @@ export default function MarketplacePage() {
       if (result.success) {
         alert('✅ Listing submitted successfully! It will appear after review.');
         setShowListingForm(false);
+        setListingStep(1);
         setFormData({
           title: '',
           description: '',
@@ -121,6 +121,35 @@ export default function MarketplacePage() {
     } finally {
       setSubmittingListing(false);
     }
+  };
+
+  const validateStep = (step: number): boolean => {
+    if (step === 1) {
+      return formData.transactionSignature.length >= 64;
+    }
+    if (step === 2) {
+      return (
+        formData.title.length > 0 &&
+        formData.description.length > 0 &&
+        formData.price.length > 0 &&
+        parseFloat(formData.price) > 0 &&
+        formData.seller.length > 0 &&
+        formData.features.filter(f => f.trim() !== '').length >= 3
+      );
+    }
+    return true;
+  };
+
+  const nextStep = () => {
+    if (validateStep(listingStep)) {
+      setListingStep(listingStep + 1);
+    } else {
+      alert('Please fill in all required fields correctly');
+    }
+  };
+
+  const prevStep = () => {
+    setListingStep(listingStep - 1);
   };
 
   const getCategoryIcon = (category: string) => {
