@@ -91,46 +91,87 @@ export default function SignalsPage() {
           </div>
 
           {/* Info Banner */}
-          <div className="card p-4 bg-blue-500/10 border-blue-500/20 mb-6">
-            <p className="text-sm text-blue-300">
-              <strong>Swing Trading Focus:</strong> All signals are optimized for 2-4 week
-              holding periods. We analyze sentiment, volume, RSI, MACD, and market trends to
-              generate actionable recommendations.
+          <div className="card p-4 bg-gradient-to-r from-[#ff6b35]/10 to-blue-500/10 border-[#ff6b35]/20 mb-6">
+            <p className="text-sm text-orange-200">
+              <strong>🌟 World's Most Comprehensive Crypto Signals:</strong> Institutional-grade analysis covering long-term holds, swing trades, momentum plays, technology opportunities, and fundamental value investments. Powered by real-time data from 9+ sources.
             </p>
           </div>
 
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap gap-3">
-            {[
-              { value: 'all' as const, label: 'All Signals' },
-              { value: 'buy' as const, label: 'Buy' },
-              { value: 'hold' as const, label: 'Hold' },
-              { value: 'sell' as const, label: 'Sell' },
-            ].map((btn) => {
-              const isActive = filter === btn.value;
-              return (
-                <button
-                  key={btn.value}
-                  onClick={() => setFilter(btn.value)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    isActive
-                      ? 'bg-[#ff6b35] text-white'
-                      : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
-                  }`}
-                >
-                  {btn.label}
-                  {!loading && (
-                    <span className="ml-2 text-xs opacity-70">
-                      (
-                      {btn.value === 'all'
-                        ? signals.length
-                        : signals.filter((s) => s.action === btn.value).length}
-                      )
-                    </span>
-                  )}
-                </button>
-              );
-            })}
+          {/* Action Filter Buttons */}
+          <div className="mb-4">
+            <h3 className="text-sm font-semibold text-gray-400 mb-3">Filter by Action:</h3>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { value: 'all' as const, label: 'All Actions' },
+                { value: 'buy' as const, label: 'Buy' },
+                { value: 'hold' as const, label: 'Hold' },
+                { value: 'sell' as const, label: 'Sell' },
+              ].map((btn) => {
+                const isActive = filter === btn.value;
+                return (
+                  <button
+                    key={btn.value}
+                    onClick={() => setFilter(btn.value)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                      isActive
+                        ? 'bg-[#ff6b35] text-white'
+                        : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
+                    }`}
+                  >
+                    {btn.label}
+                    {!loading && (
+                      <span className="ml-2 text-xs opacity-70">
+                        (
+                        {btn.value === 'all'
+                          ? signals.length
+                          : signals.filter((s) => s.action === btn.value).length}
+                        )
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Signal Type Filter Buttons */}
+          <div className="mb-6">
+            <h3 className="text-sm font-semibold text-gray-400 mb-3">Filter by Signal Type:</h3>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { value: 'all' as const, label: 'All Types', icon: '🎯' },
+                { value: 'long-term' as const, label: 'Long-Term Holds', icon: '💎' },
+                { value: 'medium-term' as const, label: 'Swing Trades', icon: '📈' },
+                { value: 'short-term' as const, label: 'Quick Plays', icon: '⚡' },
+                { value: 'opportunity' as const, label: 'Tech Opportunities', icon: '🚀' },
+                { value: 'fundamental' as const, label: 'Fundamental Value', icon: '🏆' },
+              ].map((btn) => {
+                const isActive = signalTypeFilter === btn.value;
+                return (
+                  <button
+                    key={btn.value}
+                    onClick={() => setSignalTypeFilter(btn.value)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                      isActive
+                        ? 'bg-gradient-to-r from-[#ff6b35] to-[#f7931e] text-white'
+                        : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
+                    }`}
+                  >
+                    <span className="mr-1">{btn.icon}</span>
+                    {btn.label}
+                    {!loading && (
+                      <span className="ml-2 text-xs opacity-70">
+                        (
+                        {btn.value === 'all'
+                          ? signals.length
+                          : signals.filter((s) => s.signal_type === btn.value).length}
+                        )
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -178,6 +219,27 @@ export default function SignalsPage() {
                     </span>
                   </div>
                 </div>
+
+                {/* Signal Type Badge */}
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#ff6b35]/20 to-[#f7931e]/20 border border-[#ff6b35]/30 text-xs font-semibold text-[#ff6b35]">
+                    {signal.signal_type === 'long-term' && '💎 Long-Term Hold'}
+                    {signal.signal_type === 'medium-term' && '📈 Swing Trade'}
+                    {signal.signal_type === 'short-term' && '⚡ Quick Play'}
+                    {signal.signal_type === 'opportunity' && '🚀 Tech Opportunity'}
+                    {signal.signal_type === 'fundamental' && '🏆 Fundamental Value'}
+                  </span>
+                  <span className="text-xs text-gray-400">{signal.timeframe}</span>
+                </div>
+
+                {/* Use Case */}
+                {signal.use_case && (
+                  <div className="mb-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                    <p className="text-xs text-blue-300">
+                      <strong>Use Case:</strong> {signal.use_case}
+                    </p>
+                  </div>
+                )}
 
                 {/* Confidence */}
                 <div className="mb-4">
