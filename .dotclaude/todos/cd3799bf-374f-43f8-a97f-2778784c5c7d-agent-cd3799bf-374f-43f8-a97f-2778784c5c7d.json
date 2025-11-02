@@ -1,32 +1,32 @@
 [
   {
     "content": "Create real insider tracking with whale wallet data",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Creating real insider tracking system"
   },
   {
     "content": "Add hour/day/week predictions that update live",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Adding multi-timeframe predictions"
   },
   {
     "content": "Add detailed explanations and reasoning to signals",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Enhancing signals with detailed analysis"
   },
   {
     "content": "Integrate blockchain APIs for real whale tracking",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Integrating blockchain data sources"
   },
   {
     "content": "Add real-time market sentiment from multiple sources",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Adding market sentiment aggregator"
   },
   {
     "content": "Redesign Insiders page to show rich data",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Redesigning Insiders page"
   }
 ]
