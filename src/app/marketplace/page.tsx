@@ -203,7 +203,7 @@ export default function MarketplacePage() {
                         {getCategoryIcon(listing.category)}
                       </div>
                       {listing.verified && (
-                        <Shield className="text-green-500" size={16} title="Verified Seller" />
+                        <Shield className="text-green-500" size={16} />
                       )}
                     </div>
                     <span className="text-xs px-2 py-1 rounded-full bg-gray-800 text-gray-400 uppercase">
