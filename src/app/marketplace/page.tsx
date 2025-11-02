@@ -323,10 +323,49 @@ export default function MarketplacePage() {
             ))}
           </div>
         ) : filteredListings.length === 0 ? (
-          <div className="card p-12 text-center">
-            <ShoppingCart className="mx-auto mb-4 text-gray-600" size={48} />
-            <p className="text-gray-400 text-lg mb-2">No listings found</p>
-            <p className="text-sm text-gray-500">Try adjusting your search or filters</p>
+          <div className="card p-16 text-center border-2 border-dashed border-gray-800">
+            <div className="max-w-2xl mx-auto">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#ff6b35]/10 mb-6">
+                <ShoppingCart className="text-[#ff6b35]" size={40} />
+              </div>
+              <h2 className="text-3xl font-bold mb-4">Be the First to List</h2>
+              <p className="text-gray-400 text-lg mb-6">
+                The X403 Marketplace is ready for sellers. List your crypto products, services, or data and reach thousands of traders worldwide.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div className="p-4 bg-[#1a1a1a] rounded-lg">
+                  <CheckCircle className="text-green-500 mx-auto mb-2" size={24} />
+                  <div className="text-sm font-semibold mb-1">Zero Buyer Fees</div>
+                  <div className="text-xs text-gray-500">Customers pay full price to you</div>
+                </div>
+                <div className="p-4 bg-[#1a1a1a] rounded-lg">
+                  <CheckCircle className="text-green-500 mx-auto mb-2" size={24} />
+                  <div className="text-sm font-semibold mb-1">Global Reach</div>
+                  <div className="text-xs text-gray-500">Access crypto traders worldwide</div>
+                </div>
+                <div className="p-4 bg-[#1a1a1a] rounded-lg">
+                  <CheckCircle className="text-green-500 mx-auto mb-2" size={24} />
+                  <div className="text-sm font-semibold mb-1">0.1 SOL Fee</div>
+                  <div className="text-xs text-gray-500">One-time listing fee only</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => setShowListingForm(true)}
+                  className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30"
+                >
+                  <Plus size={24} />
+                  List Your First Product
+                </button>
+                <button
+                  onClick={reopenTutorial}
+                  className="flex items-center gap-2 px-6 py-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-800 rounded-lg font-semibold transition-all"
+                >
+                  <Info size={20} />
+                  Watch Tutorial
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
