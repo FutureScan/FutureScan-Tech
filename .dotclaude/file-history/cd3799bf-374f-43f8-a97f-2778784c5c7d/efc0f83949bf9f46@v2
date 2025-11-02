@@ -2,11 +2,10 @@ import { MarketplaceListing } from '@/types';
 
 // Platform configuration
 export const MARKETPLACE_CONFIG = {
-  POSTING_FEE_SOL: 0.1, // One-time fee to list a product (0.1 SOL)
-  FEE_WALLET_ADDRESS: '6NXeYAn75nfunLCMbeEnBtrGJUb8tUs45ApbvPbdNRYD', // Solana wallet for posting fees
+  PLATFORM_FEE_PERCENTAGE: 5, // 5% platform fee
+  FEE_WALLET_ADDRESS: '0x0000000000000000000000000000000000000000', // UPDATE THIS with your wallet
   PAYMENT_METHODS: ['crypto', 'card'],
-  SUPPORTED_CHAINS: ['solana', 'ethereum', 'polygon', 'bsc'],
-  TRANSACTION_CONFIRMATION_BLOCKS: 15, // Number of blocks to wait for confirmation
+  SUPPORTED_CHAINS: ['ethereum', 'polygon', 'bsc'],
 };
 
 // Mock marketplace listings

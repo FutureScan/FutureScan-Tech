@@ -3029,3 +3029,52 @@
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message ef4ebf7c-94e2-442b-9724-b235cd012265
+[DEBUG] FileHistory: Added snapshot for ef4ebf7c-94e2-442b-9724-b235cd012265, tracking 25 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Skipping PreToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json.tmp.175.1762126771742
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json.tmp.175.1762126771742 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.175.1762126771745
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 877 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.175.1762126771745 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json written atomically
+[DEBUG] Skipping PostToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/lib/marketplace-api.ts.tmp.175.1762126780995
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 8319 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/lib/marketplace-api.ts.tmp.175.1762126780995 to /home/vibecode/workspace/src/lib/marketplace-api.ts
+[DEBUG] File /home/vibecode/workspace/src/lib/marketplace-api.ts written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
