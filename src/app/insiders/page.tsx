@@ -17,7 +17,9 @@ import {
   FileCode,
   Minus,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Copy,
+  Check
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -25,6 +27,7 @@ export default function InsidersPage() {
   const [signals, setSignals] = useState<InsiderSignal[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
+  const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
   useEffect(() => {
     loadSignals();
@@ -38,6 +41,16 @@ export default function InsidersPage() {
       newExpanded.add(id);
     }
     setExpandedCards(newExpanded);
+  };
+
+  const copyAddress = async (address: string) => {
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopiedAddress(address);
+      setTimeout(() => setCopiedAddress(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   async function loadSignals() {

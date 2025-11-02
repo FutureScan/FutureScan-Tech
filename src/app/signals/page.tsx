@@ -108,11 +108,11 @@ export default function SignalsPage() {
           </div>
 
           {/* Action Filter Buttons */}
-          <div className="mb-4">
+          <div className="mb-6">
             <h3 className="text-sm font-semibold text-gray-400 mb-3">Filter by Action:</h3>
             <div className="flex flex-wrap gap-3">
               {[
-                { value: 'all' as const, label: 'All Actions' },
+                { value: 'all' as const, label: 'All Signals' },
                 { value: 'buy' as const, label: 'Buy' },
                 { value: 'hold' as const, label: 'Hold' },
                 { value: 'sell' as const, label: 'Sell' },
@@ -135,46 +135,6 @@ export default function SignalsPage() {
                         {btn.value === 'all'
                           ? signals.length
                           : signals.filter((s) => s.action === btn.value).length}
-                        )
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Signal Type Filter Buttons */}
-          <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-400 mb-3">Filter by Signal Type:</h3>
-            <div className="flex flex-wrap gap-3">
-              {[
-                { value: 'all' as const, label: 'All Types', icon: '🎯' },
-                { value: 'long-term' as const, label: 'Long-Term Holds', icon: '💎' },
-                { value: 'medium-term' as const, label: 'Swing Trades', icon: '📈' },
-                { value: 'short-term' as const, label: 'Quick Plays', icon: '⚡' },
-                { value: 'opportunity' as const, label: 'Tech Opportunities', icon: '🚀' },
-                { value: 'fundamental' as const, label: 'Fundamental Value', icon: '🏆' },
-              ].map((btn) => {
-                const isActive = signalTypeFilter === btn.value;
-                return (
-                  <button
-                    key={btn.value}
-                    onClick={() => setSignalTypeFilter(btn.value)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                      isActive
-                        ? 'bg-gradient-to-r from-[#ff6b35] to-[#f7931e] text-white'
-                        : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
-                    }`}
-                  >
-                    <span className="mr-1">{btn.icon}</span>
-                    {btn.label}
-                    {!loading && (
-                      <span className="ml-2 text-xs opacity-70">
-                        (
-                        {btn.value === 'all'
-                          ? signals.length
-                          : signals.filter((s) => s.signal_type === btn.value).length}
                         )
                       </span>
                     )}
