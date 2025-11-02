@@ -295,11 +295,20 @@ ${(generateCatalysts(coin.name, metadata) || []).map(c => `• ${c}`).join('\n')
       });
     }
 
-    // ==== MEDIUM-TERM SWINGS: Select TOP 3 with RSI < 40 ====
-    const mediumTermCandidates = coinsWithIndicators
+    // ==== MEDIUM-TERM SWINGS: Select TOP 3 with RSI < 40 OR best performers ====
+    let mediumTermCandidates = coinsWithIndicators
       .filter(c => c.rsi < 40 && c.macd !== 'bearish')
       .sort((a, b) => a.rsi - b.rsi)
       .slice(0, 3);
+
+    // If we don't have 3, fill with next best based on RSI
+    if (mediumTermCandidates.length < 3) {
+      const remaining = coinsWithIndicators
+        .filter(c => !mediumTermCandidates.includes(c) && c.rsi < 50)
+        .sort((a, b) => a.rsi - b.rsi)
+        .slice(0, 3 - mediumTermCandidates.length);
+      mediumTermCandidates = [...mediumTermCandidates, ...remaining];
+    }
 
     for (const { coin, data, metadata, rsi, macd, volumeTrend } of mediumTermCandidates) {
       const hourPrediction = predictHourlyMovement(data, rsi);
@@ -346,11 +355,20 @@ ${(generateCatalysts(coin.name, metadata) || []).map(c => `• ${c}`).join('\n')
       });
     }
 
-    // ==== SHORT-TERM MOMENTUM: Select TOP 2 with strong momentum ====
-    const shortTermCandidates = coinsWithIndicators
+    // ==== SHORT-TERM MOMENTUM: Select TOP 2 with strong momentum OR volatile coins ====
+    let shortTermCandidates = coinsWithIndicators
       .filter(c => Math.abs(c.data.price_change_percentage_24h) > 4 && c.volumeTrend !== 'declining')
       .sort((a, b) => Math.abs(b.data.price_change_percentage_24h) - Math.abs(a.data.price_change_percentage_24h))
       .slice(0, 2);
+
+    // If we don't have 2, fill with most volatile
+    if (shortTermCandidates.length < 2) {
+      const remaining = coinsWithIndicators
+        .filter(c => !shortTermCandidates.includes(c))
+        .sort((a, b) => Math.abs(b.data.price_change_percentage_24h) - Math.abs(a.data.price_change_percentage_24h))
+        .slice(0, 2 - shortTermCandidates.length);
+      shortTermCandidates = [...shortTermCandidates, ...remaining];
+    }
 
     for (const { coin, data, metadata, rsi, macd, volumeTrend } of shortTermCandidates) {
       const hourPrediction = predictHourlyMovement(data, rsi);
