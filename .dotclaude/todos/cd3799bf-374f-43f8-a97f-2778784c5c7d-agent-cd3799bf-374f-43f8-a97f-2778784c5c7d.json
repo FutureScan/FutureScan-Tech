@@ -1,17 +1,17 @@
 [
   {
     "content": "Set up project structure and install dependencies",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Setting up project structure and installing dependencies"
   },
   {
     "content": "Create core types and API utilities for crypto data",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating core types and API utilities"
   },
   {
     "content": "Build main layout with navigation and dark theme",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Building main layout with navigation"
   },
   {
@@ -53,11 +53,6 @@
     "content": "Write comprehensive Whitepaper",
     "status": "pending",
     "activeForm": "Writing Whitepaper"
-  },
-  {
-    "content": "Integrate real crypto APIs with rate limiting",
-    "status": "pending",
-    "activeForm": "Integrating crypto APIs"
   },
   {
     "content": "Add charts and crypto calculator components",
