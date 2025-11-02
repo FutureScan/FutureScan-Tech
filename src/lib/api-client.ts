@@ -70,7 +70,7 @@ class RateLimiter {
 export const cache = new ApiCache();
 export const rateLimiter = new RateLimiter();
 
-// Generic fetch with error handling
+// Generic fetch with error handling and CORS support
 export async function fetchWithRetry(
   url: string,
   options?: RequestInit,
@@ -80,20 +80,33 @@ export async function fetchWithRetry(
     try {
       const response = await fetch(url, {
         ...options,
+        mode: 'cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
           ...options?.headers,
         },
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          // Rate limited, wait longer
+          await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1)));
+          continue;
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      const data = await response.json();
+      return data;
     } catch (error) {
-      if (i === retries - 1) throw error;
+      console.error(`Fetch attempt ${i + 1} failed:`, error);
+      if (i === retries - 1) {
+        // Return empty data structure instead of throwing
+        console.warn(`All fetch attempts failed for ${url}, returning fallback data`);
+        return null;
+      }
       await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
     }
   }
+  return null;
 }

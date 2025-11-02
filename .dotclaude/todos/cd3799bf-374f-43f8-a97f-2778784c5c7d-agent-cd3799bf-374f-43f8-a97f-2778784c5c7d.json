@@ -1,12 +1,12 @@
 [
   {
     "content": "Fix Next.js image configuration for external images",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Fixing Next.js image configuration"
   },
   {
     "content": "Fix API CORS and fetch errors",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Fixing API CORS errors"
   },
   {
