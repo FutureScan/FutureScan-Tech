@@ -1179,3 +1179,51 @@
 [DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762072891617 to /home/vibecode/.claude.json
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121222418
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1269 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121222418 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121222467
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1305 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121222467 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global, using native: false
+[DEBUG] performStartupChecks called
+[DEBUG] Trust not accepted for current directory - skipping plugin installations
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121222623
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1413 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121222623 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121222764
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36291 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121222764 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121222922
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36291 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121222922 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Summarizing last 10 of 71 messages (~149404 tokens)
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121224014
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36499 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121224014 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Summarizing last 1 of 229 messages (~134896 tokens)
+[DEBUG] Skipping SubagentStop hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk

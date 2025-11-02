@@ -1,0 +1,102 @@
+[DEBUG] Watching for changes in setting files /home/vibecode/.claude/settings.json...
+[DEBUG] Writing to temp file: /home/vibecode/.claude/settings.json.tmp.175.1762121220579
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 209 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/settings.json.tmp.175.1762121220579 to /home/vibecode/.claude/settings.json
+[DEBUG] File /home/vibecode/.claude/settings.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121220668
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1138 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121220668 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121220680
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1175 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121220680 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121220773
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1175 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121220773 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] >>>>> getSkillsIfEnabled() CALLED <<<<<
+[DEBUG] ENABLE_SKILLS value: true, type: boolean
+[DEBUG] ENABLE_SKILLS check passed, loading skills...
+[DEBUG] Loading skills from directories: managed=/etc/claude-code/.claude/skills, user=/home/vibecode/.claude/skills, project=/home/vibecode/workspace/.claude/skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] Creating shell snapshot for bash (/bin/bash)
+[DEBUG] Looking for shell config file: /home/vibecode/.bashrc
+[DEBUG] Snapshots directory: /home/vibecode/.claude/shell-snapshots
+[DEBUG] Creating snapshot at: /home/vibecode/.claude/shell-snapshots/snapshot-bash-1762121220863-f7qez5.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/974b704d-3ff8-4939-8ca1-c56fe5b9ae0a-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json.tmp.175.1762121220868
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming /home/vibecode/.claude/todos/974b704d-3ff8-4939-8ca1-c56fe5b9ae0a-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json.tmp.175.1762121220868 to /home/vibecode/.claude/todos/974b704d-3ff8-4939-8ca1-c56fe5b9ae0a-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json
+[DEBUG] File /home/vibecode/.claude/todos/974b704d-3ff8-4939-8ca1-c56fe5b9ae0a-agent-974b704d-3ff8-4939-8ca1-c56fe5b9ae0a.json written atomically
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121220964
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1175 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121220964 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121221019
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1239 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121221019 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Ripgrep first use test: PASSED (mode=system, path=rg)
+[DEBUG] Shell snapshot created successfully (1655 bytes)
+[DEBUG] Summarizing all 2 messages (~1097 tokens)
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762121221128
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1269 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762121221128 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] FileHistory: Copied backup a424285765ce8cd7@v1 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup c8d6596280e64d6b@v1 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup c528869c0f67e304@v1 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 8d0531169dfc1a7b@v1 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup cf40e29eae2bbd95@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 8d54957aefe83e60@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup ec89466e4903e367@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup d51fb8fff720fca9@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 98444960e86ff10e@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 0d6e0026afc8df18@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup a424285765ce8cd7@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup c8d6596280e64d6b@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup b31d44da3db62ba1@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup ea3d328afe247d63@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 0e9f6557df1aa9bd@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 4afc9c016af3638b@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup c16906ddbd84d7d6@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup c528869c0f67e304@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 88ec5c884cd1e4bc@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 9b2a094b5b05434f@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 6fe3e02c90d7f6a3@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup f9bdcf2d64f224c7@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 40b95b8383f389ec@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 6ab5ad06beb96cc8@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup f5687951cbc5ffd0@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 8d0531169dfc1a7b@v2 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup c8d6596280e64d6b@v3 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup b31d44da3db62ba1@v3 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup ea3d328afe247d63@v3 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup 0e9f6557df1aa9bd@v3 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup c528869c0f67e304@v3 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] FileHistory: Copied backup b6d5f70cdb8c2b62@v1 from session cd3799bf-374f-43f8-a97f-2778784c5c7d to 974b704d-3ff8-4939-8ca1-c56fe5b9ae0a
+[DEBUG] Skipping SessionStart:resume hook execution - workspace trust not accepted
