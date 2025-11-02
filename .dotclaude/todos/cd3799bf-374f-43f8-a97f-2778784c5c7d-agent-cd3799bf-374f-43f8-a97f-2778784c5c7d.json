@@ -1,8 +1,13 @@
 [
   {
     "content": "Create marketplace types and data structure",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Creating marketplace types and data structure"
+  },
+  {
+    "content": "Create marketplace API with sample listings",
+    "status": "in_progress",
+    "activeForm": "Creating marketplace API with sample listings"
   },
   {
     "content": "Build marketplace page UI with listings",
