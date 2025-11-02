@@ -15,7 +15,9 @@ import {
   Shuffle,
   Network,
   FileCode,
-  Minus
+  Minus,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
