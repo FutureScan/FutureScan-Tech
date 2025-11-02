@@ -807,3 +807,23 @@
 [DEBUG] Stream started - received first chunk
 [DEBUG] Stream started - received first chunk
 [DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762071634939
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37180 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762071634939 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Skipping Stop hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762071634952
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37205 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762071634952 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762071634955
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 39021 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762071634955 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Skipping Notification hook execution - workspace trust not accepted
