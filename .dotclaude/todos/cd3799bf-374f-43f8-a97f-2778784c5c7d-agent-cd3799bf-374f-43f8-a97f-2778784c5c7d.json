@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "content": "Fix Next.js image configuration for external images",
+    "status": "in_progress",
+    "activeForm": "Fixing Next.js image configuration"
+  },
+  {
+    "content": "Fix API CORS and fetch errors",
+    "status": "pending",
+    "activeForm": "Fixing API CORS errors"
+  },
+  {
+    "content": "Add error boundaries and better error handling",
+    "status": "pending",
+    "activeForm": "Adding error boundaries"
+  },
+  {
+    "content": "Test all API endpoints work correctly",
+    "status": "pending",
+    "activeForm": "Testing all API endpoints"
+  },
+  {
+    "content": "Verify all pages load without errors",
+    "status": "pending",
+    "activeForm": "Verifying all pages load"
+  }
+]
