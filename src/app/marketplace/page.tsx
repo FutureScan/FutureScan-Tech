@@ -227,16 +227,25 @@ export default function MarketplacePage() {
                 X403 Marketplace
               </h1>
               <p className="text-gray-400">
-                Buy & sell premium crypto data, signals, tools, and research
+                The world's premier crypto marketplace
               </p>
             </div>
-            <button
-              onClick={() => setShowListingForm(true)}
-              className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
-            >
-              <Plus size={20} />
-              Sell Your Product
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={reopenTutorial}
+                className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-800 rounded-lg font-medium transition-all"
+              >
+                <Info size={18} />
+                <span className="hidden md:inline">How It Works</span>
+              </button>
+              <button
+                onClick={() => setShowListingForm(true)}
+                className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/20"
+              >
+                <Plus size={20} />
+                List Your Product
+              </button>
+            </div>
           </div>
 
           {/* Legal Banner */}
