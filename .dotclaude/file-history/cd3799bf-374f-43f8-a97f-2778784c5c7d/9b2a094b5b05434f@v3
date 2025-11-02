@@ -22,21 +22,10 @@ import { formatDistanceToNow } from 'date-fns';
 export default function InsidersPage() {
   const [signals, setSignals] = useState<InsiderSignal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     loadSignals();
   }, []);
-
-  const toggleCard = (id: string) => {
-    const newExpanded = new Set(expandedCards);
-    if (newExpanded.has(id)) {
-      newExpanded.delete(id);
-    } else {
-      newExpanded.add(id);
-    }
-    setExpandedCards(newExpanded);
-  };
 
   async function loadSignals() {
     try {
