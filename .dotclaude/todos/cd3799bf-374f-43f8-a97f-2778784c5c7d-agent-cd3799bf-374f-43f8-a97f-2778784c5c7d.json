@@ -6,7 +6,7 @@
   },
   {
     "content": "Create seller listing form with SOL payment",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Creating seller listing form"
   },
   {
@@ -16,12 +16,12 @@
   },
   {
     "content": "Update marketplace UI to remove buyer fees",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Updating marketplace UI"
   },
   {
     "content": "Test and build the project",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Testing and building"
   }
 ]

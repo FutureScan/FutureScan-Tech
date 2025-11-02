@@ -361,6 +361,222 @@ export default function MarketplacePage() {
           </div>
         )}
 
+        {/* Listing Form Modal */}
+        {showListingForm && (
+          <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div className="bg-[#0a0a0a] border border-[#ff6b35]/30 rounded-xl max-w-2xl w-full p-8 my-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-[#ff6b35]">List Your Product</h2>
+                <button
+                  onClick={() => setShowListingForm(false)}
+                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Step 1: Payment Instructions */}
+              <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                <h3 className="text-lg font-semibold text-yellow-400 mb-3">💳 Step 1: Pay Listing Fee</h3>
+                <p className="text-sm text-gray-300 mb-3">
+                  Send <strong>{MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL</strong> to the wallet address below:
+                </p>
+                <div className="flex items-center gap-2 p-3 bg-[#1a1a1a] rounded border border-gray-800">
+                  <code className="flex-1 text-xs text-[#ff6b35] font-mono break-all">
+                    {MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS}
+                  </code>
+                  <button
+                    onClick={copyWalletAddress}
+                    className="flex-shrink-0 p-2 hover:bg-gray-700 rounded transition-colors"
+                  >
+                    {copiedWallet ? (
+                      <Check size={16} className="text-green-500" />
+                    ) : (
+                      <Copy size={16} className="text-gray-400" />
+                    )}
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  ⚠️ Save your transaction signature - you'll need it in Step 2
+                </p>
+              </div>
+
+              {/* Step 2: Product Details Form */}
+              <form onSubmit={handleSubmitListing} className="space-y-4">
+                <h3 className="text-lg font-semibold text-white mb-3">📝 Step 2: Product Details</h3>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                    Transaction Signature *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.transactionSignature}
+                    onChange={(e) => setFormData({ ...formData, transactionSignature: e.target.value })}
+                    placeholder="Paste your Solana transaction signature here"
+                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors font-mono text-sm"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    This verifies you paid the listing fee
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                    Product Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={100}
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    placeholder="e.g., Premium Bitcoin Trading Signals"
+                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                    Description *
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    maxLength={500}
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    placeholder="Describe your product, what makes it valuable, and what buyers will receive..."
+                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors resize-none"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {formData.description.length}/500 characters
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">
+                      Category *
+                    </label>
+                    <select
+                      required
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value as MarketplaceListing['category'] })}
+                      className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
+                    >
+                      <option value="signals">Trading Signals</option>
+                      <option value="data">Market Data</option>
+                      <option value="research">Research Reports</option>
+                      <option value="tools">Trading Tools</option>
+                      <option value="bots">Automation Bots</option>
+                      <option value="api">API Access</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">
+                      Price (USD) *
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="1"
+                      step="0.01"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      placeholder="99.99"
+                      className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                    Your Name/Company *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={50}
+                    value={formData.seller}
+                    onChange={(e) => setFormData({ ...formData, seller: e.target.value })}
+                    placeholder="e.g., CryptoSignals Pro"
+                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                    Preview/Demo (optional)
+                  </label>
+                  <input
+                    type="text"
+                    maxLength={150}
+                    value={formData.preview}
+                    onChange={(e) => setFormData({ ...formData, preview: e.target.value })}
+                    placeholder="e.g., View sample signals with 85% success rate"
+                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                    Key Features (at least 3) *
+                  </label>
+                  {formData.features.map((feature, idx) => (
+                    <input
+                      key={idx}
+                      type="text"
+                      required={idx < 3}
+                      maxLength={100}
+                      value={feature}
+                      onChange={(e) => {
+                        const newFeatures = [...formData.features];
+                        newFeatures[idx] = e.target.value;
+                        setFormData({ ...formData, features: newFeatures });
+                      }}
+                      placeholder={`Feature ${idx + 1}`}
+                      className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors mb-2"
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, features: [...formData.features, ''] })}
+                    className="text-sm text-[#ff6b35] hover:text-[#ff8c5a] transition-colors"
+                  >
+                    + Add another feature
+                  </button>
+                </div>
+
+                <div className="pt-4 border-t border-gray-800">
+                  <button
+                    type="submit"
+                    disabled={submittingListing}
+                    className="w-full py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {submittingListing ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        Verifying & Submitting...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle size={20} />
+                        Submit Listing
+                      </>
+                    )}
+                  </button>
+                  <p className="text-xs text-center text-gray-500 mt-3">
+                    Your listing will be reviewed and published within 24 hours
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
         {/* Terms Modal */}
         {showTerms && (
           <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
