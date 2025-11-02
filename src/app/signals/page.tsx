@@ -21,7 +21,6 @@ export default function SignalsPage() {
   const [signals, setSignals] = useState<TradingSignal[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'hold'>('all');
-  const [signalTypeFilter, setSignalTypeFilter] = useState<'all' | 'long-term' | 'medium-term' | 'short-term' | 'opportunity' | 'fundamental'>('all');
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -50,9 +49,7 @@ export default function SignalsPage() {
     }
   }
 
-  const filteredSignals = signals
-    .filter((s) => filter === 'all' || s.action === filter)
-    .filter((s) => signalTypeFilter === 'all' || s.signal_type === signalTypeFilter);
+  const filteredSignals = filter === 'all' ? signals : signals.filter((s) => s.action === filter);
 
   const getActionColor = (action: string) => {
     switch (action) {
