@@ -11,12 +11,12 @@
   },
   {
     "content": "Build main layout with navigation and dark theme",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Building main layout with navigation"
   },
   {
     "content": "Create Dashboard page with watchlist and sentiment",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Creating Dashboard page"
   },
   {
