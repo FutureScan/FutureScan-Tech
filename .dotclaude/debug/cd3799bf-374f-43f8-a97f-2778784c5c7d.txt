@@ -369,3 +369,34 @@
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
 [DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Tracked file modification for /home/vibecode/workspace/src/lib/api-client.ts
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/lib/api-client.ts.tmp.187.1762071093340
+[DEBUG] Temp file written successfully, size: 2557 bytes
+[DEBUG] Renaming /home/vibecode/workspace/src/lib/api-client.ts.tmp.187.1762071093340 to /home/vibecode/workspace/src/lib/api-client.ts
+[DEBUG] File /home/vibecode/workspace/src/lib/api-client.ts written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Tracked file modification for /home/vibecode/workspace/src/lib/crypto-api.ts
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/lib/crypto-api.ts.tmp.187.1762071093405
+[DEBUG] Temp file written successfully, size: 2375 bytes
+[DEBUG] Renaming /home/vibecode/workspace/src/lib/crypto-api.ts.tmp.187.1762071093405 to /home/vibecode/workspace/src/lib/crypto-api.ts
+[DEBUG] File /home/vibecode/workspace/src/lib/crypto-api.ts written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Tracked file modification for /home/vibecode/workspace/src/lib/news-api.ts
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/lib/news-api.ts.tmp.187.1762071093491
+[DEBUG] Temp file written successfully, size: 3498 bytes
+[DEBUG] Renaming /home/vibecode/workspace/src/lib/news-api.ts.tmp.187.1762071093491 to /home/vibecode/workspace/src/lib/news-api.ts
+[DEBUG] File /home/vibecode/workspace/src/lib/news-api.ts written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
