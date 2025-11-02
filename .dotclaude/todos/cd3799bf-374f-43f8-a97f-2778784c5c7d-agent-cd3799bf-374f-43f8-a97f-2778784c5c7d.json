@@ -6,17 +6,17 @@
   },
   {
     "content": "Fix API CORS and fetch errors",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Fixing API CORS errors"
   },
   {
     "content": "Add error boundaries and better error handling",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Adding error boundaries"
   },
   {
     "content": "Test all API endpoints work correctly",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Testing all API endpoints"
   },
   {

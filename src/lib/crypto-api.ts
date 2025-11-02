@@ -14,11 +14,13 @@ export async function getTopCryptos(limit = 50): Promise<CryptoAsset[]> {
   const url = `${COINGECKO_BASE}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1&sparkline=true&price_change_percentage=7d`;
 
   const data = await fetchWithRetry(url);
+  if (!data) return [];
+
   cache.set(cacheKey, data);
   return data;
 }
 
-export async function getCryptoDetails(coinId: string): Promise<CryptoAsset> {
+export async function getCryptoDetails(coinId: string): Promise<CryptoAsset | null> {
   const cacheKey = `crypto-${coinId}`;
   const cached = cache.get<CryptoAsset>(cacheKey, 60000); // 1 min cache
   if (cached) return cached;
@@ -28,6 +30,8 @@ export async function getCryptoDetails(coinId: string): Promise<CryptoAsset> {
   const url = `${COINGECKO_BASE}/coins/markets?vs_currency=usd&ids=${coinId}&sparkline=true&price_change_percentage=7d`;
 
   const data = await fetchWithRetry(url);
+  if (!data || !data[0]) return null;
+
   const result = data[0];
   cache.set(cacheKey, result);
   return result;
@@ -46,6 +50,8 @@ export async function getChartData(
   const url = `${COINGECKO_BASE}/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`;
 
   const data = await fetchWithRetry(url);
+  if (!data || !data.prices) return [];
+
   const chartData = data.prices.map(([timestamp, price]: [number, number]) => ({
     timestamp,
     price,
@@ -61,10 +67,13 @@ export async function searchCrypto(query: string): Promise<CryptoAsset[]> {
   const url = `${COINGECKO_BASE}/search?query=${encodeURIComponent(query)}`;
   const data = await fetchWithRetry(url);
 
+  if (!data || !data.coins) return [];
+
   // Get details for top 10 results
   const coinIds = data.coins.slice(0, 10).map((c: any) => c.id).join(',');
   if (!coinIds) return [];
 
   const detailsUrl = `${COINGECKO_BASE}/coins/markets?vs_currency=usd&ids=${coinIds}`;
-  return await fetchWithRetry(detailsUrl);
+  const details = await fetchWithRetry(detailsUrl);
+  return details || [];
 }

@@ -16,6 +16,8 @@ export async function getCryptoNews(limit = 50): Promise<NewsArticle[]> {
 
   try {
     const data = await fetchWithRetry(url);
+    if (!data || !data.Data) return [];
+
     const articles: NewsArticle[] = data.Data.slice(0, limit).map((article: any) => {
       // Analyze sentiment based on title keywords
       const sentiment = analyzeSentiment(article.title + ' ' + article.body);
@@ -72,7 +74,7 @@ function analyzeSentiment(text: string): 'bullish' | 'bearish' | 'neutral' {
 }
 
 // Alternative.me Fear & Greed Index
-export async function getFearGreedIndex(): Promise<MarketSentiment> {
+export async function getFearGreedIndex(): Promise<MarketSentiment | null> {
   const cacheKey = 'fear-greed-index';
   const cached = cache.get<MarketSentiment>(cacheKey, 3600000); // 1 hour cache
   if (cached) return cached;
@@ -83,6 +85,10 @@ export async function getFearGreedIndex(): Promise<MarketSentiment> {
 
   try {
     const data = await fetchWithRetry(url);
+    if (!data || !data.data || !data.data[0]) {
+      return null;
+    }
+
     const fng = data.data[0];
     const value = parseInt(fng.value);
 
@@ -103,10 +109,6 @@ export async function getFearGreedIndex(): Promise<MarketSentiment> {
     return sentiment;
   } catch (error) {
     console.error('Error fetching fear & greed index:', error);
-    return {
-      value: 50,
-      classification: 'neutral',
-      timestamp: Date.now(),
-    };
+    return null;
   }
 }
