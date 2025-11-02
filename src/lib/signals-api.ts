@@ -224,11 +224,11 @@ export async function getTradingSignals(): Promise<TradingSignal[]> {
     );
 
     const results = await Promise.all(coinDataPromises);
-    const validResults = results.filter(r => r && r.data).map(r => {
-      const { coin, data } = r!;
+    const validResults = results.filter((r): r is { coin: typeof WHALE_WATCH_COINS[0], data: NonNullable<Awaited<ReturnType<typeof getCryptoDetails>>> } => r !== null && r.data !== null).map(r => {
+      const { coin, data } = r;
       const metadata = COIN_METADATA[coin.id as keyof typeof COIN_METADATA];
       return { coin, data, metadata };
-    }).filter(r => r.metadata);
+    }).filter((r): r is { coin: typeof WHALE_WATCH_COINS[0], data: NonNullable<Awaited<ReturnType<typeof getCryptoDetails>>>, metadata: NonNullable<typeof COIN_METADATA[keyof typeof COIN_METADATA]> } => r.metadata !== undefined);
 
     // Calculate indicators for all coins
     const coinsWithIndicators = validResults.map(({ coin, data, metadata }) => {
