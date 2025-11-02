@@ -6,12 +6,12 @@
   },
   {
     "content": "Redesign UI to be futuristic and professional",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Redesigning UI to be futuristic"
   },
   {
     "content": "Fix API integration errors",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Fixing API integration errors"
   },
   {
@@ -21,12 +21,12 @@
   },
   {
     "content": "Ensure all tabs show data properly",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Ensuring all tabs show data"
   },
   {
     "content": "Add premium visual effects",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Adding premium visual effects"
   }
 ]
