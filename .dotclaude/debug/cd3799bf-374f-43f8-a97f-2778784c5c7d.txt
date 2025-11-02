@@ -1130,3 +1130,32 @@
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
 [DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/lib/signals-api.ts.tmp.187.1762072866847
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 5179 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/lib/signals-api.ts.tmp.187.1762072866847 to /home/vibecode/workspace/src/lib/signals-api.ts
+[DEBUG] File /home/vibecode/workspace/src/lib/signals-api.ts written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Skipping PreToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Skipping PreToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.187.1762072876680
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.187.1762072876680 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json written atomically
+[DEBUG] Skipping PostToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk

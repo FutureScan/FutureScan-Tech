@@ -17,6 +17,7 @@ export async function getInsiderSignals(): Promise<InsiderSignal[]> {
 
     for (const coinId of topCoins) {
       const details = await getCryptoDetails(coinId);
+      if (!details) continue; // Skip if API failed
 
       // Analyze volume and price movements to detect whale activity
       const volumeChange = (details.total_volume / details.market_cap) * 100;
@@ -58,6 +59,7 @@ export async function getTradingSignals(): Promise<TradingSignal[]> {
 
     for (const coinId of topCoins) {
       const details = await getCryptoDetails(coinId);
+      if (!details) continue; // Skip if API failed
 
       // Calculate RSI-like indicator from price change
       const rsi = calculateRSI(details.price_change_percentage_7d || 0);
