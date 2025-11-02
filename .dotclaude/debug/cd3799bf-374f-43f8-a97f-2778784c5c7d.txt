@@ -1159,3 +1159,22 @@
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
 [DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762072891586
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 39575 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762072891586 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Skipping Stop hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762072891613
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 39614 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762072891613 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762072891617
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 41845 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762072891617 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
