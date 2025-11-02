@@ -97,12 +97,16 @@ export async function getInsiderSignals(): Promise<InsiderSignal[]> {
       }
     }
 
-    // Always ensure we have some signals even if conditions aren't perfect
-    if (signals.length === 0) {
-      // Generate at least 2-3 signals from top movers
-      for (const result of results.slice(0, 3)) {
+    // Always ensure we have sufficient signals (8-12 minimum)
+    if (signals.length < 8) {
+      // Generate signals from top movers to ensure comprehensive coverage
+      const needed = 12 - signals.length;
+      for (const result of results.slice(0, needed)) {
         if (!result || !result.data) continue;
         const { coin, data } = result;
+
+        // Skip if already in signals
+        if (signals.find(s => s.coin === coin.name)) continue;
 
         signals.push({
           id: `${coin.id}-${Date.now()}-${Math.random()}`,
