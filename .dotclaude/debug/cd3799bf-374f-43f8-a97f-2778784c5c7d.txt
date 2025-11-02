@@ -1229,3 +1229,21 @@
 [DEBUG] Stream started - received first chunk
 [DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message 43a34cf7-4f72-4947-bf71-f2b6211ec8cf
+[DEBUG] FileHistory: Added snapshot for 43a34cf7-4f72-4947-bf71-f2b6211ec8cf, tracking 23 files
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.175.1762122409924
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36544 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762122409924 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Metrics export disabled by organization setting
