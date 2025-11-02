@@ -96,3 +96,30 @@ export interface ChartDataPoint {
   price: number;
   volume?: number;
 }
+
+// Marketplace types
+export interface MarketplaceListing {
+  id: string;
+  title: string;
+  description: string;
+  category: 'signals' | 'research' | 'data' | 'tools' | 'bots' | 'api';
+  price: number; // in USD
+  seller: string;
+  seller_rating: number; // 0-5
+  total_sales: number;
+  preview?: string;
+  features: string[];
+  created_at: number;
+  verified: boolean;
+}
+
+export interface MarketplaceTransaction {
+  id: string;
+  listing_id: string;
+  buyer: string;
+  seller: string;
+  amount: number;
+  platform_fee: number;
+  timestamp: number;
+  status: 'pending' | 'completed' | 'failed';
+}

@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "content": "Create marketplace types and data structure",
+    "status": "in_progress",
+    "activeForm": "Creating marketplace types and data structure"
+  },
+  {
+    "content": "Build marketplace page UI with listings",
+    "status": "pending",
+    "activeForm": "Building marketplace page UI with listings"
+  },
+  {
+    "content": "Add legal disclaimers and terms",
+    "status": "pending",
+    "activeForm": "Adding legal disclaimers and terms"
+  },
+  {
+    "content": "Implement fee collection system",
+    "status": "pending",
+    "activeForm": "Implementing fee collection system"
+  },
+  {
+    "content": "Update navigation to include marketplace",
+    "status": "pending",
+    "activeForm": "Updating navigation to include marketplace"
+  },
+  {
+    "content": "Build the project and verify",
+    "status": "pending",
+    "activeForm": "Building the project and verifying"
+  }
+]
