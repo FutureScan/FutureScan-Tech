@@ -22,6 +22,9 @@ import {
   Loader2,
   Copy,
   Check,
+  ArrowRight,
+  ArrowLeft,
+  Wallet,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -32,6 +35,7 @@ export default function MarketplacePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showTerms, setShowTerms] = useState(false);
   const [showListingForm, setShowListingForm] = useState(false);
+  const [listingStep, setListingStep] = useState(1); // 1: Payment, 2: Details, 3: Review
   const [submittingListing, setSubmittingListing] = useState(false);
   const [copiedWallet, setCopiedWallet] = useState(false);
 
