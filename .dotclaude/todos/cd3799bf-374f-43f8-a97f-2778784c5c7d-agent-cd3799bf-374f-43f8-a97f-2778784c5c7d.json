@@ -1,22 +1,17 @@
 [
   {
     "content": "Update wallet address and fee structure to 0.1 SOL posting fee",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Updating wallet address and fee structure"
   },
   {
-    "content": "Install Solana web3.js dependencies",
-    "status": "pending",
-    "activeForm": "Installing Solana dependencies"
-  },
-  {
     "content": "Create seller listing form with SOL payment",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Creating seller listing form"
   },
   {
     "content": "Implement on-chain transaction verification",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Implementing on-chain verification"
   },
   {
