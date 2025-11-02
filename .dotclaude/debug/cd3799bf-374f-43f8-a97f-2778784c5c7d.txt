@@ -1,0 +1,184 @@
+[DEBUG] Watching for changes in setting files /home/vibecode/.claude/settings.json...
+[DEBUG] Writing to temp file: /home/vibecode/.claude/settings.json.tmp.187.1762070392496
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 209 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/settings.json.tmp.187.1762070392496 to /home/vibecode/.claude/settings.json
+[DEBUG] File /home/vibecode/.claude/settings.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392569
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1138 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392569 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392627
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1175 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392627 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392640
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1175 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392640 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] >>>>> getSkillsIfEnabled() CALLED <<<<<
+[DEBUG] ENABLE_SKILLS value: true, type: boolean
+[DEBUG] ENABLE_SKILLS check passed, loading skills...
+[DEBUG] Loading skills from directories: managed=/etc/claude-code/.claude/skills, user=/home/vibecode/.claude/skills, project=/home/vibecode/workspace/.claude/skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] Creating shell snapshot for bash (/bin/bash)
+[DEBUG] Looking for shell config file: /home/vibecode/.bashrc
+[DEBUG] Snapshots directory: /home/vibecode/.claude/shell-snapshots
+[DEBUG] Creating snapshot at: /home/vibecode/.claude/shell-snapshots/snapshot-bash-1762070392715-vju7qs.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.187.1762070392721
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.187.1762070392721 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json written atomically
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392761
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1175 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392761 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392768
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1239 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392768 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Skipping SessionStart:startup hook execution - workspace trust not accepted
+[DEBUG] Ripgrep first use test: PASSED (mode=system, path=rg)
+[DEBUG] Shell snapshot created successfully (1655 bytes)
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392897
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1239 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392897 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392919
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1275 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392919 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global, using native: false
+[DEBUG] performStartupChecks called
+[DEBUG] Trust not accepted for current directory - skipping plugin installations
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392941
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1383 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392941 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070392982
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1413 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070392982 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070393023
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36291 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070393023 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070393042
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36291 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070393042 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070394938
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36855 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070394938 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Skipping SubagentStop hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Added snapshot for 022c6f15-c935-42db-afe5-0e3d0fb8b56d, tracking 0 files
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.187.1762070423557
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 36900 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.187.1762070423557 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Skipping PreToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Task
+[DEBUG] Skipping PreToolUse:Task hook execution - workspace trust not accepted
+[DEBUG] No hook environment files found
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Skipping PreToolUse:Glob hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Glob hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Skipping PreToolUse:Glob hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Glob
+[DEBUG] Skipping PreToolUse:Glob hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Skipping PreToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Glob hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Glob hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Skipping PreToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: Bash
+[DEBUG] Skipping PreToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Bash hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
