@@ -129,7 +129,7 @@ export async function getInsiderSignals(): Promise<InsiderSignal[]> {
     let activityIndex = 0;
     for (let i = 0; i < Math.min(12, validResults.length); i++) {
       const result = validResults[i];
-      if (!result) continue;
+      if (!result || !result.data) continue;
 
       const { coin, data } = result;
       const activity = activityTypes[activityIndex % activityTypes.length];
