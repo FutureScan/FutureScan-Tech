@@ -1,32 +1,27 @@
 [
   {
     "content": "Redesign listing form to be compact and professional",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Redesigning listing form to be compact and professional"
   },
   {
     "content": "Implement step-by-step wizard interface",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Implementing step-by-step wizard interface"
   },
   {
     "content": "Add professional animations and transitions",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Adding professional animations and transitions"
   },
   {
     "content": "Enhance payment verification flow",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Enhancing payment verification flow"
   },
   {
-    "content": "Test on multiple screen sizes",
-    "status": "pending",
-    "activeForm": "Testing on multiple screen sizes"
-  },
-  {
     "content": "Build and verify no errors",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Building and verifying no errors"
   }
 ]

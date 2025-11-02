@@ -394,218 +394,308 @@ export default function MarketplacePage() {
           </div>
         )}
 
-        {/* Listing Form Modal */}
+        {/* Professional Listing Form Modal - Step Wizard */}
         {showListingForm && (
-          <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-[#0a0a0a] border border-[#ff6b35]/30 rounded-xl max-w-2xl w-full p-8 my-8">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-[#ff6b35]">List Your Product</h2>
+          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4">
+            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/40 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/20">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-800">
+                <div>
+                  <h2 className="text-2xl font-bold gradient-text">List on X403 Marketplace</h2>
+                  <p className="text-xs text-gray-500 mt-1">Join the world's premier crypto marketplace</p>
+                </div>
                 <button
-                  onClick={() => setShowListingForm(false)}
+                  onClick={() => {
+                    setShowListingForm(false);
+                    setListingStep(1);
+                  }}
                   className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
               </div>
 
-              {/* Step 1: Payment Instructions */}
-              <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                <h3 className="text-lg font-semibold text-yellow-400 mb-3">💳 Step 1: Pay Listing Fee</h3>
-                <p className="text-sm text-gray-300 mb-3">
-                  Send <strong>{MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL</strong> to the wallet address below:
-                </p>
-                <div className="flex items-center gap-2 p-3 bg-[#1a1a1a] rounded border border-gray-800">
-                  <code className="flex-1 text-xs text-[#ff6b35] font-mono break-all">
-                    {MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS}
-                  </code>
-                  <button
-                    onClick={copyWalletAddress}
-                    className="flex-shrink-0 p-2 hover:bg-gray-700 rounded transition-colors"
-                  >
-                    {copiedWallet ? (
-                      <Check size={16} className="text-green-500" />
-                    ) : (
-                      <Copy size={16} className="text-gray-400" />
-                    )}
-                  </button>
-                </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  ⚠️ Save your transaction signature - you'll need it in Step 2
-                </p>
+              {/* Progress Steps */}
+              <div className="flex items-center justify-center gap-4 px-6 py-4 bg-[#0a0a0a]/50">
+                {[
+                  { num: 1, label: 'Payment', icon: Wallet },
+                  { num: 2, label: 'Details', icon: FileText },
+                  { num: 3, label: 'Review', icon: CheckCircle },
+                ].map((step, idx) => {
+                  const Icon = step.icon;
+                  const isActive = listingStep === step.num;
+                  const isCompleted = listingStep > step.num;
+                  return (
+                    <div key={step.num} className="flex items-center gap-2">
+                      <div className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                        isActive ? 'bg-[#ff6b35] text-white' :
+                        isCompleted ? 'bg-green-500/20 text-green-400' :
+                        'bg-gray-800 text-gray-500'
+                      }`}>
+                        <Icon size={16} />
+                        <span className="text-xs font-semibold">{step.label}</span>
+                      </div>
+                      {idx < 2 && (
+                        <ArrowRight size={16} className="text-gray-700" />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
-              {/* Step 2: Product Details Form */}
-              <form onSubmit={handleSubmitListing} className="space-y-4">
-                <h3 className="text-lg font-semibold text-white mb-3">📝 Step 2: Product Details</h3>
+              {/* Step Content */}
+              <div className="p-6" style={{ minHeight: '400px', maxHeight: '400px' }}>
+                {/* STEP 1: PAYMENT */}
+                {listingStep === 1 && (
+                  <div className="space-y-4">
+                    <div className="text-center mb-4">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#ff6b35]/20 mb-3">
+                        <Wallet className="text-[#ff6b35]" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2">One-Time Listing Fee</h3>
+                      <p className="text-sm text-gray-400">
+                        Pay {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL to list your product on the world's premier crypto marketplace
+                      </p>
+                    </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
-                    Transaction Signature *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.transactionSignature}
-                    onChange={(e) => setFormData({ ...formData, transactionSignature: e.target.value })}
-                    placeholder="Paste your Solana transaction signature here"
-                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors font-mono text-sm"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    This verifies you paid the listing fee
-                  </p>
-                </div>
+                    {/* Wallet Address */}
+                    <div className="p-4 bg-gradient-to-r from-[#ff6b35]/10 to-purple-500/10 border border-[#ff6b35]/30 rounded-lg">
+                      <div className="text-xs font-semibold text-[#ff6b35] mb-2">SEND {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL TO:</div>
+                      <div className="flex items-center gap-2 p-3 bg-black rounded border border-gray-800">
+                        <code className="flex-1 text-xs text-white font-mono break-all">
+                          {MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS}
+                        </code>
+                        <button
+                          onClick={copyWalletAddress}
+                          className="flex-shrink-0 p-2 bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 rounded transition-colors"
+                        >
+                          {copiedWallet ? (
+                            <Check size={16} className="text-green-500" />
+                          ) : (
+                            <Copy size={16} className="text-[#ff6b35]" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
-                    Product Title *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    maxLength={100}
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="e.g., Premium Bitcoin Trading Signals"
-                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
-                  />
-                </div>
+                    {/* Transaction Signature Input */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">
+                        Paste Transaction Signature
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.transactionSignature}
+                        onChange={(e) => setFormData({ ...formData, transactionSignature: e.target.value })}
+                        placeholder="Paste your Solana transaction signature here..."
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg font-mono text-sm transition-colors focus:outline-none"
+                      />
+                      <p className="text-xs text-gray-500 mt-2">
+                        ✓ Find this in your wallet after sending the payment
+                      </p>
+                    </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
-                    Description *
-                  </label>
-                  <textarea
-                    required
-                    rows={4}
-                    maxLength={500}
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Describe your product, what makes it valuable, and what buyers will receive..."
-                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors resize-none"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    {formData.description.length}/500 characters
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-400 mb-2">
-                      Category *
-                    </label>
-                    <select
-                      required
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value as MarketplaceListing['category'] })}
-                      className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
-                    >
-                      <option value="signals">Trading Signals</option>
-                      <option value="data">Market Data</option>
-                      <option value="research">Research Reports</option>
-                      <option value="tools">Trading Tools</option>
-                      <option value="bots">Automation Bots</option>
-                      <option value="api">API Access</option>
-                    </select>
+                    {/* Why List Here */}
+                    <div className="mt-6 p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
+                      <div className="text-xs font-semibold text-blue-400 mb-2">🌍 Why List on FutureScan X403?</div>
+                      <ul className="text-xs text-gray-400 space-y-1">
+                        <li>• <strong>Zero buyer fees</strong> - customers pay full price to you</li>
+                        <li>• <strong>Global reach</strong> - access crypto traders worldwide</li>
+                        <li>• <strong>Premium audience</strong> - serious traders with real budgets</li>
+                        <li>• <strong>Instant credibility</strong> - verified seller status</li>
+                      </ul>
+                    </div>
                   </div>
+                )}
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-400 mb-2">
-                      Price (USD) *
-                    </label>
-                    <input
-                      type="number"
-                      required
-                      min="1"
-                      step="0.01"
-                      value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                      placeholder="99.99"
-                      className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
-                    />
+                {/* STEP 2: DETAILS */}
+                {listingStep === 2 && (
+                  <div className="space-y-4 overflow-y-auto" style={{ maxHeight: '380px' }}>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="col-span-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Product Title *</label>
+                        <input
+                          type="text"
+                          maxLength={100}
+                          value={formData.title}
+                          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                          placeholder="e.g., Premium Bitcoin Trading Signals"
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Category *</label>
+                        <select
+                          value={formData.category}
+                          onChange={(e) => setFormData({ ...formData, category: e.target.value as MarketplaceListing['category'] })}
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                        >
+                          <option value="signals">Trading Signals</option>
+                          <option value="data">Market Data</option>
+                          <option value="research">Research</option>
+                          <option value="tools">Tools</option>
+                          <option value="bots">Bots</option>
+                          <option value="api">API</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) *</label>
+                        <input
+                          type="number"
+                          min="1"
+                          step="0.01"
+                          value={formData.price}
+                          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                          placeholder="99.99"
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="col-span-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Description *</label>
+                        <textarea
+                          rows={3}
+                          maxLength={300}
+                          value={formData.description}
+                          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                          placeholder="Describe your product and its value..."
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none"
+                        />
+                        <div className="text-xs text-gray-500 text-right mt-1">{formData.description.length}/300</div>
+                      </div>
+
+                      <div className="col-span-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Seller Name *</label>
+                        <input
+                          type="text"
+                          maxLength={50}
+                          value={formData.seller}
+                          onChange={(e) => setFormData({ ...formData, seller: e.target.value })}
+                          placeholder="Your name or company"
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="col-span-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Key Features (min 3) *</label>
+                        {formData.features.slice(0, 3).map((feature, idx) => (
+                          <input
+                            key={idx}
+                            type="text"
+                            maxLength={80}
+                            value={feature}
+                            onChange={(e) => {
+                              const newFeatures = [...formData.features];
+                              newFeatures[idx] = e.target.value;
+                              setFormData({ ...formData, features: newFeatures });
+                            }}
+                            placeholder={`Feature ${idx + 1}`}
+                            className="w-full px-4 py-2 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none mb-2"
+                          />
+                        ))}
+                      </div>
+                    </div>
                   </div>
+                )}
+
+                {/* STEP 3: REVIEW */}
+                {listingStep === 3 && (
+                  <div className="space-y-4">
+                    <div className="text-center mb-4">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 mb-3">
+                        <CheckCircle className="text-green-500" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2">Review Your Listing</h3>
+                      <p className="text-sm text-gray-400">Confirm everything looks perfect</p>
+                    </div>
+
+                    <div className="p-4 bg-[#1a1a1a] border border-gray-800 rounded-lg space-y-3">
+                      <div>
+                        <div className="text-xs text-gray-500">Title</div>
+                        <div className="text-sm font-semibold">{formData.title}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-gray-500">Category</div>
+                        <div className="text-sm">{getCategoryLabel(formData.category)}</div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <div className="text-xs text-gray-500">Price</div>
+                          <div className="text-lg font-bold text-[#ff6b35]">${formData.price}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-gray-500">Seller</div>
+                          <div className="text-sm">{formData.seller}</div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-gray-500 mb-1">Description</div>
+                        <div className="text-xs text-gray-400">{formData.description}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-gray-500 mb-1">Features</div>
+                        <ul className="text-xs text-gray-400 space-y-1">
+                          {formData.features.filter(f => f.trim()).map((f, idx) => (
+                            <li key={idx}>✓ {f}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <p className="text-xs text-green-300">
+                        <strong>✓ Payment Verified</strong> - Your listing will go live within 24 hours after review
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer Actions */}
+              <div className="flex items-center justify-between px-6 py-4 border-t border-gray-800 bg-[#0a0a0a]/50">
+                <button
+                  onClick={prevStep}
+                  disabled={listingStep === 1}
+                  className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ArrowLeft size={16} />
+                  Back
+                </button>
+
+                <div className="text-xs text-gray-500">
+                  Step {listingStep} of 3
                 </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
-                    Your Name/Company *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    maxLength={50}
-                    value={formData.seller}
-                    onChange={(e) => setFormData({ ...formData, seller: e.target.value })}
-                    placeholder="e.g., CryptoSignals Pro"
-                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
-                    Preview/Demo (optional)
-                  </label>
-                  <input
-                    type="text"
-                    maxLength={150}
-                    value={formData.preview}
-                    onChange={(e) => setFormData({ ...formData, preview: e.target.value })}
-                    placeholder="e.g., View sample signals with 85% success rate"
-                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
-                    Key Features (at least 3) *
-                  </label>
-                  {formData.features.map((feature, idx) => (
-                    <input
-                      key={idx}
-                      type="text"
-                      required={idx < 3}
-                      maxLength={100}
-                      value={feature}
-                      onChange={(e) => {
-                        const newFeatures = [...formData.features];
-                        newFeatures[idx] = e.target.value;
-                        setFormData({ ...formData, features: newFeatures });
-                      }}
-                      placeholder={`Feature ${idx + 1}`}
-                      className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors mb-2"
-                    />
-                  ))}
+                {listingStep < 3 ? (
                   <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, features: [...formData.features, ''] })}
-                    className="text-sm text-[#ff6b35] hover:text-[#ff8c5a] transition-colors"
+                    onClick={nextStep}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
                   >
-                    + Add another feature
+                    Next
+                    <ArrowRight size={16} />
                   </button>
-                </div>
-
-                <div className="pt-4 border-t border-gray-800">
+                ) : (
                   <button
-                    type="submit"
+                    onClick={handleSubmitListing}
                     disabled={submittingListing}
-                    className="w-full py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 rounded-lg font-semibold transition-all disabled:opacity-50"
                   >
                     {submittingListing ? (
                       <>
-                        <Loader2 size={20} className="animate-spin" />
-                        Verifying & Submitting...
+                        <Loader2 size={16} className="animate-spin" />
+                        Submitting...
                       </>
                     ) : (
                       <>
-                        <CheckCircle size={20} />
+                        <CheckCircle size={16} />
                         Submit Listing
                       </>
                     )}
                   </button>
-                  <p className="text-xs text-center text-gray-500 mt-3">
-                    Your listing will be reviewed and published within 24 hours
-                  </p>
-                </div>
-              </form>
+                )}
+              </div>
             </div>
           </div>
         )}
