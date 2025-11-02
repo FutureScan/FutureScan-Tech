@@ -11,22 +11,17 @@
   },
   {
     "content": "Build marketplace page UI with listings",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Building marketplace page UI with listings"
   },
   {
     "content": "Add legal disclaimers and terms",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Adding legal disclaimers and terms"
   },
   {
-    "content": "Implement fee collection system",
-    "status": "pending",
-    "activeForm": "Implementing fee collection system"
-  },
-  {
     "content": "Update navigation to include marketplace",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Updating navigation to include marketplace"
   },
   {
