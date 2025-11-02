@@ -48,12 +48,15 @@ export interface TradingSignal {
   coin: string;
   symbol: string;
   action: 'buy' | 'sell' | 'hold';
+  signal_type: 'long-term' | 'medium-term' | 'short-term' | 'opportunity' | 'fundamental';
   entry_price: number;
   target_price: number;
   stop_loss: number;
   confidence: number; // 0-100
   timeframe: string; // e.g., "2-4 weeks"
   reasoning: string;
+  use_case?: string; // Technology/use case description
+  catalysts?: string[]; // Upcoming events/catalysts
   indicators: {
     rsi?: number;
     macd?: string;
