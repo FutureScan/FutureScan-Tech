@@ -207,64 +207,56 @@ export default function SignalsPage() {
             <p className="text-sm text-gray-500">Try selecting a different filter</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {filteredSignals.map((signal) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredSignals.map((signal) => {
+              const isExpanded = expandedCards.has(signal.id);
+              return (
               <div
                 key={signal.id}
-                className="card p-6 hover:border-[#3a3a3a] transition-all"
+                className="card p-5 border transition-all"
+                style={{ minHeight: '220px' }}
               >
                 {/* Header */}
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-2xl font-bold">{signal.coin}</h3>
-                    <span className="text-sm text-gray-500 uppercase">
+                    <h3 className="text-lg font-bold">{signal.coin}</h3>
+                    <span className="text-xs text-gray-500 uppercase">
                       {signal.symbol}
                     </span>
                   </div>
                   <div
-                    className={`flex items-center gap-2 px-3 py-1 rounded-full ${getActionColor(
+                    className={`flex items-center gap-1 px-2 py-1 rounded-full ${getActionColor(
                       signal.action
                     )}`}
                   >
                     {getActionIcon(signal.action)}
-                    <span className="text-sm font-bold uppercase">
+                    <span className="text-xs font-bold uppercase">
                       {signal.action}
                     </span>
                   </div>
                 </div>
 
                 {/* Signal Type Badge */}
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#ff6b35]/20 to-[#f7931e]/20 border border-[#ff6b35]/30 text-xs font-semibold text-[#ff6b35]">
-                    {signal.signal_type === 'long-term' && '💎 Long-Term Hold'}
-                    {signal.signal_type === 'medium-term' && '📈 Swing Trade'}
-                    {signal.signal_type === 'short-term' && '⚡ Quick Play'}
-                    {signal.signal_type === 'opportunity' && '🚀 Tech Opportunity'}
-                    {signal.signal_type === 'fundamental' && '🏆 Fundamental Value'}
+                <div className="mb-3">
+                  <span className="px-2 py-1 rounded-full bg-gradient-to-r from-[#ff6b35]/20 to-[#f7931e]/20 text-xs font-semibold text-[#ff6b35]">
+                    {signal.signal_type === 'long-term' && '💎 Long-Term'}
+                    {signal.signal_type === 'medium-term' && '📈 Swing'}
+                    {signal.signal_type === 'short-term' && '⚡ Quick'}
+                    {signal.signal_type === 'opportunity' && '🚀 Tech'}
+                    {signal.signal_type === 'fundamental' && '🏆 Value'}
                   </span>
-                  <span className="text-xs text-gray-400">{signal.timeframe}</span>
+                  <span className="ml-2 text-xs text-gray-500">{signal.timeframe}</span>
                 </div>
 
-                {/* Use Case */}
-                {signal.use_case && (
-                  <div className="mb-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                    <p className="text-xs text-blue-300">
-                      <strong>Use Case:</strong> {signal.use_case}
-                    </p>
-                  </div>
-                )}
-
                 {/* Confidence */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-400">
-                      Confidence Score
-                    </span>
-                    <span className="text-lg font-bold text-[#ff6b35]">
+                <div className="mb-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-gray-500">Confidence</span>
+                    <span className="text-xs font-bold text-[#ff6b35]">
                       {signal.confidence}%
                     </span>
                   </div>
-                  <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+                  <div className="w-full bg-gray-800 rounded-full h-1 overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-[#ff6b35] to-[#f7931e] transition-all"
                       style={{ width: `${signal.confidence}%` }}
@@ -272,86 +264,102 @@ export default function SignalsPage() {
                   </div>
                 </div>
 
-                {/* Price Levels */}
-                <div className="grid grid-cols-3 gap-3 mb-4">
-                  <div className="bg-[#0a0a0a] p-3 rounded-lg">
-                    <div className="text-xs text-gray-500 mb-1">Entry</div>
-                    <div className="font-mono font-semibold">
-                      ${signal.entry_price.toLocaleString()}
+                {/* Price Levels - Compact */}
+                <div className="grid grid-cols-3 gap-2 mb-3 text-xs">
+                  <div className="bg-[#0a0a0a] p-2 rounded">
+                    <div className="text-gray-500 mb-0.5">Entry</div>
+                    <div className="font-mono font-semibold text-xs">
+                      ${(signal.entry_price).toLocaleString(undefined, {maximumFractionDigits: 0})}
                     </div>
                   </div>
-                  <div className="bg-[#0a0a0a] p-3 rounded-lg">
-                    <div className="text-xs text-green-500 mb-1 flex items-center gap-1">
-                      <Target size={12} />
-                      Target
+                  <div className="bg-[#0a0a0a] p-2 rounded">
+                    <div className="text-green-500 mb-0.5 flex items-center gap-0.5">
+                      <Target size={10} />
+                      <span>Target</span>
                     </div>
-                    <div className="font-mono font-semibold text-green-500">
-                      ${signal.target_price.toLocaleString()}
+                    <div className="font-mono font-semibold text-green-500 text-xs">
+                      ${(signal.target_price).toLocaleString(undefined, {maximumFractionDigits: 0})}
                     </div>
                   </div>
-                  <div className="bg-[#0a0a0a] p-3 rounded-lg">
-                    <div className="text-xs text-red-500 mb-1 flex items-center gap-1">
-                      <Shield size={12} />
-                      Stop Loss
+                  <div className="bg-[#0a0a0a] p-2 rounded">
+                    <div className="text-red-500 mb-0.5 flex items-center gap-0.5">
+                      <Shield size={10} />
+                      <span>Stop</span>
                     </div>
-                    <div className="font-mono font-semibold text-red-500">
-                      ${signal.stop_loss.toLocaleString()}
+                    <div className="font-mono font-semibold text-red-500 text-xs">
+                      ${(signal.stop_loss).toLocaleString(undefined, {maximumFractionDigits: 0})}
                     </div>
                   </div>
                 </div>
 
-                {/* Reasoning */}
-                <div className="mb-4 p-4 bg-[#0a0a0a] rounded-lg border border-[#ff6b35]/10">
-                  <h4 className="text-sm font-semibold text-[#ff6b35] mb-3 flex items-center gap-2">
-                    <Activity size={16} />
-                    Detailed Analysis
-                  </h4>
-                  <div className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
-                    {signal.reasoning}
-                  </div>
-                </div>
+                {/* Expandable Analysis */}
+                {isExpanded && (
+                  <>
+                    {/* Use Case */}
+                    {signal.use_case && (
+                      <div className="mb-3 p-2 bg-blue-500/10 rounded border border-blue-500/20">
+                        <p className="text-xs text-blue-300">
+                          <strong>Use Case:</strong> {signal.use_case}
+                        </p>
+                      </div>
+                    )}
 
-                {/* Indicators */}
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  <div className="text-sm">
-                    <span className="text-gray-500">RSI:</span>{' '}
-                    <span className="font-mono">
-                      {signal.indicators.rsi?.toFixed(0)}
-                    </span>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-gray-500">MACD:</span>{' '}
-                    <span className="font-mono">{signal.indicators.macd}</span>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-gray-500">Volume:</span>{' '}
-                    <span className="font-mono">
-                      {signal.indicators.volume_trend}
-                    </span>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-gray-500">Sentiment:</span>{' '}
-                    <span className="font-mono">
-                      {signal.indicators.sentiment_score}/100
-                    </span>
-                  </div>
-                </div>
+                    {/* Detailed Analysis */}
+                    <div className="mb-3 p-3 bg-[#0a0a0a] rounded-lg border border-[#ff6b35]/10">
+                      <h4 className="text-xs font-semibold text-[#ff6b35] mb-2 flex items-center gap-1">
+                        <Activity size={12} />
+                        Detailed Analysis
+                      </h4>
+                      <div className="text-xs text-gray-300 leading-relaxed whitespace-pre-line max-h-64 overflow-y-auto">
+                        {signal.reasoning}
+                      </div>
+                    </div>
 
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-800 text-sm text-gray-500">
-                  <div className="flex items-center gap-2">
-                    <Clock size={14} />
-                    <span>{signal.timeframe}</span>
+                    {/* Indicators */}
+                    <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+                      <div>
+                        <span className="text-gray-500">RSI:</span>{' '}
+                        <span className="font-mono">{signal.indicators.rsi?.toFixed(0)}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">MACD:</span>{' '}
+                        <span className="font-mono">{signal.indicators.macd}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Volume:</span>{' '}
+                        <span className="font-mono">{signal.indicators.volume_trend}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Sentiment:</span>{' '}
+                        <span className="font-mono">{signal.indicators.sentiment_score}/100</span>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Footer with Expand Button */}
+                <div className="flex items-center justify-between pt-2 border-t border-gray-800">
+                  <div className="flex items-center gap-1 text-xs text-gray-500">
+                    <Clock size={11} />
+                    <span>{formatDistanceToNow(signal.created_at, { addSuffix: true })}</span>
                   </div>
-                  <span>
-                    {formatDistanceToNow(signal.created_at, { addSuffix: true })}
-                  </span>
+                  <button
+                    onClick={() => toggleCard(signal.id)}
+                    className="flex items-center gap-1 text-xs text-[#ff6b35] hover:text-[#ff8c5a] transition-colors"
+                  >
+                    {isExpanded ? (
+                      <>
+                        <span>Less</span>
+                        <ChevronUp size={14} />
+                      </>
+                    ) : (
+                      <>
+                        <span>Analysis</span>
+                        <ChevronDown size={14} />
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
-            ))}
+            )})}
           </div>
-        )}
-      </div>
-    </div>
-  );
-}
