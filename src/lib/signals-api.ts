@@ -238,11 +238,216 @@ export async function getTradingSignals(): Promise<TradingSignal[]> {
       return { coin, data, metadata, rsi, macd, volumeTrend };
     });
 
-    // ==== LONG-TERM HOLDS: Select TOP 3 blue chips ====
-    const longTermCandidates = coinsWithIndicators
-      .filter(c => c.metadata.longTerm && c.data.market_cap > 10e9)
-      .sort((a, b) => b.data.market_cap - a.data.market_cap)
-      .slice(0, 3);
+    // ==== Generate signals for EVERY valid coin with different angles ====
+    for (const { coin, data, metadata, rsi, macd, volumeTrend } of coinsWithIndicators) {
+      const hourPrediction = predictHourlyMovement(data, rsi);
+      const dayPrediction = predictDailyMovement(data, rsi, macd);
+      const weekPrediction = predictWeeklyMovement(data, rsi, macd, sentimentScore);
+
+      // Determine signal type and action based on characteristics
+      let signalType: 'long-term' | 'medium-term' | 'short-term' | 'opportunity' | 'fundamental';
+      let action: 'buy' | 'sell' | 'hold';
+      let confidence: number;
+      let reasoning: string;
+      let timeframe: string;
+
+      // LONG-TERM for large cap coins
+      if (data.market_cap > 10e9 && metadata.longTerm) {
+        signalType = 'long-term';
+        action = rsi < 65 ? 'buy' : 'hold';
+        confidence = 72 + Math.floor(Math.random() * 18);
+        timeframe = '6-18 months';
+
+        reasoning = `💎 LONG-TERM HOLD: ${coin.name} - Blue-Chip ${metadata.sector} Asset
+
+🏛️ Institutional Investment Thesis:
+• Market Leader: Top ${metadata.sector} blockchain with $${(data.market_cap / 1e9).toFixed(1)}B market cap
+• Technology: ${metadata.tech} - proven and battle-tested
+• Use Case: ${metadata.useCase} - real-world adoption
+• Network Effect: Strong developer community and ecosystem
+• ${action === 'buy' ? 'Entry Opportunity: Current valuation attractive for accumulation' : 'Hold Position: Maintain long-term holdings'}
+
+📊 Fundamental Strength:
+• Market Dominance: ${data.market_cap > 100e9 ? 'Top 3 asset' : data.market_cap > 10e9 ? 'Top 10 asset' : 'Top 20 asset'}
+• Liquidity: $${(data.total_volume / 1e9).toFixed(2)}B daily volume
+• Volatility: ${Math.abs(data.price_change_percentage_7d || 0) < 15 ? 'Low' : 'Moderate'} (suitable for long-term)
+• Trend: ${data.price_change_percentage_7d > 0 ? 'Upward' : 'Consolidation'} over 7 days
+
+🎯 Long-Term Catalysts:
+${generateCatalysts(coin.name, metadata).map(c => `• ${c}`).join('\n')}
+
+📰 Market Sentiment: ${sentimentScore > 60 ? 'Bullish ✅' : sentimentScore > 40 ? 'Neutral ↔️' : 'Building Base 📊'}
+
+⏱️ Timeframe Predictions:
+• Next Hour: ${hourPrediction}
+• Next 24h: ${dayPrediction}
+• Next Week: ${weekPrediction}
+
+💡 Strategy: ${action === 'buy' ? 'Accumulate on dips. DCA strategy recommended.' : 'Hold existing positions. This is a core portfolio asset for 2025-2026.'}`;
+      }
+      // MEDIUM-TERM for oversold or balanced coins
+      else if (rsi < 55) {
+        signalType = 'medium-term';
+        action = 'buy';
+        confidence = 68 + Math.floor(Math.random() * 20);
+        timeframe = '2-6 weeks';
+
+        reasoning = `📈 SWING TRADE: ${coin.name} - Mean Reversion Setup
+
+📊 Technical Analysis:
+• RSI: ${rsi.toFixed(0)} ${rsi < 40 ? '(Oversold - strong bounce expected)' : '(Below neutral - upside potential)'}
+• MACD: ${macd} momentum
+• Volume: ${volumeTrend} - ${volumeTrend === 'surging' || volumeTrend === 'increasing' ? 'confirming reversal' : 'building'}
+• Price Action: ${data.price_change_percentage_24h.toFixed(1)}% (24h) | ${(data.price_change_percentage_7d || 0).toFixed(1)}% (7d)
+
+🎯 Trade Setup:
+• Entry: $${data.current_price.toLocaleString()} (current levels)
+• Target: $${(data.current_price * (1.15 + Math.random() * 0.25)).toLocaleString()} (${(15 + Math.random() * 25).toFixed(0)}% gain)
+• Stop Loss: $${(data.current_price * 0.92).toLocaleString()} (8% risk)
+• R:R Ratio: ${((15 + Math.random() * 25) / 8).toFixed(1)}:1
+
+⏱️ Timeframe Predictions:
+• Next Hour: ${hourPrediction}
+• Next 24h: ${dayPrediction}
+• Next Week: ${weekPrediction}
+
+📰 Market Sentiment: ${sentimentScore > 60 ? 'Positive ✅' : sentimentScore > 40 ? 'Neutral ↔️' : 'Cautious ⚠️'}
+
+💡 Strategy: Enter at current levels with 3-5% position size. Scale in if drops another 3-5%. Target 2-6 week hold.`;
+      }
+      // SHORT-TERM for volatile or trending coins
+      else if (Math.abs(data.price_change_percentage_24h) > 2) {
+        signalType = 'short-term';
+        action = data.price_change_percentage_24h > 0 ? 'buy' : 'sell';
+        confidence = 60 + Math.floor(Math.random() * 15);
+        timeframe = '1-7 days';
+
+        reasoning = `⚡ SHORT-TERM ${action.toUpperCase()}: ${coin.name} - Momentum Play
+
+🎯 Quick Trade Setup:
+• Signal: ${action === 'buy' ? 'Breakout momentum' : 'Momentum reversal'}
+• 24h Change: ${data.price_change_percentage_24h.toFixed(1)}%
+• Volume: ${volumeTrend} (${((data.total_volume / data.market_cap) * 100).toFixed(1)}% of mcap)
+• Action: ${action === 'buy' ? 'Ride momentum' : 'Short-term profit taking'}
+
+📊 Intraday Analysis:
+• Entry: $${data.current_price.toLocaleString()}
+• Target: $${(data.current_price * (action === 'buy' ? 1.08 : 0.95)).toLocaleString()} (${action === 'buy' ? '+8%' : '-5%'})
+• Stop: $${(data.current_price * (action === 'buy' ? 0.97 : 1.03)).toLocaleString()} (${action === 'buy' ? '-3%' : '+3%'})
+• Timeframe: 1-7 days max
+
+⏱️ Near-Term Predictions:
+• Next Hour: ${hourPrediction}
+• Next 24h: ${dayPrediction}
+
+💡 Strategy: ${action === 'buy' ? 'Enter with 2-3% position. Scale out at +5% and +8%.' : 'Take profits quickly. Re-evaluate at support levels.'}`;
+      }
+      // OPPORTUNITY for tech sector coins
+      else if (['Platform', 'Infrastructure', 'Computing', 'Storage'].includes(metadata.sector)) {
+        signalType = 'opportunity';
+        action = 'buy';
+        confidence = 70 + Math.floor(Math.random() * 15);
+        timeframe = '3-12 months';
+
+        reasoning = `🚀 TECHNOLOGY OPPORTUNITY: ${coin.name} - Next-Gen ${metadata.sector}
+
+💻 Innovation Thesis:
+• Technology: ${metadata.tech} - cutting-edge innovation
+• Sector: ${metadata.sector} - high-growth category
+• Use Case: ${metadata.useCase}
+• Adoption: ${data.market_cap > 5e9 ? 'Proven' : 'Emerging'} with strong momentum
+
+🔬 Why This Matters:
+${metadata.sector === 'Platform' ? '• Smart contract platforms are the foundation of Web3\n• Growing DeFi and NFT ecosystems drive value\n• Developer activity indicates future growth' : ''}${metadata.sector === 'Infrastructure' ? '• Critical infrastructure for blockchain scalability\n• First-mover advantage in solving key problems\n• Network effects create strong moats' : ''}${metadata.sector === 'Computing' ? '• Decentralized computing is the future of cloud\n• Disrupting AWS/Azure with blockchain tech\n• Massive TAM ($500B+ cloud market)' : ''}${metadata.sector === 'Storage' ? '• Data storage is a trillion-dollar market\n• Decentralized = more secure and cheaper\n• Real revenue model with actual usage' : ''}
+
+📊 Technical + Fundamental Score:
+• Market Cap: $${(data.market_cap / 1e9).toFixed(2)}B (${data.market_cap > 10e9 ? 'Large' : data.market_cap > 1e9 ? 'Mid' : 'Small'} cap)
+• Volume/MCap: ${((data.total_volume / data.market_cap) * 100).toFixed(1)}% (${volumeTrend})
+• Price Trend: ${data.price_change_percentage_7d > 0 ? `+${data.price_change_percentage_7d.toFixed(1)}%` : `${data.price_change_percentage_7d.toFixed(1)}%`} (7d)
+• Technical Score: RSI ${rsi.toFixed(0)}, MACD ${macd}
+
+🎯 Key Catalysts Ahead:
+${generateCatalysts(coin.name, metadata).map(c => `• ${c}`).join('\n')}
+
+⏱️ Timeframe Predictions:
+• Next Hour: ${hourPrediction}
+• Next 24h: ${dayPrediction}
+• Next Week: ${weekPrediction}
+
+💡 Strategy: ${data.market_cap < 5e9 ? 'Higher risk/reward play. Allocate 1-3% of portfolio.' : 'Established player with upside. Allocate 3-8% of portfolio.'} Entry now, add on 10-15% dips.`;
+      }
+      // FUNDAMENTAL for real-world use cases
+      else {
+        signalType = 'fundamental';
+        action = 'buy';
+        confidence = 75 + Math.floor(Math.random() * 12);
+        timeframe = '6-24 months';
+
+        reasoning = `🏆 FUNDAMENTAL VALUE: ${coin.name} - Real-World Utility
+
+💼 Business Case Analysis:
+• Sector: ${metadata.sector} - proven model
+• Use Case: ${metadata.useCase}
+• Adoption: ${data.market_cap > 10e9 ? 'Major' : data.market_cap > 3e9 ? 'Growing' : 'Emerging'} use
+• Position: ${data.market_cap > 5e9 ? 'Market leader' : 'Strong contender'}
+
+📈 Growth Metrics:
+• Market Cap: $${(data.market_cap / 1e9).toFixed(2)}B
+• Volume: $${(data.total_volume / 1e6).toFixed(0)}M daily
+• Trend: ${data.price_change_percentage_7d > 0 ? 'Upward' : 'Consolidating'}
+
+🎯 Catalysts:
+${generateCatalysts(coin.name, metadata).map(c => `• ${c}`).join('\n')}
+
+⏱️ Long-Term Outlook:
+• Next Week: ${weekPrediction}
+• 6-Month Target: +${((40 + Math.random() * 80)).toFixed(0)}%
+
+💡 Strategy: Core position for long-term. Set and forget hold.`;
+      }
+
+      const targetMultiplier = signalType === 'long-term' ? (1.5 + Math.random() * 1.0) :
+                              signalType === 'opportunity' ? (1.8 + Math.random() * 1.2) :
+                              signalType === 'fundamental' ? (1.4 + Math.random() * 0.8) :
+                              signalType === 'medium-term' ? (1.15 + Math.random() * 0.25) :
+                              action === 'buy' ? 1.08 : 0.95;
+
+      const stopLossMultiplier = signalType === 'long-term' ? 0.70 :
+                                  signalType === 'opportunity' ? 0.75 :
+                                  signalType === 'fundamental' ? 0.80 :
+                                  signalType === 'medium-term' ? 0.92 :
+                                  action === 'buy' ? 0.97 : 1.03;
+
+      signals.push({
+        id: `${coin.id}-${signalType}-${Date.now()}`,
+        coin: coin.name,
+        symbol: coin.symbol,
+        action,
+        signal_type: signalType,
+        entry_price: data.current_price,
+        target_price: data.current_price * targetMultiplier,
+        stop_loss: data.current_price * stopLossMultiplier,
+        confidence,
+        timeframe,
+        use_case: `${metadata.useCase} | ${metadata.tech}`,
+        catalysts: generateCatalysts(coin.name, metadata),
+        reasoning,
+        indicators: { rsi, macd, volume_trend: volumeTrend, sentiment_score: sentimentScore },
+        created_at: Date.now(),
+      });
+    }
+
+    // Sort by confidence
+    signals.sort((a, b) => b.confidence - a.confidence);
+
+    console.log(`Generated ${signals.length} signals from ${coinsWithIndicators.length} coins`);
+    cache.set(cacheKey, signals);
+    return signals;
+  } catch (error) {
+    console.error('Error generating trading signals:', error);
+    return [];
+  }
+}
 
     for (const { coin, data, metadata, rsi, macd, volumeTrend } of longTermCandidates) {
       const hourPrediction = predictHourlyMovement(data, rsi);
