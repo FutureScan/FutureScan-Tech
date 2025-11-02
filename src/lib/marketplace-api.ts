@@ -20,16 +20,16 @@ export async function getMarketplaceListings(
   await new Promise(resolve => setTimeout(resolve, 300));
 
   if (category) {
-    return SAMPLE_LISTINGS.filter(listing => listing.category === category);
+    return MARKETPLACE_LISTINGS.filter(listing => listing.category === category);
   }
 
-  return SAMPLE_LISTINGS;
+  return MARKETPLACE_LISTINGS;
 }
 
 // Get single listing by ID
 export async function getMarketplaceListing(id: string): Promise<MarketplaceListing | null> {
   await new Promise(resolve => setTimeout(resolve, 200));
-  return SAMPLE_LISTINGS.find(listing => listing.id === id) || null;
+  return MARKETPLACE_LISTINGS.find(listing => listing.id === id) || null;
 }
 
 // Verify Solana transaction on-chain
@@ -107,7 +107,7 @@ export async function submitListing(
     };
 
     // In production, this would save to a database
-    SAMPLE_LISTINGS.push(newListing);
+    MARKETPLACE_LISTINGS.push(newListing);
 
     return {
       success: true,
