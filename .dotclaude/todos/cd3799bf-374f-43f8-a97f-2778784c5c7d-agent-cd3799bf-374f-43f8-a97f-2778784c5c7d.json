@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "content": "Fix Insiders tab to show DIVERSE whale activities (transfers, staking, DEX trades, bridges, etc.)",
+    "status": "in_progress",
+    "activeForm": "Fixing Insiders tab with diverse whale activities"
+  },
+  {
+    "content": "Optimize Signals tab - be SELECTIVE, only best 2-3 per category, make it FAST",
+    "status": "pending",
+    "activeForm": "Optimizing Signals tab performance"
+  },
+  {
+    "content": "Ensure Insiders and Signals tabs are COMPLETELY DIFFERENT",
+    "status": "pending",
+    "activeForm": "Making tabs completely different"
+  }
+]

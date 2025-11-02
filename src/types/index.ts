@@ -29,17 +29,20 @@ export interface NewsArticle {
   image_url?: string;
 }
 
-// Insider trading signal
+// Insider trading signal with diverse activity types
 export interface InsiderSignal {
   id: string;
   coin: string;
   symbol: string;
-  action: 'accumulation' | 'distribution';
+  activity_type: 'transfer' | 'exchange_deposit' | 'exchange_withdrawal' | 'staking' | 'dex_trade' | 'bridge' | 'smart_contract';
+  action: 'bullish' | 'bearish' | 'neutral';
   volume: number;
   timestamp: number;
-  whale_address?: string;
+  whale_address: string;
+  destination?: string;
   confidence: number; // 0-100
   price_at_signal: number;
+  details: string;
 }
 
 // AI trading signal
