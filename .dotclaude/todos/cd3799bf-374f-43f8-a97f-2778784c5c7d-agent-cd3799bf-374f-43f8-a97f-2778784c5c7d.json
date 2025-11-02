@@ -1,12 +1,12 @@
 [
   {
     "content": "Fix color scheme to match logo (black/orange)",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Fixing color scheme to match logo"
   },
   {
     "content": "Redesign UI to be futuristic and professional",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Redesigning UI to be futuristic"
   },
   {
@@ -16,7 +16,7 @@
   },
   {
     "content": "Add glowing effects and animations",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Adding glowing effects and animations"
   },
   {
@@ -26,7 +26,7 @@
   },
   {
     "content": "Add premium visual effects",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Adding premium visual effects"
   }
 ]
