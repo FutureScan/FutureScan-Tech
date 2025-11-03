@@ -114,7 +114,15 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#ff6b35]/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="relative p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -147,37 +155,45 @@ export default function DashboardPage() {
         ) : (
           <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <div className="card p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
                 <div className="flex items-center justify-between mb-4">
-                  <Package className="text-blue-400" size={24} />
-                  <span className="text-xs text-gray-500 uppercase">Total Listings</span>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10">
+                    <Package className="text-blue-400" size={28} />
+                  </div>
+                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Total Listings</span>
                 </div>
-                <div className="text-3xl font-bold">{stats.totalListings}</div>
+                <div className="text-4xl font-black gradient-text animate-count">{stats.totalListings}</div>
               </div>
 
-              <div className="card p-6">
+              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
                 <div className="flex items-center justify-between mb-4">
-                  <ShoppingBag className="text-green-400" size={24} />
-                  <span className="text-xs text-gray-500 uppercase">Total Sales</span>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/10">
+                    <ShoppingBag className="text-green-400" size={28} />
+                  </div>
+                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Total Sales</span>
                 </div>
-                <div className="text-3xl font-bold">{stats.totalSales}</div>
+                <div className="text-4xl font-black text-green-400 animate-count">{stats.totalSales}</div>
               </div>
 
-              <div className="card p-6">
+              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
                 <div className="flex items-center justify-between mb-4">
-                  <DollarSign className="text-[#ff6b35]" size={24} />
-                  <span className="text-xs text-gray-500 uppercase">Total Revenue</span>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-[#ff6b35]/20 to-[#e85a26]/10 pulse-ring">
+                    <DollarSign className="text-[#ff6b35]" size={28} />
+                  </div>
+                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Total Revenue</span>
                 </div>
-                <div className="text-3xl font-bold">${stats.totalRevenue.toFixed(2)}</div>
+                <div className="text-4xl font-black gradient-text animate-count">${stats.totalRevenue.toFixed(2)}</div>
               </div>
 
-              <div className="card p-6">
+              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
                 <div className="flex items-center justify-between mb-4">
-                  <TrendingUp className="text-purple-400" size={24} />
-                  <span className="text-xs text-gray-500 uppercase">Active</span>
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/10">
+                    <TrendingUp className="text-purple-400" size={28} />
+                  </div>
+                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Active</span>
                 </div>
-                <div className="text-3xl font-bold">{stats.activeListings}</div>
+                <div className="text-4xl font-black text-purple-400 animate-count">{stats.activeListings}</div>
               </div>
             </div>
 
