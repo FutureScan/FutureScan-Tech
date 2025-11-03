@@ -1,12 +1,12 @@
 [
   {
     "content": "Fix tutorial modal sizing to be compact and screen-friendly",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Fixing tutorial modal sizing"
   },
   {
     "content": "Fix listing form modal sizing to be compact",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Fixing listing form modal sizing"
   },
   {
