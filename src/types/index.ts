@@ -123,3 +123,49 @@ export interface MarketplaceTransaction {
   timestamp: number;
   status: 'pending' | 'completed' | 'failed';
 }
+
+// x402 Protocol Types
+export type X402Chain = 'solana' | 'base' | 'ethereum' | 'polygon';
+export type X402Currency = 'USDC' | 'SOL' | 'ETH' | 'USDT';
+
+export interface X402PaymentIntent {
+  intent_id: string;
+  listing_id: string;
+  amount: number; // Amount in USD
+  currency: X402Currency;
+  chain: X402Chain;
+  recipient_address: string;
+  expires_at: number; // Unix timestamp
+  metadata?: {
+    listing_title: string;
+    seller: string;
+    buyer_address?: string;
+  };
+}
+
+export interface X402PaymentProof {
+  intent_id: string;
+  transaction_signature: string;
+  chain: X402Chain;
+  timestamp: number;
+}
+
+export interface X402PaymentResponse {
+  success: boolean;
+  payment_verified: boolean;
+  access_granted: boolean;
+  transaction_id?: string;
+  error?: string;
+  retry_after?: number; // Seconds to wait before retry
+}
+
+// HTTP 402 Response Headers
+export interface X402Headers {
+  'X-Payment-Required': 'true';
+  'X-Payment-Amount': string;
+  'X-Payment-Currency': X402Currency;
+  'X-Payment-Chain': X402Chain;
+  'X-Payment-Address': string;
+  'X-Payment-Intent-Id': string;
+  'X-Payment-Expires': string; // ISO 8601 timestamp
+}
