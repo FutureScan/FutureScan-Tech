@@ -660,7 +660,7 @@ export default function MarketplacePage() {
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-gray-800">
                 <div>
-                  <h2 className="text-xl font-bold gradient-text">List on X403 Marketplace</h2>
+                  <h2 className="text-xl font-bold gradient-text">List on X402 Marketplace</h2>
                   <p className="text-xs text-gray-500 mt-0.5">Join the world's premier crypto marketplace</p>
                 </div>
                 <button
@@ -756,7 +756,7 @@ export default function MarketplacePage() {
 
                     {/* Why List Here */}
                     <div className="mt-4 p-2.5 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-                      <div className="text-xs font-semibold text-blue-400 mb-1.5">🌍 Why List on FutureScan X403?</div>
+                      <div className="text-xs font-semibold text-blue-400 mb-1.5">🌍 Why List on FutureScan X402?</div>
                       <ul className="text-xs text-gray-400 space-y-0.5">
                         <li>• <strong>Zero buyer fees</strong> - customers pay full price to you</li>
                         <li>• <strong>Global reach</strong> - access crypto traders worldwide</li>
@@ -969,7 +969,7 @@ export default function MarketplacePage() {
                 <section>
                   <h3 className="text-lg font-semibold text-white mb-2">⚠️ Important Disclaimer</h3>
                   <p>
-                    All products, services, data, and information provided on the X403 Marketplace are for
+                    All products, services, data, and information provided on the X402 Marketplace are for
                     <strong> INFORMATIONAL AND EDUCATIONAL PURPOSES ONLY</strong>. Nothing on this platform
                     constitutes financial, investment, legal, or tax advice.
                   </p>
