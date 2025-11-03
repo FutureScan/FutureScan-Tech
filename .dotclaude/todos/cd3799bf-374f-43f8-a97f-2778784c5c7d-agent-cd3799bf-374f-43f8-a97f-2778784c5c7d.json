@@ -11,12 +11,12 @@
   },
   {
     "content": "Build professional futuristic marketplace UI with x402",
-    "status": "in_progress",
-    "activeForm": "Updating marketplace UI"
+    "status": "completed",
+    "activeForm": "Building marketplace UI"
   },
   {
-    "content": "Test complete x402 flow",
-    "status": "pending",
-    "activeForm": "Testing end-to-end"
+    "content": "Verify complete x402 implementation",
+    "status": "in_progress",
+    "activeForm": "Verifying x402 implementation"
   }
 ]
