@@ -130,37 +130,55 @@ export default function InsidersPage() {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#ff6b35]/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="relative p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                Whale Activity Monitor
+        <div className="mb-10">
+          <div className="flex items-center justify-between mb-6">
+            <div className="relative">
+              <h1 className="text-5xl md:text-6xl font-black mb-3">
+                <span className="gradient-text neon-text">Whale Activity Monitor</span>
               </h1>
-              <p className="text-gray-400">
+              <p className="text-gray-300 text-lg">
                 Real-time tracking of large wallet movements across multiple activity types
               </p>
+              <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-blue-500 to-transparent rounded-full"></div>
             </div>
             <button
               onClick={loadSignals}
               disabled={loading}
-              className="p-3 hover:bg-[#1a1a1a] rounded-lg transition-colors disabled:opacity-50"
+              className="glass-card p-4 hover:bg-gray-800/80 rounded-xl transition-all hover:scale-110 disabled:opacity-50 pulse-ring"
               title="Refresh signals"
             >
               <RefreshCw
-                size={20}
-                className={loading ? 'animate-spin text-[#ff6b35]' : 'text-gray-400'}
+                size={24}
+                className={loading ? 'animate-spin text-[#ff6b35]' : 'text-gray-400 hover:text-[#ff6b35] transition-colors'}
               />
             </button>
           </div>
 
           {/* Info Banner */}
-          <div className="card p-4 bg-gradient-to-r from-[#ff6b35]/10 to-purple-500/10 border-[#ff6b35]/20">
-            <p className="text-sm text-orange-200">
-              <strong>🐋 Live Whale Tracking:</strong> We monitor exchange deposits/withdrawals, staking, DEX trades, cross-chain bridges, DeFi interactions, and large transfers. Each activity type provides unique insights into whale behavior and market positioning.
-            </p>
+          <div className="glass-card holographic p-5 rounded-2xl mb-6 border border-[#ff6b35]/20">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 text-2xl pulse-ring">
+                🐋
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-white mb-1">Live Whale Tracking</h3>
+                <p className="text-sm text-gray-300">
+                  We monitor exchange deposits/withdrawals, staking, DEX trades, cross-chain bridges, DeFi interactions, and large transfers. Each activity type provides unique insights into whale behavior and market positioning.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
