@@ -37,6 +37,7 @@ export default function MarketplacePage() {
   const { connection } = useConnection();
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [shouldAutoPayAfterConnect, setShouldAutoPayAfterConnect] = useState(false);
 
   const [listings, setListings] = useState<MarketplaceListing[]>([]);
   const [loading, setLoading] = useState(true);
