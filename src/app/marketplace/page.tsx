@@ -39,7 +39,7 @@ interface Listing {
   seller_rating: number;
 }
 
-export default function X402MarketplacePage() {
+export default function MarketplacePage() {
   const wallet = useWallet();
   const { connection } = useConnection();
 
