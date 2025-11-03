@@ -4586,3 +4586,44 @@
 [DEBUG] Skills and commands included in Skill tool:
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Metrics export disabled by organization setting
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Tracked file modification for /home/vibecode/workspace/src/components/WalletProvider.tsx
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/components/WalletProvider.tsx.tmp.175.1762129323503
+[DEBUG] Temp file written successfully, size: 1136 bytes
+[DEBUG] Renaming /home/vibecode/workspace/src/components/WalletProvider.tsx.tmp.175.1762129323503 to /home/vibecode/workspace/src/components/WalletProvider.tsx
+[DEBUG] File /home/vibecode/workspace/src/components/WalletProvider.tsx written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Tracked file modification for /home/vibecode/workspace/src/components/ClientLayout.tsx
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/components/ClientLayout.tsx.tmp.175.1762129332866
+[DEBUG] Temp file written successfully, size: 250 bytes
+[DEBUG] Renaming /home/vibecode/workspace/src/components/ClientLayout.tsx.tmp.175.1762129332866 to /home/vibecode/workspace/src/components/ClientLayout.tsx
+[DEBUG] File /home/vibecode/workspace/src/components/ClientLayout.tsx written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
