@@ -4627,3 +4627,36 @@
 [DEBUG] Hooks: checkForNewResponses returning 0 responses
 [DEBUG] Skills and commands included in Skill tool:
 [DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/layout.tsx.tmp.175.1762129339248
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1109 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/layout.tsx.tmp.175.1762129339248 to /home/vibecode/workspace/src/app/layout.tsx
+[DEBUG] File /home/vibecode/workspace/src/app/layout.tsx written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/layout.tsx.tmp.175.1762129345794
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 1164 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/layout.tsx.tmp.175.1762129345794 to /home/vibecode/workspace/src/app/layout.tsx
+[DEBUG] File /home/vibecode/workspace/src/app/layout.tsx written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
