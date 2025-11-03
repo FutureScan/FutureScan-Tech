@@ -262,6 +262,17 @@ export default function MarketplacePage() {
             </div>
 
             <div className="flex items-center gap-3">
+              {/* My Purchases Link */}
+              {wallet.connected && wallet.publicKey && (
+                <Link
+                  href="/marketplace/purchases"
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors"
+                >
+                  <ShoppingCart size={18} />
+                  <span className="hidden md:inline">My Purchases</span>
+                </Link>
+              )}
+
               {/* My Dashboard Link */}
               {wallet.connected && wallet.publicKey && (
                 <Link
