@@ -258,28 +258,29 @@ export default function MarketplacePage() {
           )}
 
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-4xl md:text-5xl font-bold">
-                  <span className="gradient-text">Marketplace</span>
+        <div className="mb-10">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+            <div className="relative">
+              <div className="flex items-center gap-4 mb-3">
+                <h1 className="text-5xl md:text-6xl font-black">
+                  <span className="gradient-text neon-text">Marketplace</span>
                 </h1>
-                <div className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-full">
-                  <span className="text-xs font-bold text-green-400">FREE</span>
+                <div className="px-4 py-1.5 neon-border rounded-full glass-card animate-pulse">
+                  <span className="text-sm font-bold text-green-400">FREE</span>
                 </div>
               </div>
-              <p className="text-gray-400">Buy and sell crypto intelligence products</p>
+              <p className="text-gray-400 text-lg">Buy and sell crypto intelligence products</p>
+              <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-purple-500 to-transparent rounded-full"></div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               {/* My Purchases Link */}
               {wallet.connected && wallet.publicKey && (
                 <Link
                   href="/marketplace/purchases"
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 glass-card hover:bg-gray-800/80 rounded-xl font-medium transition-all hover:scale-105 shine"
                 >
-                  <ShoppingCart size={18} />
+                  <ShoppingCart size={18} className="text-[#ff6b35]" />
                   <span className="hidden md:inline">My Purchases</span>
                 </Link>
               )}
@@ -288,9 +289,9 @@ export default function MarketplacePage() {
               {wallet.connected && wallet.publicKey && (
                 <Link
                   href="/marketplace/dashboard"
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 glass-card hover:bg-gray-800/80 rounded-xl font-medium transition-all hover:scale-105 shine"
                 >
-                  <Wallet size={18} />
+                  <Wallet size={18} className="text-[#ff6b35]" />
                   <span className="hidden md:inline">My Dashboard</span>
                 </Link>
               )}
@@ -309,7 +310,7 @@ export default function MarketplacePage() {
                   }
                   setShowListingForm(true);
                 }}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/30"
+                className="cyber-button flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all hover:scale-105 glow-orange"
               >
                 <Plus size={20} />
                 <span className="hidden md:inline">List Product</span>
