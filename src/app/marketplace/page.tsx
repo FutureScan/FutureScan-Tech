@@ -131,7 +131,7 @@ export default function MarketplacePage() {
         // Auto-fill transaction signature
         setFormData(prev => ({
           ...prev,
-          transactionSignature: result.signature,
+          transactionSignature: result.signature || '',
         }));
 
         // Move to next step
