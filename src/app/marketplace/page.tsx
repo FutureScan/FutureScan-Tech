@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 import { MarketplaceListing } from '@/types';
 import { getMarketplaceListings, submitListing, X402_CONFIG } from '@/lib/marketplace-api';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { sendOneClickPayment, getWalletBalance } from '@/lib/solana-payments';
 import {
   ShoppingCart,
   Star,
