@@ -1,12 +1,1 @@
-[
-  {
-    "content": "Fix error when clicking List Your Product",
-    "status": "in_progress",
-    "activeForm": "Debugging payment trigger error"
-  },
-  {
-    "content": "Test and verify the fix works",
-    "status": "pending",
-    "activeForm": "Testing fix"
-  }
-]
+[]
