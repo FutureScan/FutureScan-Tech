@@ -37,7 +37,6 @@ export default function MarketplacePage() {
   const { connection } = useConnection();
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
-  const [shouldAutoPayAfterConnect, setShouldAutoPayAfterConnect] = useState(false);
 
   const [listings, setListings] = useState<MarketplaceListing[]>([]);
   const [loading, setLoading] = useState(true);
@@ -96,17 +95,6 @@ export default function MarketplacePage() {
       setWalletBalance(0);
     }
   }, [wallet.publicKey, connection]);
-
-  // Auto-trigger payment after wallet connects
-  useEffect(() => {
-    if (wallet.connected && shouldAutoPayAfterConnect && walletBalance >= 0) {
-      setShouldAutoPayAfterConnect(false);
-      // Wait a bit for balance to load, then trigger payment
-      setTimeout(() => {
-        handleOneClickPayment();
-      }, 500);
-    }
-  }, [wallet.connected, shouldAutoPayAfterConnect, walletBalance]);
 
   async function loadListings() {
     try {
