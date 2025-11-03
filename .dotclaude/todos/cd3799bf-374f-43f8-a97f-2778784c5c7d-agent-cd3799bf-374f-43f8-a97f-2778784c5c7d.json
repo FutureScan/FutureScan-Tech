@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "content": "Fix Solana RPC endpoint for proper balance fetching",
+    "status": "in_progress",
+    "activeForm": "Fixing RPC endpoint"
+  },
+  {
+    "content": "Auto-open payment popup when listing starts",
+    "status": "pending",
+    "activeForm": "Auto-trigger payment"
+  },
+  {
+    "content": "Test and verify fixes",
+    "status": "pending",
+    "activeForm": "Testing"
+  }
+]
