@@ -471,7 +471,7 @@ export default function MarketplacePage() {
               <div className="p-4 border-b border-gray-800">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-xl font-bold gradient-text">Welcome to X403 Marketplace</h2>
+                    <h2 className="text-xl font-bold gradient-text">Welcome to X402 Marketplace</h2>
                     <p className="text-xs text-gray-400 mt-0.5">Learn how to buy and sell</p>
                   </div>
                   <button
