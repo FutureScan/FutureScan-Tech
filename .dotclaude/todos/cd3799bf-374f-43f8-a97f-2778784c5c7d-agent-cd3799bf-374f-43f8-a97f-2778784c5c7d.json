@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "content": "Research x402 protocol specifications",
+    "status": "completed",
+    "activeForm": "Researching x402 protocol"
+  },
+  {
+    "content": "Rename all X403 references to X402 throughout codebase",
+    "status": "pending",
+    "activeForm": "Renaming to X402"
+  },
+  {
+    "content": "Implement x402 HTTP 402 payment flow",
+    "status": "pending",
+    "activeForm": "Implementing x402 payment flow"
+  },
+  {
+    "content": "Add x402 payment headers and intents",
+    "status": "pending",
+    "activeForm": "Adding x402 headers"
+  },
+  {
+    "content": "Integrate USDC stablecoin payments (Solana)",
+    "status": "pending",
+    "activeForm": "Integrating USDC payments"
+  },
+  {
+    "content": "Create x402 Bazaar-style discovery UI",
+    "status": "pending",
+    "activeForm": "Creating discovery UI"
+  },
+  {
+    "content": "Add instant micropayment support",
+    "status": "pending",
+    "activeForm": "Adding micropayment support"
+  },
+  {
+    "content": "Implement error handling and retry logic",
+    "status": "pending",
+    "activeForm": "Implementing error handling"
+  },
+  {
+    "content": "Test and build final implementation",
+    "status": "pending",
+    "activeForm": "Testing implementation"
+  }
+]
