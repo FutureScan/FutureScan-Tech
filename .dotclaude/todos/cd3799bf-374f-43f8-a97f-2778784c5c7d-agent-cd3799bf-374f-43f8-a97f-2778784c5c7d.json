@@ -1,37 +1,27 @@
 [
   {
-    "content": "Research complete x402 protocol specification",
-    "status": "completed",
-    "activeForm": "Understanding x402"
-  },
-  {
-    "content": "Install official x402-solana SDK",
+    "content": "Create HTTP 402 API routes for listings",
     "status": "in_progress",
-    "activeForm": "Installing x402 SDK"
+    "activeForm": "Creating x402 API routes"
   },
   {
-    "content": "Create proper HTTP 402 API routes",
-    "status": "pending",
-    "activeForm": "Creating API routes"
-  },
-  {
-    "content": "Implement PaymentRequirements JSON responses",
+    "content": "Implement PaymentRequirements generation",
     "status": "pending",
     "activeForm": "Implementing PaymentRequirements"
   },
   {
-    "content": "Add X-PAYMENT header verification",
+    "content": "Create x402 payment client handler",
     "status": "pending",
-    "activeForm": "Adding X-PAYMENT handler"
+    "activeForm": "Creating x402 client"
   },
   {
-    "content": "Update marketplace UI to use x402 flow",
+    "content": "Build futuristic professional marketplace UI",
     "status": "pending",
-    "activeForm": "Updating UI"
+    "activeForm": "Building professional UI"
   },
   {
     "content": "Test complete x402 flow",
     "status": "pending",
-    "activeForm": "Testing"
+    "activeForm": "Testing end-to-end"
   }
 ]
