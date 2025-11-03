@@ -198,17 +198,21 @@ export default function SignalsPage() {
                 style={{ minHeight: '220px' }}
               >
                 {/* Header */}
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-lg font-bold">{signal.coin}</h3>
-                    <span className="text-xs text-gray-500 uppercase">
+                    <h3 className="text-xl font-black gradient-text">{signal.coin}</h3>
+                    <span className="text-xs text-gray-400 uppercase font-semibold tracking-wider">
                       {signal.symbol}
                     </span>
                   </div>
                   <div
-                    className={`flex items-center gap-1 px-2 py-1 rounded-full ${getActionColor(
-                      signal.action
-                    )}`}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-card border ${
+                      signal.action === 'buy'
+                        ? 'border-green-500/30 text-green-400'
+                        : signal.action === 'sell'
+                        ? 'border-red-500/30 text-red-400'
+                        : 'border-yellow-500/30 text-yellow-400'
+                    }`}
                   >
                     {getActionIcon(signal.action)}
                     <span className="text-xs font-bold uppercase">
@@ -218,56 +222,56 @@ export default function SignalsPage() {
                 </div>
 
                 {/* Signal Type Badge */}
-                <div className="mb-3">
-                  <span className="px-2 py-1 rounded-full bg-gradient-to-r from-[#ff6b35]/20 to-[#f7931e]/20 text-xs font-semibold text-[#ff6b35]">
+                <div className="mb-4">
+                  <span className="px-3 py-1.5 rounded-full glass-card border border-[#ff6b35]/30 text-xs font-bold text-[#ff6b35]">
                     {signal.signal_type === 'long-term' && '💎 Long-Term'}
                     {signal.signal_type === 'medium-term' && '📈 Swing'}
                     {signal.signal_type === 'short-term' && '⚡ Quick'}
                     {signal.signal_type === 'opportunity' && '🚀 Tech'}
                     {signal.signal_type === 'fundamental' && '🏆 Value'}
                   </span>
-                  <span className="ml-2 text-xs text-gray-500">{signal.timeframe}</span>
+                  <span className="ml-2 text-xs text-gray-400 font-semibold">{signal.timeframe}</span>
                 </div>
 
                 {/* Confidence */}
-                <div className="mb-3">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-gray-500">Confidence</span>
-                    <span className="text-xs font-bold text-[#ff6b35]">
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-gray-400 font-semibold">Confidence</span>
+                    <span className="text-sm font-black gradient-text">
                       {signal.confidence}%
                     </span>
                   </div>
-                  <div className="w-full bg-gray-800 rounded-full h-1 overflow-hidden">
+                  <div className="w-full bg-gray-900/50 rounded-full h-2 overflow-hidden border border-[#ff6b35]/20">
                     <div
-                      className="h-full bg-gradient-to-r from-[#ff6b35] to-[#f7931e] transition-all"
+                      className="h-full bg-gradient-to-r from-[#ff6b35] via-[#f7931e] to-[#ff6b35] transition-all glow-orange"
                       style={{ width: `${signal.confidence}%` }}
                     />
                   </div>
                 </div>
 
                 {/* Price Levels - Compact */}
-                <div className="grid grid-cols-3 gap-2 mb-3 text-xs">
-                  <div className="bg-[#0a0a0a] p-2 rounded">
-                    <div className="text-gray-500 mb-0.5">Entry</div>
-                    <div className="font-mono font-semibold text-xs">
+                <div className="grid grid-cols-3 gap-2 mb-4 text-xs">
+                  <div className="glass-card p-3 rounded-xl border border-gray-700/50 hover:border-gray-600/50 transition-all">
+                    <div className="text-gray-400 mb-1 font-semibold">Entry</div>
+                    <div className="font-mono font-black text-sm text-white">
                       ${(signal.entry_price).toLocaleString(undefined, {maximumFractionDigits: 0})}
                     </div>
                   </div>
-                  <div className="bg-[#0a0a0a] p-2 rounded">
-                    <div className="text-green-500 mb-0.5 flex items-center gap-0.5">
-                      <Target size={10} />
+                  <div className="glass-card p-3 rounded-xl border border-green-500/30 hover:border-green-500/50 transition-all">
+                    <div className="text-green-400 mb-1 flex items-center gap-1 font-semibold">
+                      <Target size={11} />
                       <span>Target</span>
                     </div>
-                    <div className="font-mono font-semibold text-green-500 text-xs">
+                    <div className="font-mono font-black text-green-400 text-sm">
                       ${(signal.target_price).toLocaleString(undefined, {maximumFractionDigits: 0})}
                     </div>
                   </div>
-                  <div className="bg-[#0a0a0a] p-2 rounded">
-                    <div className="text-red-500 mb-0.5 flex items-center gap-0.5">
-                      <Shield size={10} />
+                  <div className="glass-card p-3 rounded-xl border border-red-500/30 hover:border-red-500/50 transition-all">
+                    <div className="text-red-400 mb-1 flex items-center gap-1 font-semibold">
+                      <Shield size={11} />
                       <span>Stop</span>
                     </div>
-                    <div className="font-mono font-semibold text-red-500 text-xs">
+                    <div className="font-mono font-black text-red-400 text-sm">
                       ${(signal.stop_loss).toLocaleString(undefined, {maximumFractionDigits: 0})}
                     </div>
                   </div>
@@ -278,55 +282,55 @@ export default function SignalsPage() {
                   <>
                     {/* Use Case */}
                     {signal.use_case && (
-                      <div className="mb-3 p-2 bg-blue-500/10 rounded border border-blue-500/20">
-                        <p className="text-xs text-blue-300">
-                          <strong>Use Case:</strong> {signal.use_case}
+                      <div className="mb-3 p-3 glass-card rounded-xl border border-blue-500/30 holographic">
+                        <p className="text-xs text-blue-300 font-semibold">
+                          <strong className="text-blue-400">Use Case:</strong> {signal.use_case}
                         </p>
                       </div>
                     )}
 
                     {/* Detailed Analysis */}
-                    <div className="mb-3 p-3 bg-[#0a0a0a] rounded-lg border border-[#ff6b35]/10">
-                      <h4 className="text-xs font-semibold text-[#ff6b35] mb-2 flex items-center gap-1">
-                        <Activity size={12} />
+                    <div className="mb-3 p-4 glass-card rounded-xl border border-[#ff6b35]/30">
+                      <h4 className="text-xs font-bold text-[#ff6b35] mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+                        <Activity size={13} />
                         Detailed Analysis
                       </h4>
-                      <div className="text-xs text-gray-300 leading-relaxed whitespace-pre-line max-h-64 overflow-y-auto">
+                      <div className="text-xs text-gray-300 leading-relaxed whitespace-pre-line max-h-64 overflow-y-auto custom-scrollbar">
                         {signal.reasoning}
                       </div>
                     </div>
 
                     {/* Indicators */}
                     <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
-                      <div>
-                        <span className="text-gray-500">RSI:</span>{' '}
-                        <span className="font-mono">{signal.indicators.rsi?.toFixed(0)}</span>
+                      <div className="glass-card p-2 rounded-lg border border-gray-700/30">
+                        <span className="text-gray-400 font-semibold">RSI:</span>{' '}
+                        <span className="font-mono font-black text-white">{signal.indicators.rsi?.toFixed(0)}</span>
                       </div>
-                      <div>
-                        <span className="text-gray-500">MACD:</span>{' '}
-                        <span className="font-mono">{signal.indicators.macd}</span>
+                      <div className="glass-card p-2 rounded-lg border border-gray-700/30">
+                        <span className="text-gray-400 font-semibold">MACD:</span>{' '}
+                        <span className="font-mono font-black text-white">{signal.indicators.macd}</span>
                       </div>
-                      <div>
-                        <span className="text-gray-500">Volume:</span>{' '}
-                        <span className="font-mono">{signal.indicators.volume_trend}</span>
+                      <div className="glass-card p-2 rounded-lg border border-gray-700/30">
+                        <span className="text-gray-400 font-semibold">Volume:</span>{' '}
+                        <span className="font-mono font-black text-white">{signal.indicators.volume_trend}</span>
                       </div>
-                      <div>
-                        <span className="text-gray-500">Sentiment:</span>{' '}
-                        <span className="font-mono">{signal.indicators.sentiment_score}/100</span>
+                      <div className="glass-card p-2 rounded-lg border border-gray-700/30">
+                        <span className="text-gray-400 font-semibold">Sentiment:</span>{' '}
+                        <span className="font-mono font-black text-white">{signal.indicators.sentiment_score}/100</span>
                       </div>
                     </div>
                   </>
                 )}
 
                 {/* Footer with Expand Button */}
-                <div className="flex items-center justify-between pt-2 border-t border-gray-800">
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <Clock size={11} />
+                <div className="flex items-center justify-between pt-3 border-t border-[#ff6b35]/20">
+                  <div className="flex items-center gap-1.5 text-xs text-gray-400 font-semibold">
+                    <Clock size={12} />
                     <span>{formatDistanceToNow(signal.created_at, { addSuffix: true })}</span>
                   </div>
                   <button
                     onClick={() => toggleCard(signal.id)}
-                    className="flex items-center gap-1 text-xs text-[#ff6b35] hover:text-[#ff8c5a] transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 glass-card rounded-lg border border-[#ff6b35]/30 text-xs text-[#ff6b35] hover:text-[#ff8c5a] hover:border-[#ff6b35]/50 transition-all hover:scale-105 font-bold"
                   >
                     {isExpanded ? (
                       <>
