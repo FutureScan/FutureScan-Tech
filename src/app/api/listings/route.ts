@@ -12,9 +12,6 @@ const X402_CONFIG = {
   SOL_MINT: 'So11111111111111111111111111111111111111112', // Native SOL
 };
 
-// In-memory storage for listings (use database in production)
-const LISTINGS: Listing[] = [];
-
 /**
  * POST /api/listings
  * PAYMENT DISABLED - Create listings without fee (for testing)

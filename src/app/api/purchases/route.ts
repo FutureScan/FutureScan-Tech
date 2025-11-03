@@ -1,13 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Connection, PublicKey } from '@solana/web3.js';
-import type { Purchase, Listing } from '@/types/marketplace';
-
-// Storage (use database in production)
-const PURCHASES: Purchase[] = [];
-
-// Import listings storage from listings route
-// In production, use shared database
-import { LISTINGS } from '../listings/route';
+import type { Purchase } from '@/types/marketplace';
+import { LISTINGS, PURCHASES } from '@/lib/marketplace-store';
 
 const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
 
