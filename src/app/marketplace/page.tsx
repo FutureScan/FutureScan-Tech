@@ -816,51 +816,51 @@ export default function MarketplacePage() {
                 {/* STEP 1: PAYMENT */}
                 {listingStep === 1 && (
                   <div className="space-y-4">
-                    <div className="text-center mb-3">
-                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#ff6b35]/20 mb-2">
-                        <Wallet className="text-[#ff6b35]" size={24} />
-                      </div>
-                      <h3 className="text-lg font-bold mb-1">One-Click Listing Fee</h3>
-                      <p className="text-xs text-gray-400">
-                        Pay {X402_CONFIG.LISTING_FEE_SOL} SOL instantly with your connected wallet
-                      </p>
-                    </div>
-
-                    {/* Wallet Status */}
-                    {!wallet.connected ? (
-                      <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-center">
-                        <p className="text-sm text-yellow-300 mb-3">
-                          Please connect your Solana wallet to continue
+                    {paymentProcessing ? (
+                      // Payment in progress
+                      <div className="text-center py-8">
+                        <Loader2 size={64} className="mx-auto mb-4 text-[#ff6b35] animate-spin" />
+                        <h3 className="text-xl font-bold mb-2">Processing Payment...</h3>
+                        <p className="text-sm text-gray-400 mb-4">
+                          Please approve the transaction in your Phantom wallet
                         </p>
-                        <div className="wallet-adapter-button-trigger inline-block">
+                        <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs text-blue-300">
+                          <strong>Tip:</strong> Check your wallet for a popup notification
+                        </div>
+                      </div>
+                    ) : !wallet.connected ? (
+                      // Wallet not connected
+                      <div className="text-center py-8">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-500/20 mb-4">
+                          <Wallet className="text-yellow-500" size={32} />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">Connect Your Wallet</h3>
+                        <p className="text-sm text-gray-400 mb-4">
+                          Connect your Solana wallet to pay the one-time listing fee
+                        </p>
+                        <div className="wallet-adapter-button-trigger inline-block mb-4">
                           <WalletMultiButton />
+                        </div>
+                        <div className="p-3 bg-[#ff6b35]/10 border border-[#ff6b35]/30 rounded-lg text-xs text-gray-300">
+                          <strong>Fee:</strong> {X402_CONFIG.LISTING_FEE_SOL} SOL (one-time payment)
                         </div>
                       </div>
                     ) : (
-                      <>
-                        {/* Wallet Info */}
-                        <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs text-green-400 font-semibold">✓ WALLET CONNECTED</span>
-                            <span className="text-xs font-mono text-green-300">{walletBalance.toFixed(4)} SOL</span>
-                          </div>
-                          <code className="text-xs text-gray-400 break-all">
-                            {wallet.publicKey?.toString().substring(0, 16)}...{wallet.publicKey?.toString().slice(-8)}
-                          </code>
+                      // Wallet connected but payment not started yet
+                      <div className="text-center py-8">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 mb-4">
+                          <CheckCircle className="text-green-500" size={32} />
                         </div>
-
-                        {/* One-Click Payment Button */}
+                        <h3 className="text-xl font-bold mb-2">Wallet Connected!</h3>
+                        <p className="text-sm text-gray-400 mb-4">
+                          Balance: <span className="font-mono text-green-400">{walletBalance.toFixed(4)} SOL</span>
+                        </p>
                         <button
                           onClick={handleOneClickPayment}
-                          disabled={paymentProcessing || walletBalance < X402_CONFIG.LISTING_FEE_SOL}
-                          className="w-full py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30 flex items-center justify-center gap-3"
+                          disabled={walletBalance < X402_CONFIG.LISTING_FEE_SOL}
+                          className="w-full max-w-md mx-auto py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30 flex items-center justify-center gap-3"
                         >
-                          {paymentProcessing ? (
-                            <>
-                              <Loader2 size={24} className="animate-spin" />
-                              Processing Payment...
-                            </>
-                          ) : walletBalance < X402_CONFIG.LISTING_FEE_SOL ? (
+                          {walletBalance < X402_CONFIG.LISTING_FEE_SOL ? (
                             <>
                               <X size={20} />
                               Insufficient Balance
@@ -868,27 +868,12 @@ export default function MarketplacePage() {
                           ) : (
                             <>
                               <Zap size={24} />
-                              Pay {X402_CONFIG.LISTING_FEE_SOL} SOL Instantly
+                              Pay {X402_CONFIG.LISTING_FEE_SOL} SOL
                             </>
                           )}
                         </button>
-
-                        <div className="text-center text-xs text-gray-500">
-                          Click the button above to open your wallet and approve the payment
-                        </div>
-                      </>
+                      </div>
                     )}
-
-                    {/* Why List Here */}
-                    <div className="mt-4 p-2.5 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-                      <div className="text-xs font-semibold text-blue-400 mb-1.5">⚡ x402 Protocol Benefits</div>
-                      <ul className="text-xs text-gray-400 space-y-0.5">
-                        <li>• <strong>Instant payments</strong> - 200ms settlement time</li>
-                        <li>• <strong>Zero buyer fees</strong> - customers pay full price to you</li>
-                        <li>• <strong>Global reach</strong> - access crypto traders worldwide</li>
-                        <li>• <strong>AI-native marketplace</strong> - Built for the future</li>
-                      </ul>
-                    </div>
                   </div>
                 )}
 
