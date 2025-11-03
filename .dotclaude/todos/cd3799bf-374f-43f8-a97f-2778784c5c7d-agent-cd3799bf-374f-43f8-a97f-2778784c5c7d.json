@@ -7,7 +7,7 @@
   {
     "content": "Create seller profile pages with stats",
     "status": "completed",
-    "activeForm": "Creating seller profile API"
+    "activeForm": "Creating seller APIs"
   },
   {
     "content": "Implement order management system",
@@ -16,27 +16,27 @@
   },
   {
     "content": "Update marketplace to include wallet addresses",
-    "status": "in_progress",
-    "activeForm": "Updating marketplace UI"
+    "status": "completed",
+    "activeForm": "Updating marketplace"
   },
   {
     "content": "Build seller dashboard for managing listings",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Building seller dashboard"
   },
   {
     "content": "Add product detail pages with purchase flow",
-    "status": "pending",
-    "activeForm": "Creating product pages"
+    "status": "completed",
+    "activeForm": "Adding purchase flow"
   },
   {
     "content": "Add edit/delete controls for listings",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Adding listing controls"
   },
   {
     "content": "Test complete marketplace flow end-to-end",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Testing marketplace"
   }
 ]
