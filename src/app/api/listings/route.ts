@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import bs58 from 'bs58';
 import type { Listing } from '@/types/marketplace';
+import { LISTINGS } from '@/lib/marketplace-store';
 
 // x402 Configuration
 const X402_CONFIG = {
