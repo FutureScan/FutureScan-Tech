@@ -75,14 +75,38 @@ export default function MarketplacePage() {
     }
   }, [selectedCategory]);
 
-  // Fetch wallet balance when wallet connects
+  // Fetch wallet balance when wallet connects (with retries)
   useEffect(() => {
     if (wallet.publicKey) {
-      getWalletBalance(wallet.publicKey, connection).then(setWalletBalance);
+      // Retry balance fetching multiple times
+      const fetchBalanceWithRetry = async (retries = 3) => {
+        for (let i = 0; i < retries; i++) {
+          const balance = await getWalletBalance(wallet.publicKey!, connection);
+          if (balance > 0 || i === retries - 1) {
+            setWalletBalance(balance);
+            return;
+          }
+          // Wait 1 second before retry
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      };
+
+      fetchBalanceWithRetry();
     } else {
       setWalletBalance(0);
     }
   }, [wallet.publicKey, connection]);
+
+  // Auto-trigger payment after wallet connects
+  useEffect(() => {
+    if (wallet.connected && shouldAutoPayAfterConnect && walletBalance >= 0) {
+      setShouldAutoPayAfterConnect(false);
+      // Wait a bit for balance to load, then trigger payment
+      setTimeout(() => {
+        handleOneClickPayment();
+      }, 500);
+    }
+  }, [wallet.connected, shouldAutoPayAfterConnect, walletBalance]);
 
   async function loadListings() {
     try {
@@ -133,6 +157,21 @@ export default function MarketplacePage() {
       alert(`❌ Payment failed: ${error.message}`);
     } finally {
       setPaymentProcessing(false);
+    }
+  };
+
+  // Handler for "List Your Product" button
+  const handleStartListing = () => {
+    if (!wallet.connected) {
+      // Open form and trigger auto-pay after wallet connects
+      setShowListingForm(true);
+      setShouldAutoPayAfterConnect(true);
+    } else {
+      // Wallet already connected, open form and trigger payment immediately
+      setShowListingForm(true);
+      setTimeout(() => {
+        handleOneClickPayment();
+      }, 100);
     }
   };
 
