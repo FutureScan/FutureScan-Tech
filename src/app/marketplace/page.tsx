@@ -348,7 +348,7 @@ export default function MarketplacePage() {
                 <span className="hidden md:inline">How It Works</span>
               </button>
               <button
-                onClick={() => setShowListingForm(true)}
+                onClick={handleStartListing}
                 className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/20"
               >
                 <Plus size={20} />
@@ -460,7 +460,7 @@ export default function MarketplacePage() {
               </div>
               <div className="flex items-center justify-center gap-4">
                 <button
-                  onClick={() => setShowListingForm(true)}
+                  onClick={handleStartListing}
                   className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30"
                 >
                   <Plus size={24} />
