@@ -74,6 +74,15 @@ export default function MarketplacePage() {
     }
   }, [selectedCategory]);
 
+  // Fetch wallet balance when wallet connects
+  useEffect(() => {
+    if (wallet.publicKey) {
+      getWalletBalance(wallet.publicKey, connection).then(setWalletBalance);
+    } else {
+      setWalletBalance(0);
+    }
+  }, [wallet.publicKey, connection]);
+
   async function loadListings() {
     try {
       setLoading(true);
@@ -87,6 +96,44 @@ export default function MarketplacePage() {
       setLoading(false);
     }
   }
+
+  // One-click payment for listing fee
+  const handleOneClickPayment = async () => {
+    if (!wallet.connected || !wallet.publicKey) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
+    setPaymentProcessing(true);
+
+    try {
+      const result = await sendOneClickPayment(
+        wallet,
+        X402_CONFIG.FEE_WALLET_ADDRESS,
+        X402_CONFIG.LISTING_FEE_SOL,
+        connection
+      );
+
+      if (result.success && result.signature) {
+        // Auto-fill transaction signature
+        setFormData({
+          ...formData,
+          transactionSignature: result.signature,
+        });
+
+        // Move to next step
+        setListingStep(2);
+
+        alert(`✅ Payment successful! Transaction: ${result.signature.substring(0, 16)}...`);
+      } else {
+        alert(`❌ ${result.error}`);
+      }
+    } catch (error: any) {
+      alert(`❌ Payment failed: ${error.message}`);
+    } finally {
+      setPaymentProcessing(false);
+    }
+  };
 
   const copyWalletAddress = async () => {
     try {
