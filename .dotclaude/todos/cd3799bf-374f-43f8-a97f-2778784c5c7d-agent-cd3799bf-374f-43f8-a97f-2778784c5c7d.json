@@ -1,13 +1,23 @@
 [
   {
     "content": "Build complete purchase system with x402",
-    "status": "in_progress",
-    "activeForm": "Building purchase system"
+    "status": "completed",
+    "activeForm": "Building purchase API"
   },
   {
     "content": "Create seller profile pages with stats",
-    "status": "pending",
-    "activeForm": "Creating seller profiles"
+    "status": "completed",
+    "activeForm": "Creating seller profile API"
+  },
+  {
+    "content": "Implement order management system",
+    "status": "completed",
+    "activeForm": "Creating orders API"
+  },
+  {
+    "content": "Update marketplace to include wallet addresses",
+    "status": "in_progress",
+    "activeForm": "Updating marketplace UI"
   },
   {
     "content": "Build seller dashboard for managing listings",
@@ -15,14 +25,9 @@
     "activeForm": "Building seller dashboard"
   },
   {
-    "content": "Add product detail pages with full info",
+    "content": "Add product detail pages with purchase flow",
     "status": "pending",
     "activeForm": "Creating product pages"
-  },
-  {
-    "content": "Implement order management system",
-    "status": "pending",
-    "activeForm": "Building order system"
   },
   {
     "content": "Add edit/delete controls for listings",
