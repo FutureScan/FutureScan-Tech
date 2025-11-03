@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
-import { MarketplaceListing } from '@/types';
-import { getMarketplaceListings, submitListing, X402_CONFIG } from '@/lib/marketplace-api';
+import { useEffect, useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { sendOneClickPayment, getWalletBalance } from '@/lib/solana-payments';
+import { executeX402Request } from '@/lib/x402-client';
 import {
   ShoppingCart,
   Star,
@@ -18,272 +16,159 @@ import {
   Code,
   CheckCircle,
   Info,
-  ExternalLink,
   Search,
   Plus,
   X,
   Loader2,
-  Copy,
-  Check,
-  ArrowRight,
-  ArrowLeft,
+  Sparkles,
   Wallet,
+  ArrowRight,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
-export default function MarketplacePage() {
-  // Solana wallet integration
+interface Listing {
+  id: string;
+  title: string;
+  description: string;
+  category: 'signals' | 'research' | 'data' | 'tools' | 'bots' | 'api';
+  price: number;
+  seller: string;
+  features: string[];
+  verified: boolean;
+  created_at: number;
+  total_sales: number;
+  seller_rating: number;
+}
+
+export default function X402MarketplacePage() {
   const wallet = useWallet();
   const { connection } = useConnection();
-  const [walletBalance, setWalletBalance] = useState<number>(0);
-  const [paymentProcessing, setPaymentProcessing] = useState(false);
 
-  const [listings, setListings] = useState<MarketplaceListing[]>([]);
+  const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<MarketplaceListing['category'] | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showTerms, setShowTerms] = useState(false);
   const [showListingForm, setShowListingForm] = useState(false);
-  const [listingStep, setListingStep] = useState(1); // 1: Payment, 2: Details, 3: Review
-  const [submittingListing, setSubmittingListing] = useState(false);
-  const [copiedWallet, setCopiedWallet] = useState(false);
-
-  // Tutorial state
-  const [showTutorial, setShowTutorial] = useState(false);
-  const [tutorialStep, setTutorialStep] = useState(0);
+  const [creating, setCreating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    category: 'signals' as MarketplaceListing['category'],
+    category: 'signals' as Listing['category'],
     price: '',
     seller: '',
-    preview: '',
     features: ['', '', ''],
-    transactionSignature: '',
   });
 
   useEffect(() => {
     loadListings();
-
-    // Check if user has seen tutorial
-    const hasSeenTutorial = localStorage.getItem('marketplace_tutorial_seen');
-    if (!hasSeenTutorial) {
-      setShowTutorial(true);
-    }
   }, [selectedCategory]);
-
-  // Fetch wallet balance when wallet connects (with retries)
-  useEffect(() => {
-    if (wallet.publicKey) {
-      // Retry balance fetching multiple times
-      const fetchBalanceWithRetry = async (retries = 3) => {
-        for (let i = 0; i < retries; i++) {
-          const balance = await getWalletBalance(wallet.publicKey!, connection);
-          if (balance > 0 || i === retries - 1) {
-            setWalletBalance(balance);
-            return;
-          }
-          // Wait 1 second before retry
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      };
-
-      fetchBalanceWithRetry();
-    } else {
-      setWalletBalance(0);
-    }
-  }, [wallet.publicKey, connection]);
 
   async function loadListings() {
     try {
       setLoading(true);
-      const data = await getMarketplaceListings(
-        selectedCategory === 'all' ? undefined : selectedCategory
-      );
-      setListings(data);
+      const params = new URLSearchParams();
+      if (selectedCategory !== 'all') params.set('category', selectedCategory);
+
+      const response = await fetch(`/api/listings?${params}`);
+      const data = await response.json();
+      setListings(data.listings || []);
     } catch (error) {
-      console.error('Error loading marketplace listings:', error);
+      console.error('Failed to load listings:', error);
     } finally {
       setLoading(false);
     }
   }
 
-  // One-click payment for listing fee
-  const handleOneClickPayment = useCallback(async () => {
-    if (!wallet.connected || !wallet.publicKey) {
+  // x402 Protocol: Create Listing with Automatic Payment
+  async function handleCreateListing() {
+    if (!wallet.connected) {
       alert('Please connect your wallet first');
       return;
     }
 
-    setPaymentProcessing(true);
-
-    try {
-      const result = await sendOneClickPayment(
-        wallet,
-        X402_CONFIG.FEE_WALLET_ADDRESS,
-        X402_CONFIG.LISTING_FEE_SOL,
-        connection
-      );
-
-      if (result.success && result.signature) {
-        // Auto-fill transaction signature
-        setFormData(prev => ({
-          ...prev,
-          transactionSignature: result.signature || '',
-        }));
-
-        // Move to next step
-        setListingStep(2);
-
-        alert(`✅ Payment successful! Transaction: ${result.signature.substring(0, 16)}...`);
-      } else {
-        alert(`❌ ${result.error}`);
-      }
-    } catch (error: any) {
-      alert(`❌ Payment failed: ${error.message}`);
-    } finally {
-      setPaymentProcessing(false);
+    // Validate form
+    if (!formData.title || !formData.description || !formData.price || !formData.seller) {
+      alert('Please fill in all required fields');
+      return;
     }
-  }, [wallet, connection]);
 
-  // Handler for "List Your Product" button - simplified to just open modal
-  const handleStartListing = () => {
-    setShowListingForm(true);
-    setListingStep(1);
-  };
-
-  const copyWalletAddress = async () => {
-    try {
-      await navigator.clipboard.writeText(X402_CONFIG.FEE_WALLET_ADDRESS);
-      setCopiedWallet(true);
-      setTimeout(() => setCopiedWallet(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
+    const validFeatures = formData.features.filter(f => f.trim() !== '');
+    if (validFeatures.length < 3) {
+      alert('Please provide at least 3 features');
+      return;
     }
-  };
 
-  const handleSubmitListing = async () => {
-    setSubmittingListing(true);
+    setCreating(true);
 
     try {
-      const result = await submitListing(
+      // Execute x402 request - payment handled automatically!
+      const result = await executeX402Request<{ listing: Listing }>(
+        '/api/listings',
         {
           title: formData.title,
           description: formData.description,
           category: formData.category,
           price: parseFloat(formData.price),
           seller: formData.seller,
-          seller_rating: 0,
-          preview: formData.preview || undefined,
-          features: formData.features.filter(f => f.trim() !== ''),
-          verified: false,
+          features: validFeatures,
         },
-        formData.transactionSignature
+        wallet,
+        connection
       );
 
-      if (result.success) {
-        alert('✅ Listing submitted successfully! It will appear after review.');
+      if (result.success && result.data) {
+        // Success!
+        setShowSuccess(true);
         setShowListingForm(false);
-        setListingStep(1);
         setFormData({
           title: '',
           description: '',
           category: 'signals',
           price: '',
           seller: '',
-          preview: '',
           features: ['', '', ''],
-          transactionSignature: '',
         });
-        loadListings();
+
+        // Reload listings
+        await loadListings();
+
+        // Hide success message after 5 seconds
+        setTimeout(() => setShowSuccess(false), 5000);
       } else {
-        alert(`❌ ${result.error || 'Failed to submit listing'}`);
+        alert(`Failed to create listing: ${result.error}`);
       }
-    } catch (error) {
-      alert('❌ An error occurred. Please try again.');
+    } catch (error: any) {
+      alert(`Error: ${error.message}`);
     } finally {
-      setSubmittingListing(false);
+      setCreating(false);
     }
-  };
-
-  const validateStep = (step: number): boolean => {
-    if (step === 1) {
-      return formData.transactionSignature.length >= 64;
-    }
-    if (step === 2) {
-      return (
-        formData.title.length > 0 &&
-        formData.description.length > 0 &&
-        formData.price.length > 0 &&
-        parseFloat(formData.price) > 0 &&
-        formData.seller.length > 0 &&
-        formData.features.filter(f => f.trim() !== '').length >= 3
-      );
-    }
-    return true;
-  };
-
-  const nextStep = () => {
-    if (validateStep(listingStep)) {
-      setListingStep(listingStep + 1);
-    } else {
-      alert('Please fill in all required fields correctly');
-    }
-  };
-
-  const prevStep = () => {
-    setListingStep(listingStep - 1);
-  };
-
-  const closeTutorial = () => {
-    localStorage.setItem('marketplace_tutorial_seen', 'true');
-    setShowTutorial(false);
-    setTutorialStep(0);
-  };
-
-  const reopenTutorial = () => {
-    setTutorialStep(0);
-    setShowTutorial(true);
-  };
+  }
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'signals':
-        return <TrendingUp size={18} />;
-      case 'research':
-        return <FileText size={18} />;
-      case 'data':
-        return <Database size={18} />;
-      case 'tools':
-        return <Zap size={18} />;
-      case 'bots':
-        return <Bot size={18} />;
-      case 'api':
-        return <Code size={18} />;
-      default:
-        return <ShoppingCart size={18} />;
+      case 'signals': return <TrendingUp size={18} />;
+      case 'research': return <FileText size={18} />;
+      case 'data': return <Database size={18} />;
+      case 'tools': return <Zap size={18} />;
+      case 'bots': return <Bot size={18} />;
+      case 'api': return <Code size={18} />;
+      default: return <ShoppingCart size={18} />;
     }
   };
 
   const getCategoryLabel = (category: string) => {
-    switch (category) {
-      case 'signals':
-        return 'Trading Signals';
-      case 'research':
-        return 'Research Reports';
-      case 'data':
-        return 'Market Data';
-      case 'tools':
-        return 'Trading Tools';
-      case 'bots':
-        return 'Automation Bots';
-      case 'api':
-        return 'API Access';
-      default:
-        return category;
-    }
+    const labels: Record<string, string> = {
+      signals: 'Trading Signals',
+      research: 'Research Reports',
+      data: 'Market Data',
+      tools: 'Trading Tools',
+      bots: 'Automation Bots',
+      api: 'API Access',
+    };
+    return labels[category] || category;
   };
 
   const filteredListings = listings.filter(listing =>
@@ -294,61 +179,58 @@ export default function MarketplacePage() {
   return (
     <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
+        {/* Success Toast */}
+        {showSuccess && (
+          <div className="fixed top-4 right-4 z-[100] animate-in slide-in-from-top">
+            <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl shadow-green-500/50 flex items-center gap-3">
+              <CheckCircle size={24} />
+              <div>
+                <div className="font-bold">Listing Created!</div>
+                <div className="text-sm text-green-100">Your product is now live on X402 Marketplace</div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                X402 Marketplace
-              </h1>
-              <p className="text-gray-400">
-                The world's premier crypto marketplace
-              </p>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-4xl md:text-5xl font-bold">
+                  <span className="gradient-text">X402</span> Marketplace
+                </h1>
+                <div className="px-3 py-1 bg-[#ff6b35]/20 border border-[#ff6b35]/50 rounded-full">
+                  <span className="text-xs font-bold text-[#ff6b35]">PROTOCOL</span>
+                </div>
+              </div>
+              <p className="text-gray-400">Instant payments powered by HTTP 402</p>
             </div>
+
             <div className="flex items-center gap-3">
-              {/* Wallet Connect Button */}
+              {/* Wallet Connect */}
               <div className="wallet-adapter-button-trigger">
                 <WalletMultiButton />
               </div>
 
-              {/* Show balance if connected */}
-              {wallet.connected && walletBalance > 0 && (
-                <div className="hidden md:flex items-center gap-2 px-3 py-2 bg-green-500/10 border border-green-500/20 rounded-lg">
-                  <Wallet size={16} className="text-green-500" />
-                  <span className="text-sm font-mono text-green-400">{walletBalance.toFixed(3)} SOL</span>
-                </div>
-              )}
-
+              {/* Create Listing Button */}
               <button
-                onClick={reopenTutorial}
-                className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-800 rounded-lg font-medium transition-all"
-              >
-                <Info size={18} />
-                <span className="hidden md:inline">How It Works</span>
-              </button>
-              <button
-                onClick={handleStartListing}
-                className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/20"
+                onClick={() => setShowListingForm(true)}
+                disabled={!wallet.connected}
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/30"
               >
                 <Plus size={20} />
-                List Your Product
+                <span className="hidden md:inline">List Product</span>
               </button>
             </div>
           </div>
 
-          {/* Legal Banner */}
+          {/* Info Banner */}
           <div className="card p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20 mb-6">
             <div className="flex items-start gap-3">
-              <Info className="text-blue-400 flex-shrink-0 mt-0.5" size={20} />
+              <Sparkles className="text-blue-400 flex-shrink-0 mt-0.5" size={20} />
               <div className="text-sm text-blue-200">
-                <strong>Platform Notice:</strong> Sellers pay a one-time {X402_CONFIG.LISTING_FEE_SOL} SOL fee to list products.
-                Buyers pay directly to sellers with no platform fees. All products are for informational and educational purposes only.
-                <button
-                  onClick={() => setShowTerms(true)}
-                  className="underline ml-1 hover:text-blue-300"
-                >
-                  View Terms & Compliance
-                </button>
+                <strong>True x402 Protocol:</strong> One-time 0.1 SOL listing fee, verified on-chain automatically. Zero buyer fees. Instant settlements.
               </div>
             </div>
           </div>
@@ -366,35 +248,29 @@ export default function MarketplacePage() {
           </div>
 
           {/* Category Filters */}
-          <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-400 mb-3">Filter by Category:</h3>
-            <div className="flex flex-wrap gap-3">
-              {[
-                { value: 'all' as const, label: 'All Categories', icon: <ShoppingCart size={16} /> },
-                { value: 'signals' as const, label: 'Signals', icon: <TrendingUp size={16} /> },
-                { value: 'data' as const, label: 'Data', icon: <Database size={16} /> },
-                { value: 'research' as const, label: 'Research', icon: <FileText size={16} /> },
-                { value: 'tools' as const, label: 'Tools', icon: <Zap size={16} /> },
-                { value: 'bots' as const, label: 'Bots', icon: <Bot size={16} /> },
-                { value: 'api' as const, label: 'API', icon: <Code size={16} /> },
-              ].map((category) => {
-                const isActive = selectedCategory === category.value;
-                return (
-                  <button
-                    key={category.value}
-                    onClick={() => setSelectedCategory(category.value)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                      isActive
-                        ? 'bg-[#ff6b35] text-white'
-                        : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
-                    }`}
-                  >
-                    {category.icon}
-                    {category.label}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="flex flex-wrap gap-3">
+            {[
+              { value: 'all', label: 'All Categories', icon: <ShoppingCart size={16} /> },
+              { value: 'signals', label: 'Signals', icon: <TrendingUp size={16} /> },
+              { value: 'data', label: 'Data', icon: <Database size={16} /> },
+              { value: 'research', label: 'Research', icon: <FileText size={16} /> },
+              { value: 'tools', label: 'Tools', icon: <Zap size={16} /> },
+              { value: 'bots', label: 'Bots', icon: <Bot size={16} /> },
+              { value: 'api', label: 'API', icon: <Code size={16} /> },
+            ].map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setSelectedCategory(cat.value)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                  selectedCategory === cat.value
+                    ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/30'
+                    : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
+                }`}
+              >
+                {cat.icon}
+                {cat.label}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -418,466 +294,152 @@ export default function MarketplacePage() {
               </div>
               <h2 className="text-3xl font-bold mb-4">Be the First to List</h2>
               <p className="text-gray-400 text-lg mb-6">
-                The X402 Marketplace is ready for sellers. List your crypto products, services, or data and reach thousands of traders worldwide.
+                The X402 Marketplace is ready. List your crypto products and reach thousands of traders worldwide.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div className="p-4 bg-[#1a1a1a] rounded-lg">
-                  <CheckCircle className="text-green-500 mx-auto mb-2" size={24} />
-                  <div className="text-sm font-semibold mb-1">Zero Buyer Fees</div>
-                  <div className="text-xs text-gray-500">Customers pay full price to you</div>
-                </div>
-                <div className="p-4 bg-[#1a1a1a] rounded-lg">
-                  <CheckCircle className="text-green-500 mx-auto mb-2" size={24} />
-                  <div className="text-sm font-semibold mb-1">Global Reach</div>
-                  <div className="text-xs text-gray-500">Access crypto traders worldwide</div>
-                </div>
-                <div className="p-4 bg-[#1a1a1a] rounded-lg">
-                  <CheckCircle className="text-green-500 mx-auto mb-2" size={24} />
-                  <div className="text-sm font-semibold mb-1">0.1 SOL Fee</div>
-                  <div className="text-xs text-gray-500">One-time listing fee only</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-center gap-4">
-                <button
-                  onClick={handleStartListing}
-                  className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30"
-                >
-                  <Plus size={24} />
-                  List Your First Product
-                </button>
-                <button
-                  onClick={reopenTutorial}
-                  className="flex items-center gap-2 px-6 py-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-800 rounded-lg font-semibold transition-all"
-                >
-                  <Info size={20} />
-                  Watch Tutorial
-                </button>
-              </div>
+              <button
+                onClick={() => setShowListingForm(true)}
+                disabled={!wallet.connected}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30"
+              >
+                <Plus size={24} />
+                {wallet.connected ? 'List Your First Product' : 'Connect Wallet to Start'}
+              </button>
             </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredListings.map((listing) => {
-              return (
-                <div
-                  key={listing.id}
-                  className="card p-6 hover:border-[#ff6b35]/50 transition-all group"
-                >
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-[#ff6b35]/20 text-[#ff6b35]">
-                        {getCategoryIcon(listing.category)}
-                      </div>
-                      {listing.verified && (
-                        <Shield className="text-green-500" size={16} />
-                      )}
+            {filteredListings.map((listing) => (
+              <div key={listing.id} className="card p-6 hover:border-[#ff6b35]/50 transition-all group">
+                {/* Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-[#ff6b35]/20 text-[#ff6b35]">
+                      {getCategoryIcon(listing.category)}
                     </div>
-                    <span className="text-xs px-2 py-1 rounded-full bg-gray-800 text-gray-400 uppercase">
-                      {getCategoryLabel(listing.category)}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-lg font-bold mb-2 group-hover:text-[#ff6b35] transition-colors">
-                    {listing.title}
-                  </h3>
-
-                  {/* Seller Info */}
-                  <div className="flex items-center gap-3 mb-3 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Star className="text-yellow-500 fill-yellow-500" size={14} />
-                      <span className="font-semibold">{listing.seller_rating}</span>
-                    </div>
-                    <span className="text-gray-500">•</span>
-                    <span className="text-gray-400">{listing.total_sales.toLocaleString()} sales</span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-sm text-gray-400 mb-4 line-clamp-3">
-                    {listing.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="mb-4">
-                    <div className="text-xs font-semibold text-gray-500 mb-2">KEY FEATURES:</div>
-                    <ul className="space-y-1">
-                      {listing.features.slice(0, 3).map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-gray-400">
-                          <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={12} />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                      {listing.features.length > 3 && (
-                        <li className="text-xs text-gray-500 ml-5">
-                          +{listing.features.length - 3} more features
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-
-                  {/* Preview */}
-                  {listing.preview && (
-                    <div className="mb-4 p-2 bg-blue-500/10 border border-blue-500/20 rounded text-xs text-blue-300">
-                      <span className="font-semibold">Preview: </span>{listing.preview}
-                    </div>
-                  )}
-
-                  {/* Pricing */}
-                  <div className="mb-4 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-2xl font-bold text-[#ff6b35]">
-                        ${listing.price.toFixed(2)}
-                      </span>
-                      <span className="text-xs text-green-400">No platform fees</span>
-                    </div>
-                  </div>
-
-                  {/* CTA Button */}
-                  <button className="w-full py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all flex items-center justify-center gap-2 group">
-                    <ShoppingCart size={18} />
-                    Purchase Now
-                    <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </button>
-
-                  {/* Seller */}
-                  <div className="mt-3 pt-3 border-t border-gray-800 text-xs text-gray-500 flex items-center justify-between">
-                    <span>by {listing.seller}</span>
-                    <span>{formatDistanceToNow(listing.created_at, { addSuffix: true })}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Professional Tutorial Modal */}
-        {showTutorial && (
-          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/50 rounded-2xl max-w-3xl w-full shadow-2xl shadow-[#ff6b35]/30 my-4">
-              {/* Tutorial Header */}
-              <div className="p-4 border-b border-gray-800">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="text-xl font-bold gradient-text">Welcome to X402 Marketplace</h2>
-                    <p className="text-xs text-gray-400 mt-0.5">Learn how to buy and sell</p>
-                  </div>
-                  <button
-                    onClick={closeTutorial}
-                    className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Tutorial Content */}
-              <div className="p-6 max-h-[60vh] overflow-y-auto">
-                {tutorialStep === 0 && (
-                  <div className="space-y-4 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#e85a26] mb-2">
-                      <ShoppingCart className="text-white" size={32} />
-                    </div>
-                    <h3 className="text-2xl font-bold">World's Premier Crypto Marketplace</h3>
-                    <p className="text-sm text-gray-400 max-w-xl mx-auto">
-                      Buy and sell premium crypto products with zero buyer fees. Powered by Solana for instant verification.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
-                      <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-lg">
-                        <Shield className="text-green-500 mx-auto mb-2" size={24} />
-                        <div className="text-sm font-bold mb-1">On-Chain Verified</div>
-                        <div className="text-xs text-gray-400">Solana blockchain security</div>
-                      </div>
-                      <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-lg">
-                        <Zap className="text-blue-500 mx-auto mb-2" size={24} />
-                        <div className="text-sm font-bold mb-1">Zero Buyer Fees</div>
-                        <div className="text-xs text-gray-400">Pay sellers directly</div>
-                      </div>
-                      <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-lg">
-                        <TrendingUp className="text-purple-500 mx-auto mb-2" size={24} />
-                        <div className="text-sm font-bold mb-1">Premium Products</div>
-                        <div className="text-xs text-gray-400">Signals, data, tools & more</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {tutorialStep === 1 && (
-                  <div className="space-y-4">
-                    <div className="text-center mb-4">
-                      <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#ff6b35]/20 mb-2">
-                        <Search className="text-[#ff6b35]" size={24} />
-                      </div>
-                      <h3 className="text-xl font-bold mb-1">Browsing & Buying</h3>
-                      <p className="text-sm text-gray-400">How to find and purchase products</p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex gap-3 p-3 bg-[#1a1a1a] rounded-lg border border-gray-800">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#ff6b35] flex items-center justify-center text-xs font-bold">1</div>
-                        <div>
-                          <div className="text-sm font-semibold mb-0.5">Browse Categories</div>
-                          <div className="text-xs text-gray-400">Filter by Signals, Data, Research, Tools, Bots, or API</div>
-                        </div>
-                      </div>
-                      <div className="flex gap-3 p-3 bg-[#1a1a1a] rounded-lg border border-gray-800">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#ff6b35] flex items-center justify-center text-xs font-bold">2</div>
-                        <div>
-                          <div className="text-sm font-semibold mb-0.5">Review Details</div>
-                          <div className="text-xs text-gray-400">Check seller ratings, features, and pricing</div>
-                        </div>
-                      </div>
-                      <div className="flex gap-3 p-3 bg-[#1a1a1a] rounded-lg border border-gray-800">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#ff6b35] flex items-center justify-center text-xs font-bold">3</div>
-                        <div>
-                          <div className="text-sm font-semibold mb-0.5">Purchase Directly</div>
-                          <div className="text-xs text-gray-400">Pay sellers directly - no platform fees!</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                      <div className="flex items-start gap-2">
-                        <Info className="text-blue-400 flex-shrink-0 mt-0.5" size={16} />
-                        <div className="text-xs text-blue-200">
-                          <strong>Pro Tip:</strong> Look for verified sellers (green shield) for the best experience
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {tutorialStep === 2 && (
-                  <div className="space-y-4">
-                    <div className="text-center mb-4">
-                      <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-green-500/20 mb-2">
-                        <Plus className="text-green-500" size={24} />
-                      </div>
-                      <h3 className="text-xl font-bold mb-1">Selling Your Products</h3>
-                      <p className="text-sm text-gray-400">List once, sell globally</p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex gap-3 p-3 bg-[#1a1a1a] rounded-lg border border-gray-800">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold">1</div>
-                        <div>
-                          <div className="text-sm font-semibold mb-0.5">Pay One-Time Fee</div>
-                          <div className="text-xs text-gray-400">Send 0.1 SOL (verified on-chain automatically)</div>
-                        </div>
-                      </div>
-                      <div className="flex gap-3 p-3 bg-[#1a1a1a] rounded-lg border border-gray-800">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold">2</div>
-                        <div>
-                          <div className="text-sm font-semibold mb-0.5">Fill Product Details</div>
-                          <div className="text-xs text-gray-400">Title, description, category, price, features</div>
-                        </div>
-                      </div>
-                      <div className="flex gap-3 p-3 bg-[#1a1a1a] rounded-lg border border-gray-800">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold">3</div>
-                        <div>
-                          <div className="text-sm font-semibold mb-0.5">Go Live</div>
-                          <div className="text-xs text-gray-400">Listing appears after review (within 24 hours)</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3 mt-4">
-                      <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                        <CheckCircle className="text-green-500 mb-1.5" size={18} />
-                        <div className="text-xs font-semibold mb-0.5">Keep 100% of Sales</div>
-                        <div className="text-[10px] text-gray-400">No commission or hidden fees</div>
-                      </div>
-                      <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                        <CheckCircle className="text-green-500 mb-1.5" size={18} />
-                        <div className="text-xs font-semibold mb-0.5">Global Audience</div>
-                        <div className="text-[10px] text-gray-400">Reach crypto traders worldwide</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Tutorial Footer */}
-              <div className="flex items-center justify-between px-6 py-4 border-t border-gray-800 bg-[#0a0a0a]/50">
-                <button
-                  onClick={() => setTutorialStep(Math.max(0, tutorialStep - 1))}
-                  disabled={tutorialStep === 0}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                >
-                  <ArrowLeft size={14} />
-                  Previous
-                </button>
-
-                <div className="flex items-center gap-2">
-                  {[0, 1, 2].map((step) => (
-                    <div
-                      key={step}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        step === tutorialStep ? 'bg-[#ff6b35] w-6' : 'bg-gray-700'
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                {tutorialStep < 2 ? (
-                  <button
-                    onClick={() => setTutorialStep(tutorialStep + 1)}
-                    className="flex items-center gap-2 px-5 py-2 text-sm bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
-                  >
-                    Next
-                    <ArrowRight size={14} />
-                  </button>
-                ) : (
-                  <button
-                    onClick={closeTutorial}
-                    className="flex items-center gap-2 px-5 py-2 text-sm bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 rounded-lg font-semibold transition-all"
-                  >
-                    <CheckCircle size={14} />
-                    Get Started
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Professional Listing Form Modal - Step Wizard */}
-        {showListingForm && (
-          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/40 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/20 my-4">
-              {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-800">
-                <div>
-                  <h2 className="text-xl font-bold gradient-text">List on X402 Marketplace</h2>
-                  <p className="text-xs text-gray-500 mt-0.5">Join the world's premier crypto marketplace</p>
-                </div>
-                <button
-                  onClick={() => {
-                    setShowListingForm(false);
-                    setListingStep(1);
-                  }}
-                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-
-              {/* Progress Steps */}
-              <div className="flex items-center justify-center gap-3 px-5 py-3 bg-[#0a0a0a]/50">
-                {[
-                  { num: 1, label: 'Payment', icon: Wallet },
-                  { num: 2, label: 'Details', icon: FileText },
-                  { num: 3, label: 'Review', icon: CheckCircle },
-                ].map((step, idx) => {
-                  const Icon = step.icon;
-                  const isActive = listingStep === step.num;
-                  const isCompleted = listingStep > step.num;
-                  return (
-                    <div key={step.num} className="flex items-center gap-2">
-                      <div className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg transition-all ${
-                        isActive ? 'bg-[#ff6b35] text-white' :
-                        isCompleted ? 'bg-green-500/20 text-green-400' :
-                        'bg-gray-800 text-gray-500'
-                      }`}>
-                        <Icon size={14} />
-                        <span className="text-xs font-semibold">{step.label}</span>
-                      </div>
-                      {idx < 2 && (
-                        <ArrowRight size={14} className="text-gray-700" />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Step Content */}
-              <div className="p-5 max-h-[55vh] overflow-y-auto">
-                {/* STEP 1: PAYMENT */}
-                {listingStep === 1 && (
-                  <div className="space-y-4">
-                    {paymentProcessing ? (
-                      // Payment in progress
-                      <div className="text-center py-8">
-                        <Loader2 size={64} className="mx-auto mb-4 text-[#ff6b35] animate-spin" />
-                        <h3 className="text-xl font-bold mb-2">Processing Payment...</h3>
-                        <p className="text-sm text-gray-400 mb-4">
-                          Please approve the transaction in your Phantom wallet
-                        </p>
-                        <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs text-blue-300">
-                          <strong>Tip:</strong> Check your wallet for a popup notification
-                        </div>
-                      </div>
-                    ) : !wallet.connected ? (
-                      // Wallet not connected
-                      <div className="text-center py-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-500/20 mb-4">
-                          <Wallet className="text-yellow-500" size={32} />
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">Connect Your Wallet</h3>
-                        <p className="text-sm text-gray-400 mb-4">
-                          Connect your Solana wallet to pay the one-time listing fee
-                        </p>
-                        <div className="wallet-adapter-button-trigger inline-block mb-4">
-                          <WalletMultiButton />
-                        </div>
-                        <div className="p-3 bg-[#ff6b35]/10 border border-[#ff6b35]/30 rounded-lg text-xs text-gray-300">
-                          <strong>Fee:</strong> {X402_CONFIG.LISTING_FEE_SOL} SOL (one-time payment)
-                        </div>
-                      </div>
-                    ) : (
-                      // Wallet connected but payment not started yet
-                      <div className="text-center py-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 mb-4">
-                          <CheckCircle className="text-green-500" size={32} />
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">Wallet Connected!</h3>
-                        <p className="text-sm text-gray-400 mb-4">
-                          Balance: <span className="font-mono text-green-400">{walletBalance.toFixed(4)} SOL</span>
-                        </p>
-                        <button
-                          onClick={handleOneClickPayment}
-                          disabled={walletBalance < X402_CONFIG.LISTING_FEE_SOL}
-                          className="w-full max-w-md mx-auto py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30 flex items-center justify-center gap-3"
-                        >
-                          {walletBalance < X402_CONFIG.LISTING_FEE_SOL ? (
-                            <>
-                              <X size={20} />
-                              Insufficient Balance
-                            </>
-                          ) : (
-                            <>
-                              <Zap size={24} />
-                              Pay {X402_CONFIG.LISTING_FEE_SOL} SOL
-                            </>
-                          )}
-                        </button>
-                      </div>
+                    {listing.verified && (
+                      <Shield className="text-green-500" size={16} />
                     )}
                   </div>
-                )}
+                  <span className="text-xs px-2 py-1 rounded-full bg-gray-800 text-gray-400 uppercase">
+                    {getCategoryLabel(listing.category)}
+                  </span>
+                </div>
 
-                {/* STEP 2: DETAILS */}
-                {listingStep === 2 && (
-                  <div className="space-y-3 overflow-y-auto" style={{ maxHeight: 'calc(55vh - 100px)' }}>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Product Title *</label>
-                        <input
-                          type="text"
-                          maxLength={100}
-                          value={formData.title}
-                          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                          placeholder="e.g., Premium Bitcoin Trading Signals"
-                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
-                        />
-                      </div>
+                {/* Title */}
+                <h3 className="text-lg font-bold mb-2 group-hover:text-[#ff6b35] transition-colors">
+                  {listing.title}
+                </h3>
 
+                {/* Seller Info */}
+                <div className="flex items-center gap-3 mb-3 text-sm">
+                  <div className="flex items-center gap-1">
+                    <Star className="text-yellow-500 fill-yellow-500" size={14} />
+                    <span className="font-semibold">{listing.seller_rating}</span>
+                  </div>
+                  <span className="text-gray-500">•</span>
+                  <span className="text-gray-400">{listing.total_sales} sales</span>
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-gray-400 mb-4 line-clamp-3">
+                  {listing.description}
+                </p>
+
+                {/* Features */}
+                <div className="mb-4">
+                  <div className="text-xs font-semibold text-gray-500 mb-2">KEY FEATURES:</div>
+                  <ul className="space-y-1">
+                    {listing.features.slice(0, 3).map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-xs text-gray-400">
+                        <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={12} />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Pricing */}
+                <div className="mb-4 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-2xl font-bold text-[#ff6b35]">
+                      ${listing.price.toFixed(2)}
+                    </span>
+                    <span className="text-xs text-green-400">No fees</span>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <button className="w-full py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all flex items-center justify-center gap-2 group">
+                  <ShoppingCart size={18} />
+                  Purchase Now
+                  <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+
+                {/* Seller */}
+                <div className="mt-3 pt-3 border-t border-gray-800 text-xs text-gray-500 flex items-center justify-between">
+                  <span>by {listing.seller}</span>
+                  <span>{formatDistanceToNow(listing.created_at, { addSuffix: true })}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Create Listing Modal - X402 Protocol */}
+        {showListingForm && (
+          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/50 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/30 my-4">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-800">
+                <div>
+                  <h2 className="text-2xl font-bold gradient-text">List on X402 Marketplace</h2>
+                  <p className="text-xs text-gray-500 mt-1">Payment handled automatically via x402 protocol</p>
+                </div>
+                <button
+                  onClick={() => !creating && setShowListingForm(false)}
+                  disabled={creating}
+                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Form */}
+              <div className="p-6 max-h-[60vh] overflow-y-auto">
+                {creating ? (
+                  // Payment Processing State
+                  <div className="text-center py-12">
+                    <Loader2 size={64} className="mx-auto mb-4 text-[#ff6b35] animate-spin" />
+                    <h3 className="text-xl font-bold mb-2">Processing Payment...</h3>
+                    <p className="text-sm text-gray-400 mb-4">
+                      Please approve the transaction in your wallet
+                    </p>
+                    <div className="p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs text-blue-300 max-w-md mx-auto">
+                      <strong>X402 Protocol:</strong> Automatic 0.1 SOL payment verification in progress
+                    </div>
+                  </div>
+                ) : (
+                  // Form Fields
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Product Title *</label>
+                      <input
+                        type="text"
+                        maxLength={100}
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        placeholder="e.g., Premium Bitcoin Trading Signals"
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Category *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Category *</label>
                         <select
                           value={formData.category}
-                          onChange={(e) => setFormData({ ...formData, category: e.target.value as MarketplaceListing['category'] })}
-                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
+                          onChange={(e) => setFormData({ ...formData, category: e.target.value as Listing['category'] })}
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
                         >
                           <option value="signals">Trading Signals</option>
                           <option value="data">Market Data</option>
@@ -889,7 +451,7 @@ export default function MarketplacePage() {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Price (USD) *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) *</label>
                         <input
                           type="number"
                           min="1"
@@ -897,263 +459,73 @@ export default function MarketplacePage() {
                           value={formData.price}
                           onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                           placeholder="99.99"
-                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
                         />
                       </div>
+                    </div>
 
-                      <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Description *</label>
-                        <textarea
-                          rows={3}
-                          maxLength={300}
-                          value={formData.description}
-                          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                          placeholder="Describe your product and its value..."
-                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none text-sm"
-                        />
-                        <div className="text-xs text-gray-500 text-right mt-1">{formData.description.length}/300</div>
-                      </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Description *</label>
+                      <textarea
+                        rows={4}
+                        maxLength={300}
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        placeholder="Describe your product and its value..."
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none"
+                      />
+                      <div className="text-xs text-gray-500 text-right mt-1">{formData.description.length}/300</div>
+                    </div>
 
-                      <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Seller Name *</label>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Seller Name *</label>
+                      <input
+                        type="text"
+                        maxLength={50}
+                        value={formData.seller}
+                        onChange={(e) => setFormData({ ...formData, seller: e.target.value })}
+                        placeholder="Your name or company"
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Key Features (min 3) *</label>
+                      {formData.features.map((feature, idx) => (
                         <input
+                          key={idx}
                           type="text"
-                          maxLength={50}
-                          value={formData.seller}
-                          onChange={(e) => setFormData({ ...formData, seller: e.target.value })}
-                          placeholder="Your name or company"
-                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
+                          maxLength={80}
+                          value={feature}
+                          onChange={(e) => {
+                            const newFeatures = [...formData.features];
+                            newFeatures[idx] = e.target.value;
+                            setFormData({ ...formData, features: newFeatures });
+                          }}
+                          placeholder={`Feature ${idx + 1}`}
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none mb-2"
                         />
-                      </div>
-
-                      <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Key Features (min 3) *</label>
-                        {formData.features.slice(0, 3).map((feature, idx) => (
-                          <input
-                            key={idx}
-                            type="text"
-                            maxLength={80}
-                            value={feature}
-                            onChange={(e) => {
-                              const newFeatures = [...formData.features];
-                              newFeatures[idx] = e.target.value;
-                              setFormData({ ...formData, features: newFeatures });
-                            }}
-                            placeholder={`Feature ${idx + 1}`}
-                            className="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none mb-2 text-sm"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 3: REVIEW */}
-                {listingStep === 3 && (
-                  <div className="space-y-3">
-                    <div className="text-center mb-3">
-                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/20 mb-2">
-                        <CheckCircle className="text-green-500" size={24} />
-                      </div>
-                      <h3 className="text-lg font-bold mb-1">Review Your Listing</h3>
-                      <p className="text-xs text-gray-400">Confirm everything looks perfect</p>
-                    </div>
-
-                    <div className="p-3 bg-[#1a1a1a] border border-gray-800 rounded-lg space-y-2.5">
-                      <div>
-                        <div className="text-xs text-gray-500">Title</div>
-                        <div className="text-sm font-semibold">{formData.title}</div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500">Category</div>
-                        <div className="text-sm">{getCategoryLabel(formData.category)}</div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <div className="text-xs text-gray-500">Price</div>
-                          <div className="text-base font-bold text-[#ff6b35]">${formData.price}</div>
-                        </div>
-                        <div>
-                          <div className="text-xs text-gray-500">Seller</div>
-                          <div className="text-sm">{formData.seller}</div>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1">Description</div>
-                        <div className="text-xs text-gray-400">{formData.description}</div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1">Features</div>
-                        <ul className="text-xs text-gray-400 space-y-0.5">
-                          {formData.features.filter(f => f.trim()).map((f, idx) => (
-                            <li key={idx}>✓ {f}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="p-2.5 bg-green-500/10 border border-green-500/20 rounded-lg">
-                      <p className="text-xs text-green-300">
-                        <strong>✓ Payment Verified</strong> - Your listing will go live within 24 hours after review
-                      </p>
+                      ))}
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Footer Actions */}
-              <div className="flex items-center justify-between px-5 py-3 border-t border-gray-800 bg-[#0a0a0a]/50">
-                <button
-                  onClick={prevStep}
-                  disabled={listingStep === 1}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                >
-                  <ArrowLeft size={14} />
-                  Back
-                </button>
-
-                <div className="text-xs text-gray-500">
-                  Step {listingStep} of 3
-                </div>
-
-                {listingStep < 3 ? (
+              {/* Footer */}
+              {!creating && (
+                <div className="flex items-center justify-between px-6 py-4 border-t border-gray-800 bg-[#0a0a0a]/50">
+                  <div className="text-xs text-gray-500">
+                    Fee: 0.1 SOL (one-time listing fee)
+                  </div>
                   <button
-                    onClick={nextStep}
-                    className="flex items-center gap-2 px-5 py-2 text-sm bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
+                    onClick={handleCreateListing}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
                   >
-                    Next
-                    <ArrowRight size={14} />
+                    <Sparkles size={18} />
+                    Create Listing (x402)
                   </button>
-                ) : (
-                  <button
-                    onClick={handleSubmitListing}
-                    disabled={submittingListing}
-                    className="flex items-center gap-2 px-5 py-2 text-sm bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 rounded-lg font-semibold transition-all disabled:opacity-50"
-                  >
-                    {submittingListing ? (
-                      <>
-                        <Loader2 size={14} className="animate-spin" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>
-                        <CheckCircle size={14} />
-                        Submit Listing
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Terms Modal */}
-        {showTerms && (
-          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-            <div className="bg-[#0a0a0a] border border-gray-800 rounded-xl max-w-3xl max-h-[80vh] overflow-y-auto p-8">
-              <h2 className="text-2xl font-bold mb-4 text-[#ff6b35]">Terms of Service & Legal Compliance</h2>
-
-              <div className="space-y-4 text-sm text-gray-300 leading-relaxed">
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">⚠️ Important Disclaimer</h3>
-                  <p>
-                    All products, services, data, and information provided on the X402 Marketplace are for
-                    <strong> INFORMATIONAL AND EDUCATIONAL PURPOSES ONLY</strong>. Nothing on this platform
-                    constitutes financial, investment, legal, or tax advice.
-                  </p>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">📋 User Responsibilities</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>You are solely responsible for your investment decisions</li>
-                    <li>Conduct your own due diligence before purchasing any product or service</li>
-                    <li>Cryptocurrency investments carry significant risk of loss</li>
-                    <li>Past performance does not guarantee future results</li>
-                    <li>Consult with qualified financial advisors before making investment decisions</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">💰 Platform Fees & Payments</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Sellers pay a one-time {X402_CONFIG.LISTING_FEE_SOL} SOL fee to list products</li>
-                    <li>Fees are sent to Solana wallet: <code className="bg-gray-800 px-2 py-0.5 rounded text-xs break-all">{X402_CONFIG.FEE_WALLET_ADDRESS}</code></li>
-                    <li>Buyers pay directly to sellers with NO platform fees</li>
-                    <li>Supported payment methods: Cryptocurrency (SOL, ETH, USDT, USDC), Credit/Debit cards</li>
-                    <li>All sales are final - no refunds unless explicitly stated by seller</li>
-                    <li>Buyers are responsible for any applicable taxes</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">🔐 Data Privacy & Security</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>We comply with GDPR, CCPA, and other data protection regulations</li>
-                    <li>Personal data is encrypted and stored securely</li>
-                    <li>We never sell user data to third parties</li>
-                    <li>Wallet addresses may be publicly visible on blockchain explorers</li>
-                    <li>Users can request data deletion at any time</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">⚖️ Legal Compliance</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Platform operates in compliance with applicable securities laws</li>
-                    <li>Products do not constitute securities offerings</li>
-                    <li>No guarantees of profit or returns are made</li>
-                    <li>Users must be 18+ years old to use this platform</li>
-                    <li>Platform reserves the right to refuse service to users in restricted jurisdictions</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">🛡️ Seller Verification</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Verified sellers have passed identity and background checks</li>
-                    <li>Platform does not guarantee performance of any listed product</li>
-                    <li>Report suspicious activity to support@futurescan.io</li>
-                    <li>Sellers must comply with all applicable laws and regulations</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">🚫 Prohibited Activities</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Market manipulation, insider trading, or pump-and-dump schemes</li>
-                    <li>Selling stolen data, private keys, or compromised accounts</li>
-                    <li>Money laundering or financing of illegal activities</li>
-                    <li>Impersonation or fraudulent misrepresentation</li>
-                    <li>Violating intellectual property rights</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-white mb-2">📞 Contact & Support</h3>
-                  <p>
-                    For questions, concerns, or legal inquiries, contact us at:
-                    <br />
-                    Email: <a href="mailto:legal@futurescan.io" className="text-[#ff6b35] hover:underline">legal@futurescan.io</a>
-                    <br />
-                    Support: <a href="mailto:support@futurescan.io" className="text-[#ff6b35] hover:underline">support@futurescan.io</a>
-                  </p>
-                </section>
-
-                <div className="pt-4 border-t border-gray-800 text-xs text-gray-500">
-                  Last Updated: {new Date().toLocaleDateString()}
-                  <br />
-                  By using this marketplace, you acknowledge that you have read, understood, and agree to these terms.
                 </div>
-              </div>
-
-              <button
-                onClick={() => setShowTerms(false)}
-                className="mt-6 w-full py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] rounded-lg font-semibold transition-colors"
-              >
-                I Understand & Accept
-              </button>
+              )}
             </div>
           </div>
         )}
