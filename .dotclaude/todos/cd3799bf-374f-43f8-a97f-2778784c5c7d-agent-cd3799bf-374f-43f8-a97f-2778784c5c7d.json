@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "content": "Install and configure Solana wallet adapter",
+    "status": "in_progress",
+    "activeForm": "Adding Phantom wallet SDK"
+  },
+  {
+    "content": "Add wallet connect button and UI",
+    "status": "pending",
+    "activeForm": "Implementing wallet connect"
+  },
+  {
+    "content": "Implement one-click listing payment flow",
+    "status": "pending",
+    "activeForm": "Creating one-click payments"
+  },
+  {
+    "content": "Add instant USDC micropayment checkout for buyers",
+    "status": "pending",
+    "activeForm": "Adding buyer micropayments"
+  },
+  {
+    "content": "Test and build implementation",
+    "status": "pending",
+    "activeForm": "Testing"
+  }
+]
