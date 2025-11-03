@@ -707,18 +707,18 @@ export default function MarketplacePage() {
                 {/* STEP 1: PAYMENT */}
                 {listingStep === 1 && (
                   <div className="space-y-4">
-                    <div className="text-center mb-4">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#ff6b35]/20 mb-3">
-                        <Wallet className="text-[#ff6b35]" size={32} />
+                    <div className="text-center mb-3">
+                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#ff6b35]/20 mb-2">
+                        <Wallet className="text-[#ff6b35]" size={24} />
                       </div>
-                      <h3 className="text-xl font-bold mb-2">One-Time Listing Fee</h3>
-                      <p className="text-sm text-gray-400">
+                      <h3 className="text-lg font-bold mb-1">One-Time Listing Fee</h3>
+                      <p className="text-xs text-gray-400">
                         Pay {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL to list your product on the world's premier crypto marketplace
                       </p>
                     </div>
 
                     {/* Wallet Address */}
-                    <div className="p-4 bg-gradient-to-r from-[#ff6b35]/10 to-purple-500/10 border border-[#ff6b35]/30 rounded-lg">
+                    <div className="p-3 bg-gradient-to-r from-[#ff6b35]/10 to-purple-500/10 border border-[#ff6b35]/30 rounded-lg">
                       <div className="text-xs font-semibold text-[#ff6b35] mb-2">SEND {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL TO:</div>
                       <div className="flex items-center gap-2 p-3 bg-black rounded border border-gray-800">
                         <code className="flex-1 text-xs text-white font-mono break-all">
@@ -729,9 +729,9 @@ export default function MarketplacePage() {
                           className="flex-shrink-0 p-2 bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 rounded transition-colors"
                         >
                           {copiedWallet ? (
-                            <Check size={16} className="text-green-500" />
+                            <Check size={14} className="text-green-500" />
                           ) : (
-                            <Copy size={16} className="text-[#ff6b35]" />
+                            <Copy size={14} className="text-[#ff6b35]" />
                           )}
                         </button>
                       </div>
@@ -747,9 +747,9 @@ export default function MarketplacePage() {
                         value={formData.transactionSignature}
                         onChange={(e) => setFormData({ ...formData, transactionSignature: e.target.value })}
                         placeholder="Paste your Solana transaction signature here..."
-                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg font-mono text-sm transition-colors focus:outline-none"
+                        className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg font-mono text-sm transition-colors focus:outline-none"
                       />
-                      <p className="text-xs text-gray-500 mt-2">
+                      <p className="text-xs text-gray-500 mt-1.5">
                         ✓ Find this in your wallet after sending the payment
                       </p>
                     </div>
