@@ -780,57 +780,73 @@ export default function MarketplacePage() {
                       <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#ff6b35]/20 mb-2">
                         <Wallet className="text-[#ff6b35]" size={24} />
                       </div>
-                      <h3 className="text-lg font-bold mb-1">One-Time Listing Fee</h3>
+                      <h3 className="text-lg font-bold mb-1">One-Click Listing Fee</h3>
                       <p className="text-xs text-gray-400">
-                        Pay {X402_CONFIG.LISTING_FEE_SOL} SOL to list your product on the world's premier crypto marketplace
+                        Pay {X402_CONFIG.LISTING_FEE_SOL} SOL instantly with your connected wallet
                       </p>
                     </div>
 
-                    {/* Wallet Address */}
-                    <div className="p-3 bg-gradient-to-r from-[#ff6b35]/10 to-purple-500/10 border border-[#ff6b35]/30 rounded-lg">
-                      <div className="text-xs font-semibold text-[#ff6b35] mb-2">SEND {X402_CONFIG.LISTING_FEE_SOL} SOL TO:</div>
-                      <div className="flex items-center gap-2 p-3 bg-black rounded border border-gray-800">
-                        <code className="flex-1 text-xs text-white font-mono break-all">
-                          {X402_CONFIG.FEE_WALLET_ADDRESS}
-                        </code>
+                    {/* Wallet Status */}
+                    {!wallet.connected ? (
+                      <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-center">
+                        <p className="text-sm text-yellow-300 mb-3">
+                          Please connect your Solana wallet to continue
+                        </p>
+                        <div className="wallet-adapter-button-trigger inline-block">
+                          <WalletMultiButton />
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        {/* Wallet Info */}
+                        <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs text-green-400 font-semibold">✓ WALLET CONNECTED</span>
+                            <span className="text-xs font-mono text-green-300">{walletBalance.toFixed(4)} SOL</span>
+                          </div>
+                          <code className="text-xs text-gray-400 break-all">
+                            {wallet.publicKey?.toString().substring(0, 16)}...{wallet.publicKey?.toString().slice(-8)}
+                          </code>
+                        </div>
+
+                        {/* One-Click Payment Button */}
                         <button
-                          onClick={copyWalletAddress}
-                          className="flex-shrink-0 p-2 bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 rounded transition-colors"
+                          onClick={handleOneClickPayment}
+                          disabled={paymentProcessing || walletBalance < X402_CONFIG.LISTING_FEE_SOL}
+                          className="w-full py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30 flex items-center justify-center gap-3"
                         >
-                          {copiedWallet ? (
-                            <Check size={14} className="text-green-500" />
+                          {paymentProcessing ? (
+                            <>
+                              <Loader2 size={24} className="animate-spin" />
+                              Processing Payment...
+                            </>
+                          ) : walletBalance < X402_CONFIG.LISTING_FEE_SOL ? (
+                            <>
+                              <X size={20} />
+                              Insufficient Balance
+                            </>
                           ) : (
-                            <Copy size={14} className="text-[#ff6b35]" />
+                            <>
+                              <Zap size={24} />
+                              Pay {X402_CONFIG.LISTING_FEE_SOL} SOL Instantly
+                            </>
                           )}
                         </button>
-                      </div>
-                    </div>
 
-                    {/* Transaction Signature Input */}
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-300 mb-2">
-                        Paste Transaction Signature
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.transactionSignature}
-                        onChange={(e) => setFormData({ ...formData, transactionSignature: e.target.value })}
-                        placeholder="Paste your Solana transaction signature here..."
-                        className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg font-mono text-sm transition-colors focus:outline-none"
-                      />
-                      <p className="text-xs text-gray-500 mt-1.5">
-                        ✓ Find this in your wallet after sending the payment
-                      </p>
-                    </div>
+                        <div className="text-center text-xs text-gray-500">
+                          Click the button above to open your wallet and approve the payment
+                        </div>
+                      </>
+                    )}
 
                     {/* Why List Here */}
                     <div className="mt-4 p-2.5 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-                      <div className="text-xs font-semibold text-blue-400 mb-1.5">🌍 Why List on FutureScan X402?</div>
+                      <div className="text-xs font-semibold text-blue-400 mb-1.5">⚡ x402 Protocol Benefits</div>
                       <ul className="text-xs text-gray-400 space-y-0.5">
+                        <li>• <strong>Instant payments</strong> - 200ms settlement time</li>
                         <li>• <strong>Zero buyer fees</strong> - customers pay full price to you</li>
                         <li>• <strong>Global reach</strong> - access crypto traders worldwide</li>
-                        <li>• <strong>Premium audience</strong> - serious traders with real budgets</li>
-                        <li>• <strong>Instant credibility</strong> - verified seller status</li>
+                        <li>• <strong>AI-native marketplace</strong> - Built for the future</li>
                       </ul>
                     </div>
                   </div>

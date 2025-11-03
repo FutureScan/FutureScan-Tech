@@ -6,17 +6,17 @@
   },
   {
     "content": "Add wallet connect button and one-click payment UI",
-    "status": "in_progress",
-    "activeForm": "Adding wallet UI to marketplace"
+    "status": "completed",
+    "activeForm": "Adding wallet UI"
   },
   {
     "content": "Implement one-click listing payment flow",
-    "status": "pending",
-    "activeForm": "Implementing listing payment"
+    "status": "completed",
+    "activeForm": "Implementing one-click payment"
   },
   {
-    "content": "Test and build implementation",
-    "status": "pending",
-    "activeForm": "Testing"
+    "content": "Build and test implementation",
+    "status": "in_progress",
+    "activeForm": "Building and testing"
   }
 ]
