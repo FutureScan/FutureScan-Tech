@@ -83,6 +83,12 @@ export default function MarketplacePage() {
 
   // Create Listing (No Payment Required)
   async function handleCreateListing() {
+    // Check wallet connection
+    if (!wallet.connected || !wallet.publicKey) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
     // Validate form
     if (!formData.title || !formData.description || !formData.price || !formData.seller) {
       alert('Please fill in all required fields');
@@ -108,7 +114,9 @@ export default function MarketplacePage() {
           category: formData.category,
           price: parseFloat(formData.price),
           seller: formData.seller,
+          seller_wallet: wallet.publicKey.toString(), // Add wallet address
           features: validFeatures,
+          delivery_type: 'manual',
         }),
       });
 
@@ -210,7 +218,13 @@ export default function MarketplacePage() {
 
               {/* Create Listing Button */}
               <button
-                onClick={() => setShowListingForm(true)}
+                onClick={() => {
+                  if (!wallet.connected) {
+                    alert('Please connect your wallet to list products');
+                    return;
+                  }
+                  setShowListingForm(true);
+                }}
                 className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/30"
               >
                 <Plus size={20} />
