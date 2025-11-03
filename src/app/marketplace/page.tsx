@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { executeX402Request } from '@/lib/x402-client';
 import {
   ShoppingCart,
   Star,
@@ -182,7 +181,7 @@ export default function X402MarketplacePage() {
               <CheckCircle size={24} />
               <div>
                 <div className="font-bold">Listing Created!</div>
-                <div className="text-sm text-green-100">Your product is now live on X402 Marketplace</div>
+                <div className="text-sm text-green-100">Your product is now live on the Marketplace</div>
               </div>
             </div>
           </div>
@@ -379,7 +378,7 @@ export default function X402MarketplacePage() {
           </div>
         )}
 
-        {/* Create Listing Modal - X402 Protocol */}
+        {/* Create Listing Modal */}
         {showListingForm && (
           <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4 overflow-y-auto">
             <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/50 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/30 my-4">
