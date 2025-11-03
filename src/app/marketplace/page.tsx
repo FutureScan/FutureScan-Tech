@@ -713,16 +713,16 @@ export default function MarketplacePage() {
                       </div>
                       <h3 className="text-lg font-bold mb-1">One-Time Listing Fee</h3>
                       <p className="text-xs text-gray-400">
-                        Pay {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL to list your product on the world's premier crypto marketplace
+                        Pay {X402_CONFIG.LISTING_FEE_SOL} SOL to list your product on the world's premier crypto marketplace
                       </p>
                     </div>
 
                     {/* Wallet Address */}
                     <div className="p-3 bg-gradient-to-r from-[#ff6b35]/10 to-purple-500/10 border border-[#ff6b35]/30 rounded-lg">
-                      <div className="text-xs font-semibold text-[#ff6b35] mb-2">SEND {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL TO:</div>
+                      <div className="text-xs font-semibold text-[#ff6b35] mb-2">SEND {X402_CONFIG.LISTING_FEE_SOL} SOL TO:</div>
                       <div className="flex items-center gap-2 p-3 bg-black rounded border border-gray-800">
                         <code className="flex-1 text-xs text-white font-mono break-all">
-                          {MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS}
+                          {X402_CONFIG.FEE_WALLET_ADDRESS}
                         </code>
                         <button
                           onClick={copyWalletAddress}
@@ -989,8 +989,8 @@ export default function MarketplacePage() {
                 <section>
                   <h3 className="text-lg font-semibold text-white mb-2">💰 Platform Fees & Payments</h3>
                   <ul className="list-disc pl-5 space-y-1">
-                    <li>Sellers pay a one-time {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL fee to list products</li>
-                    <li>Fees are sent to Solana wallet: <code className="bg-gray-800 px-2 py-0.5 rounded text-xs break-all">{MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS}</code></li>
+                    <li>Sellers pay a one-time {X402_CONFIG.LISTING_FEE_SOL} SOL fee to list products</li>
+                    <li>Fees are sent to Solana wallet: <code className="bg-gray-800 px-2 py-0.5 rounded text-xs break-all">{X402_CONFIG.FEE_WALLET_ADDRESS}</code></li>
                     <li>Buyers pay directly to sellers with NO platform fees</li>
                     <li>Supported payment methods: Cryptocurrency (SOL, ETH, USDT, USDC), Credit/Debit cards</li>
                     <li>All sales are final - no refunds unless explicitly stated by seller</li>
