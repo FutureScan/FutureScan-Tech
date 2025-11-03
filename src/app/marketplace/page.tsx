@@ -769,26 +769,26 @@ export default function MarketplacePage() {
 
                 {/* STEP 2: DETAILS */}
                 {listingStep === 2 && (
-                  <div className="space-y-4 overflow-y-auto" style={{ maxHeight: '380px' }}>
-                    <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-3 overflow-y-auto" style={{ maxHeight: 'calc(55vh - 100px)' }}>
+                    <div className="grid grid-cols-2 gap-3">
                       <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Product Title *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Product Title *</label>
                         <input
                           type="text"
                           maxLength={100}
                           value={formData.title}
                           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                           placeholder="e.g., Premium Bitcoin Trading Signals"
-                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Category *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Category *</label>
                         <select
                           value={formData.category}
                           onChange={(e) => setFormData({ ...formData, category: e.target.value as MarketplaceListing['category'] })}
-                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
                         >
                           <option value="signals">Trading Signals</option>
                           <option value="data">Market Data</option>
@@ -800,7 +800,7 @@ export default function MarketplacePage() {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Price (USD) *</label>
                         <input
                           type="number"
                           min="1"
@@ -808,37 +808,37 @@ export default function MarketplacePage() {
                           value={formData.price}
                           onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                           placeholder="99.99"
-                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
                         />
                       </div>
 
                       <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Description *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Description *</label>
                         <textarea
                           rows={3}
                           maxLength={300}
                           value={formData.description}
                           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                           placeholder="Describe your product and its value..."
-                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none"
+                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none text-sm"
                         />
                         <div className="text-xs text-gray-500 text-right mt-1">{formData.description.length}/300</div>
                       </div>
 
                       <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Seller Name *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Seller Name *</label>
                         <input
                           type="text"
                           maxLength={50}
                           value={formData.seller}
                           onChange={(e) => setFormData({ ...formData, seller: e.target.value })}
                           placeholder="Your name or company"
-                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                          className="w-full px-3 py-2.5 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-sm"
                         />
                       </div>
 
                       <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Key Features (min 3) *</label>
+                        <label className="block text-sm font-semibold text-gray-300 mb-1.5">Key Features (min 3) *</label>
                         {formData.features.slice(0, 3).map((feature, idx) => (
                           <input
                             key={idx}
@@ -851,7 +851,7 @@ export default function MarketplacePage() {
                               setFormData({ ...formData, features: newFeatures });
                             }}
                             placeholder={`Feature ${idx + 1}`}
-                            className="w-full px-4 py-2 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none mb-2"
+                            className="w-full px-3 py-2 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none mb-2 text-sm"
                           />
                         ))}
                       </div>
@@ -861,16 +861,16 @@ export default function MarketplacePage() {
 
                 {/* STEP 3: REVIEW */}
                 {listingStep === 3 && (
-                  <div className="space-y-4">
-                    <div className="text-center mb-4">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 mb-3">
-                        <CheckCircle className="text-green-500" size={32} />
+                  <div className="space-y-3">
+                    <div className="text-center mb-3">
+                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/20 mb-2">
+                        <CheckCircle className="text-green-500" size={24} />
                       </div>
-                      <h3 className="text-xl font-bold mb-2">Review Your Listing</h3>
-                      <p className="text-sm text-gray-400">Confirm everything looks perfect</p>
+                      <h3 className="text-lg font-bold mb-1">Review Your Listing</h3>
+                      <p className="text-xs text-gray-400">Confirm everything looks perfect</p>
                     </div>
 
-                    <div className="p-4 bg-[#1a1a1a] border border-gray-800 rounded-lg space-y-3">
+                    <div className="p-3 bg-[#1a1a1a] border border-gray-800 rounded-lg space-y-2.5">
                       <div>
                         <div className="text-xs text-gray-500">Title</div>
                         <div className="text-sm font-semibold">{formData.title}</div>
