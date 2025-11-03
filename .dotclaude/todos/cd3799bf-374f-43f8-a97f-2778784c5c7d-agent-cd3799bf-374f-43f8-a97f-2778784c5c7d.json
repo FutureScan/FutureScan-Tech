@@ -6,42 +6,37 @@
   },
   {
     "content": "Rename all X403 references to X402 throughout codebase",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Renaming to X402"
   },
   {
-    "content": "Implement x402 HTTP 402 payment flow",
-    "status": "pending",
-    "activeForm": "Implementing x402 payment flow"
+    "content": "Create x402 payment intent types and interfaces",
+    "status": "in_progress",
+    "activeForm": "Creating x402 types"
   },
   {
-    "content": "Add x402 payment headers and intents",
+    "content": "Implement x402 payment API with USDC support",
     "status": "pending",
-    "activeForm": "Adding x402 headers"
+    "activeForm": "Implementing x402 API"
   },
   {
-    "content": "Integrate USDC stablecoin payments (Solana)",
+    "content": "Add HTTP 402 payment required flow",
     "status": "pending",
-    "activeForm": "Integrating USDC payments"
+    "activeForm": "Adding HTTP 402 flow"
   },
   {
-    "content": "Create x402 Bazaar-style discovery UI",
+    "content": "Create instant micropayment checkout",
     "status": "pending",
-    "activeForm": "Creating discovery UI"
+    "activeForm": "Creating instant checkout"
   },
   {
-    "content": "Add instant micropayment support",
+    "content": "Add x402 Bazaar-style discovery features",
     "status": "pending",
-    "activeForm": "Adding micropayment support"
-  },
-  {
-    "content": "Implement error handling and retry logic",
-    "status": "pending",
-    "activeForm": "Implementing error handling"
+    "activeForm": "Adding Bazaar UI"
   },
   {
     "content": "Test and build final implementation",
     "status": "pending",
-    "activeForm": "Testing implementation"
+    "activeForm": "Testing"
   }
 ]
