@@ -82,13 +82,8 @@ export default function X402MarketplacePage() {
     }
   }
 
-  // x402 Protocol: Create Listing with Automatic Payment
+  // Create Listing (No Payment Required)
   async function handleCreateListing() {
-    if (!wallet.connected) {
-      alert('Please connect your wallet first');
-      return;
-    }
-
     // Validate form
     if (!formData.title || !formData.description || !formData.price || !formData.seller) {
       alert('Please fill in all required fields');
@@ -104,22 +99,23 @@ export default function X402MarketplacePage() {
     setCreating(true);
 
     try {
-      // Execute x402 request - payment handled automatically!
-      const result = await executeX402Request<{ listing: Listing }>(
-        '/api/listings',
-        {
+      // Direct POST - no payment required
+      const response = await fetch('/api/listings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           title: formData.title,
           description: formData.description,
           category: formData.category,
           price: parseFloat(formData.price),
           seller: formData.seller,
           features: validFeatures,
-        },
-        wallet,
-        connection
-      );
+        }),
+      });
 
-      if (result.success && result.data) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         // Success!
         setShowSuccess(true);
         setShowListingForm(false);
@@ -138,7 +134,7 @@ export default function X402MarketplacePage() {
         // Hide success message after 5 seconds
         setTimeout(() => setShowSuccess(false), 5000);
       } else {
-        alert(`Failed to create listing: ${result.error}`);
+        alert(`Failed to create listing: ${result.error || 'Unknown error'}`);
       }
     } catch (error: any) {
       alert(`Error: ${error.message}`);

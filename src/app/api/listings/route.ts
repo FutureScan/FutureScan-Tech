@@ -15,97 +15,17 @@ const LISTINGS: any[] = [];
 
 /**
  * POST /api/listings
- * x402 Protocol Implementation
+ * PAYMENT DISABLED - Create listings without fee (for testing)
  *
- * Flow:
- * 1. Client POSTs without X-PAYMENT → Returns HTTP 402 with PaymentRequirements
- * 2. Client POSTs with X-PAYMENT → Verifies payment and creates listing
+ * NOTE: x402 protocol implementation is commented out below.
+ * To re-enable payments, uncomment the payment verification code.
  */
 export async function POST(request: NextRequest) {
   try {
-    const xPaymentHeader = request.headers.get('X-PAYMENT');
     const body = await request.json();
 
     // ============================================================================
-    // STEP 1: No Payment Header → Return HTTP 402 with PaymentRequirements
-    // ============================================================================
-    if (!xPaymentHeader) {
-      const paymentRequirements = {
-        paymentRequirements: [
-          {
-            scheme: 'solana-transfer',
-            network: 'solana-mainnet',
-            price: {
-              amount: X402_CONFIG.LISTING_FEE_LAMPORTS.toString(),
-              asset: {
-                address: X402_CONFIG.SOL_MINT,
-                decimals: 9,
-                symbol: 'SOL',
-              },
-            },
-            payTo: X402_CONFIG.FEE_WALLET_ADDRESS,
-            maxTimeoutSeconds: 300, // 5 minutes
-            config: {
-              description: 'X402 Marketplace Listing Fee',
-              resource: '/api/listings',
-              metadata: {
-                listingTitle: body.title || 'New Product',
-                category: body.category || 'unknown',
-              },
-            },
-          },
-        ],
-      };
-
-      // Return HTTP 402 Payment Required
-      return NextResponse.json(paymentRequirements, {
-        status: 402,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Payment-Required': 'true',
-        },
-      });
-    }
-
-    // ============================================================================
-    // STEP 2: X-PAYMENT Header Present → Verify Payment and Create Listing
-    // ============================================================================
-
-    // Parse X-PAYMENT header (base64 encoded JSON)
-    let paymentPayload: any;
-    try {
-      const decoded = Buffer.from(xPaymentHeader, 'base64').toString('utf-8');
-      paymentPayload = JSON.parse(decoded);
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Invalid X-PAYMENT header format' },
-        { status: 400 }
-      );
-    }
-
-    // Validate payment payload structure
-    if (!paymentPayload.signature || !paymentPayload.transaction) {
-      return NextResponse.json(
-        { error: 'Missing required payment fields' },
-        { status: 400 }
-      );
-    }
-
-    // Verify payment on-chain
-    const verificationResult = await verifyPaymentOnChain(
-      paymentPayload.signature,
-      paymentPayload.transaction
-    );
-
-    if (!verificationResult.verified) {
-      return NextResponse.json(
-        { error: verificationResult.error || 'Payment verification failed' },
-        { status: 402 }
-      );
-    }
-
-    // ============================================================================
-    // STEP 3: Payment Verified → Create Listing
+    // PAYMENT DISABLED - Create listing directly without payment
     // ============================================================================
 
     const newListing = {
@@ -120,36 +40,127 @@ export async function POST(request: NextRequest) {
       created_at: Date.now(),
       total_sales: 0,
       seller_rating: 0,
-      payment_signature: paymentPayload.signature,
     };
 
     // Store listing (use database in production)
     LISTINGS.push(newListing);
 
-    // Create X-PAYMENT-RESPONSE header
-    const paymentResponse = {
-      status: 'settled',
-      transactionId: paymentPayload.signature,
-      timestamp: Date.now(),
-      amount: X402_CONFIG.LISTING_FEE_LAMPORTS.toString(),
-      resource: '/api/listings',
-    };
-
-    // Return HTTP 200 OK with listing and payment confirmation
+    // Return HTTP 200 OK with listing
     return NextResponse.json(
       {
         success: true,
         listing: newListing,
-        message: 'Listing created successfully',
+        message: 'Listing created successfully (no payment required)',
       },
       {
         status: 200,
         headers: {
-          'X-PAYMENT-RESPONSE': Buffer.from(JSON.stringify(paymentResponse)).toString('base64'),
           'Content-Type': 'application/json',
         },
       }
     );
+
+    /* ============================================================================
+     * X402 PAYMENT PROTOCOL (COMMENTED OUT - UNCOMMENT TO RE-ENABLE)
+     * ============================================================================
+     *
+     * const xPaymentHeader = request.headers.get('X-PAYMENT');
+     *
+     * // STEP 1: No Payment Header → Return HTTP 402 with PaymentRequirements
+     * if (!xPaymentHeader) {
+     *   const paymentRequirements = {
+     *     paymentRequirements: [
+     *       {
+     *         scheme: 'solana-transfer',
+     *         network: 'solana-mainnet',
+     *         price: {
+     *           amount: X402_CONFIG.LISTING_FEE_LAMPORTS.toString(),
+     *           asset: {
+     *             address: X402_CONFIG.SOL_MINT,
+     *             decimals: 9,
+     *             symbol: 'SOL',
+     *           },
+     *         },
+     *         payTo: X402_CONFIG.FEE_WALLET_ADDRESS,
+     *         maxTimeoutSeconds: 300,
+     *         config: {
+     *           description: 'X402 Marketplace Listing Fee',
+     *           resource: '/api/listings',
+     *           metadata: {
+     *             listingTitle: body.title || 'New Product',
+     *             category: body.category || 'unknown',
+     *           },
+     *         },
+     *       },
+     *     ],
+     *   };
+     *
+     *   return NextResponse.json(paymentRequirements, {
+     *     status: 402,
+     *     headers: {
+     *       'Content-Type': 'application/json',
+     *       'X-Payment-Required': 'true',
+     *     },
+     *   });
+     * }
+     *
+     * // STEP 2: Verify X-PAYMENT header
+     * let paymentPayload: any;
+     * try {
+     *   const decoded = Buffer.from(xPaymentHeader, 'base64').toString('utf-8');
+     *   paymentPayload = JSON.parse(decoded);
+     * } catch (error) {
+     *   return NextResponse.json(
+     *     { error: 'Invalid X-PAYMENT header format' },
+     *     { status: 400 }
+     *   );
+     * }
+     *
+     * if (!paymentPayload.signature || !paymentPayload.transaction) {
+     *   return NextResponse.json(
+     *     { error: 'Missing required payment fields' },
+     *     { status: 400 }
+     *   );
+     * }
+     *
+     * // STEP 3: Verify payment on-chain
+     * const verificationResult = await verifyPaymentOnChain(
+     *   paymentPayload.signature,
+     *   paymentPayload.transaction
+     * );
+     *
+     * if (!verificationResult.verified) {
+     *   return NextResponse.json(
+     *     { error: verificationResult.error || 'Payment verification failed' },
+     *     { status: 402 }
+     *   );
+     * }
+     *
+     * // Add payment signature to listing
+     * newListing.payment_signature = paymentPayload.signature;
+     *
+     * // Create X-PAYMENT-RESPONSE header
+     * const paymentResponse = {
+     *   status: 'settled',
+     *   transactionId: paymentPayload.signature,
+     *   timestamp: Date.now(),
+     *   amount: X402_CONFIG.LISTING_FEE_LAMPORTS.toString(),
+     *   resource: '/api/listings',
+     * };
+     *
+     * return NextResponse.json(
+     *   { success: true, listing: newListing, message: 'Listing created successfully' },
+     *   {
+     *     status: 200,
+     *     headers: {
+     *       'X-PAYMENT-RESPONSE': Buffer.from(JSON.stringify(paymentResponse)).toString('base64'),
+     *       'Content-Type': 'application/json',
+     *     },
+     *   }
+     * );
+     * ============================================================================
+     */
+
   } catch (error: any) {
     console.error('API Error:', error);
     return NextResponse.json(
