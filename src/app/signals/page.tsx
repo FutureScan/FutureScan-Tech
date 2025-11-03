@@ -74,42 +74,60 @@ export default function SignalsPage() {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#ff6b35]/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="relative p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                AI Trading Signals
+        <div className="mb-10">
+          <div className="flex items-center justify-between mb-6">
+            <div className="relative">
+              <h1 className="text-5xl md:text-6xl font-black mb-3">
+                <span className="gradient-text neon-text">AI Trading Signals</span>
               </h1>
-              <p className="text-gray-400">
+              <p className="text-gray-300 text-lg">
                 Data-driven trading recommendations for swing traders
               </p>
+              <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-green-500 to-transparent rounded-full"></div>
             </div>
             <button
               onClick={loadSignals}
               disabled={loading}
-              className="p-3 hover:bg-[#1a1a1a] rounded-lg transition-colors disabled:opacity-50"
+              className="glass-card p-4 hover:bg-gray-800/80 rounded-xl transition-all hover:scale-110 disabled:opacity-50 pulse-ring"
               title="Refresh signals"
             >
               <RefreshCw
-                size={20}
-                className={loading ? 'animate-spin text-[#ff6b35]' : 'text-gray-400'}
+                size={24}
+                className={loading ? 'animate-spin text-[#ff6b35]' : 'text-gray-400 hover:text-[#ff6b35] transition-colors'}
               />
             </button>
           </div>
 
           {/* Info Banner */}
-          <div className="card p-4 bg-gradient-to-r from-[#ff6b35]/10 to-blue-500/10 border-[#ff6b35]/20 mb-6">
-            <p className="text-sm text-orange-200">
-              <strong>🌟 World's Most Comprehensive Crypto Signals:</strong> Institutional-grade analysis covering long-term holds, swing trades, momentum plays, technology opportunities, and fundamental value investments. Powered by real-time data from 9+ sources.
-            </p>
+          <div className="glass-card holographic p-5 rounded-2xl mb-6 border border-[#ff6b35]/20">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#ff6b35] to-yellow-600 flex items-center justify-center flex-shrink-0 text-2xl pulse-ring">
+                🌟
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-white mb-1">World's Most Comprehensive Crypto Signals</h3>
+                <p className="text-sm text-gray-300">
+                  Institutional-grade analysis covering long-term holds, swing trades, momentum plays, technology opportunities, and fundamental value investments. Powered by real-time data from 9+ sources.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Action Filter Buttons */}
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-400 mb-3">Filter by Action:</h3>
+            <h3 className="text-sm font-bold text-[#ff6b35] mb-4 tracking-wider uppercase">Filter by Action:</h3>
             <div className="flex flex-wrap gap-3">
               {[
                 { value: 'all' as const, label: 'All Signals' },
@@ -122,21 +140,24 @@ export default function SignalsPage() {
                   <button
                     key={btn.value}
                     onClick={() => setFilter(btn.value)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    className={`group relative px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105 ${
                       isActive
-                        ? 'bg-[#ff6b35] text-white'
-                        : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
+                        ? 'cyber-button text-white glow-orange'
+                        : 'glass-card hover:bg-gray-800/80 text-gray-300 hover:text-white'
                     }`}
                   >
                     {btn.label}
                     {!loading && (
-                      <span className="ml-2 text-xs opacity-70">
+                      <span className={`ml-2 text-xs ${isActive ? 'text-white/70' : 'text-gray-500'}`}>
                         (
                         {btn.value === 'all'
                           ? signals.length
                           : signals.filter((s) => s.action === btn.value).length}
                         )
                       </span>
+                    )}
+                    {isActive && (
+                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
                     )}
                   </button>
                 );
@@ -147,30 +168,33 @@ export default function SignalsPage() {
 
         {/* Signals Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="card p-6 animate-pulse">
-                <div className="h-6 bg-gray-800 rounded w-1/2 mb-4" />
-                <div className="h-4 bg-gray-800 rounded w-full mb-2" />
-                <div className="h-4 bg-gray-800 rounded w-3/4 mb-4" />
-                <div className="h-20 bg-gray-800 rounded" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="glass-card p-6 animate-pulse">
+                <div className="h-8 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg w-2/3 mb-4" />
+                <div className="h-4 bg-gradient-to-r from-gray-800 to-gray-700 rounded w-full mb-2" />
+                <div className="h-4 bg-gradient-to-r from-gray-800 to-gray-700 rounded w-3/4 mb-4" />
+                <div className="h-24 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg" />
               </div>
             ))}
           </div>
         ) : filteredSignals.length === 0 ? (
-          <div className="card p-12 text-center">
-            <Activity className="mx-auto mb-4 text-gray-600" size={48} />
-            <p className="text-gray-400 text-lg mb-2">No signals match this filter</p>
+          <div className="glass-card neon-border p-16 text-center">
+            <div className="relative inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-[#ff6b35]/20 to-yellow-600/10 mb-8 pulse-ring">
+              <Activity className="text-[#ff6b35]" size={56} />
+              <div className="absolute inset-0 rounded-full bg-[#ff6b35]/20 animate-ping"></div>
+            </div>
+            <p className="text-gray-300 text-xl font-bold mb-2">No signals match this filter</p>
             <p className="text-sm text-gray-500">Try selecting a different filter</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredSignals.map((signal) => {
               const isExpanded = expandedCards.has(signal.id);
               return (
               <div
                 key={signal.id}
-                className="card p-5 border transition-all"
+                className="card-3d p-6 shine group"
                 style={{ minHeight: '220px' }}
               >
                 {/* Header */}
