@@ -6,17 +6,12 @@
   },
   {
     "content": "Fix listing form modal sizing to be compact",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Fixing listing form modal sizing"
   },
   {
-    "content": "Test on various screen sizes",
-    "status": "pending",
-    "activeForm": "Testing on various screen sizes"
-  },
-  {
     "content": "Build and verify no errors",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Building and verifying"
   }
 ]
