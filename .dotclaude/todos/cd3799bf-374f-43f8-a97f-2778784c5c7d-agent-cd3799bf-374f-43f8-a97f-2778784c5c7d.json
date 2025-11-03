@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "content": "Enhance marketplace page with futuristic design",
+    "status": "in_progress",
+    "activeForm": "Enhancing marketplace UI"
+  },
+  {
+    "content": "Enhance seller dashboard with glassmorphism",
+    "status": "pending",
+    "activeForm": "Enhancing dashboard UI"
+  },
+  {
+    "content": "Enhance purchases page design",
+    "status": "pending",
+    "activeForm": "Enhancing purchases UI"
+  }
+]
