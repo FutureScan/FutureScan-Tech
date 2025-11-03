@@ -123,7 +123,7 @@ export default function MarketplacePage() {
   }
 
   // One-click payment for listing fee
-  const handleOneClickPayment = async () => {
+  const handleOneClickPayment = useCallback(async () => {
     if (!wallet.connected || !wallet.publicKey) {
       alert('Please connect your wallet first');
       return;
@@ -141,10 +141,10 @@ export default function MarketplacePage() {
 
       if (result.success && result.signature) {
         // Auto-fill transaction signature
-        setFormData({
-          ...formData,
+        setFormData(prev => ({
+          ...prev,
           transactionSignature: result.signature,
-        });
+        }));
 
         // Move to next step
         setListingStep(2);
@@ -158,21 +158,12 @@ export default function MarketplacePage() {
     } finally {
       setPaymentProcessing(false);
     }
-  };
+  }, [wallet, connection]);
 
-  // Handler for "List Your Product" button
+  // Handler for "List Your Product" button - simplified to just open modal
   const handleStartListing = () => {
-    if (!wallet.connected) {
-      // Open form and trigger auto-pay after wallet connects
-      setShowListingForm(true);
-      setShouldAutoPayAfterConnect(true);
-    } else {
-      // Wallet already connected, open form and trigger payment immediately
-      setShowListingForm(true);
-      setTimeout(() => {
-        handleOneClickPayment();
-      }, 100);
-    }
+    setShowListingForm(true);
+    setListingStep(1);
   };
 
   const copyWalletAddress = async () => {
