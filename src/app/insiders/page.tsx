@@ -184,20 +184,23 @@ export default function InsidersPage() {
 
         {/* Signals Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
-              <div key={i} className="card p-6 animate-pulse">
-                <div className="h-6 bg-gray-800 rounded w-1/2 mb-4" />
-                <div className="h-4 bg-gray-800 rounded w-3/4 mb-2" />
-                <div className="h-4 bg-gray-800 rounded w-full mb-2" />
-                <div className="h-16 bg-gray-800 rounded w-full" />
+              <div key={i} className="glass-card p-6 animate-pulse">
+                <div className="h-8 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg w-2/3 mb-4" />
+                <div className="h-4 bg-gradient-to-r from-gray-800 to-gray-700 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gradient-to-r from-gray-800 to-gray-700 rounded w-full mb-2" />
+                <div className="h-24 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg" />
               </div>
             ))}
           </div>
         ) : signals.length === 0 ? (
-          <div className="card p-12 text-center">
-            <TrendingUp className="mx-auto mb-4 text-gray-600" size={48} />
-            <p className="text-gray-400 text-lg mb-2">No whale activity detected</p>
+          <div className="glass-card neon-border p-16 text-center">
+            <div className="relative inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-600/10 mb-8 pulse-ring">
+              <TrendingUp className="text-blue-400" size={56} />
+              <div className="absolute inset-0 rounded-full bg-blue-500/20 animate-ping"></div>
+            </div>
+            <p className="text-gray-300 text-xl font-bold mb-2">No whale activity detected</p>
             <p className="text-sm text-gray-500">
               Check back later for whale movement updates
             </p>
