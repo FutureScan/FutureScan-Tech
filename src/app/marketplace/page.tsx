@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { MarketplaceListing } from '@/types';
 import { getMarketplaceListings, submitListing, X402_CONFIG } from '@/lib/marketplace-api';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
