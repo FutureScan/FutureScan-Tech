@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "content": "Build complete purchase system with x402",
+    "status": "in_progress",
+    "activeForm": "Building purchase system"
+  },
+  {
+    "content": "Create seller profile pages with stats",
+    "status": "pending",
+    "activeForm": "Creating seller profiles"
+  },
+  {
+    "content": "Build seller dashboard for managing listings",
+    "status": "pending",
+    "activeForm": "Building seller dashboard"
+  },
+  {
+    "content": "Add product detail pages with full info",
+    "status": "pending",
+    "activeForm": "Creating product pages"
+  },
+  {
+    "content": "Implement order management system",
+    "status": "pending",
+    "activeForm": "Building order system"
+  },
+  {
+    "content": "Add edit/delete controls for listings",
+    "status": "pending",
+    "activeForm": "Adding listing controls"
+  },
+  {
+    "content": "Test complete marketplace flow end-to-end",
+    "status": "pending",
+    "activeForm": "Testing marketplace"
+  }
+]
