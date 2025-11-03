@@ -412,62 +412,70 @@ export default function MarketplacePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredListings.map((listing) => (
-              <div key={listing.id} className="card p-6 hover:border-[#ff6b35]/50 transition-all group">
+              <div key={listing.id} className="card-3d p-6 group shine">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-[#ff6b35]/20 text-[#ff6b35]">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-[#ff6b35]/30 to-[#e85a26]/20 text-[#ff6b35] group-hover:scale-110 transition-transform">
                       {getCategoryIcon(listing.category)}
                     </div>
                     {listing.verified && (
-                      <Shield className="text-green-500" size={16} />
+                      <div className="relative">
+                        <Shield className="text-green-400" size={18} />
+                        <span className="absolute inset-0 bg-green-400/20 rounded-full blur-md animate-pulse"></span>
+                      </div>
                     )}
                   </div>
-                  <span className="text-xs px-2 py-1 rounded-full bg-gray-800 text-gray-400 uppercase">
+                  <span className="text-xs px-3 py-1.5 rounded-full glass-card text-gray-300 uppercase font-bold">
                     {getCategoryLabel(listing.category)}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold mb-2 group-hover:text-[#ff6b35] transition-colors">
+                <h3 className="text-xl font-bold mb-3 group-hover:text-[#ff6b35] transition-colors line-clamp-2">
                   {listing.title}
                 </h3>
 
                 {/* Seller Info */}
-                <div className="flex items-center gap-3 mb-3 text-sm">
-                  <div className="flex items-center gap-1">
-                    <Star className="text-yellow-500 fill-yellow-500" size={14} />
-                    <span className="font-semibold">{listing.seller_rating}</span>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg glass-card">
+                    <Star className="text-yellow-400 fill-yellow-400" size={14} />
+                    <span className="font-bold text-yellow-400">{listing.seller_rating}</span>
                   </div>
-                  <span className="text-gray-500">•</span>
-                  <span className="text-gray-400">{listing.total_sales} sales</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500">•</span>
+                    <span className="text-sm text-gray-400 font-medium">{listing.total_sales} sales</span>
+                  </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-gray-400 mb-4 line-clamp-3">
+                <p className="text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed">
                   {listing.description}
                 </p>
 
                 {/* Features */}
-                <div className="mb-4">
-                  <div className="text-xs font-semibold text-gray-500 mb-2">KEY FEATURES:</div>
-                  <ul className="space-y-1">
+                <div className="mb-5">
+                  <div className="text-xs font-bold text-[#ff6b35] mb-3 tracking-wider">KEY FEATURES</div>
+                  <ul className="space-y-2">
                     {listing.features.slice(0, 3).map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-gray-400">
-                        <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={12} />
-                        <span>{feature}</span>
+                      <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                        <CheckCircle className="text-green-400 flex-shrink-0 mt-0.5" size={14} />
+                        <span className="line-clamp-1">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {/* Pricing */}
-                <div className="mb-4 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
+                <div className="mb-4 p-4 glass-card rounded-xl border border-[#ff6b35]/20 holographic">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-bold text-[#ff6b35]">
+                    <span className="text-3xl font-black gradient-text">
                       ${listing.price.toFixed(2)}
                     </span>
-                    <span className="text-xs text-green-400">No fees</span>
+                    <div className="flex items-center gap-1">
+                      <CheckCircle className="text-green-400" size={14} />
+                      <span className="text-xs text-green-400 font-bold">No fees</span>
+                    </div>
                   </div>
                 </div>
 
@@ -475,20 +483,23 @@ export default function MarketplacePage() {
                 <button
                   onClick={() => handlePurchase(listing)}
                   disabled={purchasing || (wallet.connected && listing.seller_wallet === wallet.publicKey?.toString())}
-                  className="w-full py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="cyber-button w-full py-3.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   {purchasing ? (
                     <>
-                      <Loader2 size={18} className="animate-spin" />
+                      <Loader2 size={20} className="animate-spin" />
                       Processing...
                     </>
                   ) : wallet.connected && listing.seller_wallet === wallet.publicKey?.toString() ? (
-                    'Your Listing'
+                    <>
+                      <Shield size={20} />
+                      Your Listing
+                    </>
                   ) : (
                     <>
-                      <ShoppingCart size={18} />
+                      <ShoppingCart size={20} />
                       Purchase Now
-                      <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                     </>
                   )}
                 </button>
