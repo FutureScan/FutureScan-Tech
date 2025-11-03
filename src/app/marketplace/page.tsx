@@ -509,14 +509,14 @@ export default function X402MarketplacePage() {
               {!creating && (
                 <div className="flex items-center justify-between px-6 py-4 border-t border-gray-800 bg-[#0a0a0a]/50">
                   <div className="text-xs text-gray-500">
-                    Fee: 0.1 SOL (one-time listing fee)
+                    Free listing - no fees required
                   </div>
                   <button
                     onClick={handleCreateListing}
                     className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
                   >
                     <Sparkles size={18} />
-                    Create Listing (x402)
+                    Create Listing
                   </button>
                 </div>
               )}
