@@ -755,9 +755,9 @@ export default function MarketplacePage() {
                     </div>
 
                     {/* Why List Here */}
-                    <div className="mt-6 p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-                      <div className="text-xs font-semibold text-blue-400 mb-2">🌍 Why List on FutureScan X403?</div>
-                      <ul className="text-xs text-gray-400 space-y-1">
+                    <div className="mt-4 p-2.5 bg-blue-500/5 border border-blue-500/20 rounded-lg">
+                      <div className="text-xs font-semibold text-blue-400 mb-1.5">🌍 Why List on FutureScan X403?</div>
+                      <ul className="text-xs text-gray-400 space-y-0.5">
                         <li>• <strong>Zero buyer fees</strong> - customers pay full price to you</li>
                         <li>• <strong>Global reach</strong> - access crypto traders worldwide</li>
                         <li>• <strong>Premium audience</strong> - serious traders with real budgets</li>
