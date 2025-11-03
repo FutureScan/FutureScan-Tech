@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import Link from 'next/link';
 import {
   ShoppingCart,
   Star,
@@ -32,11 +33,15 @@ interface Listing {
   category: 'signals' | 'research' | 'data' | 'tools' | 'bots' | 'api';
   price: number;
   seller: string;
+  seller_wallet: string;
   features: string[];
   verified: boolean;
   created_at: number;
+  updated_at: number;
   total_sales: number;
   seller_rating: number;
+  delivery_type?: string;
+  access_info?: string;
 }
 
 export default function MarketplacePage() {
