@@ -382,29 +382,30 @@ export default function MarketplacePage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="card p-6 animate-pulse">
-                <div className="h-6 bg-gray-800 rounded w-2/3 mb-4" />
-                <div className="h-4 bg-gray-800 rounded w-full mb-2" />
-                <div className="h-4 bg-gray-800 rounded w-full mb-2" />
-                <div className="h-20 bg-gray-800 rounded w-full" />
+              <div key={i} className="glass-card p-6 animate-pulse">
+                <div className="h-8 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg w-2/3 mb-4" />
+                <div className="h-4 bg-gradient-to-r from-gray-800 to-gray-700 rounded w-full mb-2" />
+                <div className="h-4 bg-gradient-to-r from-gray-800 to-gray-700 rounded w-full mb-2" />
+                <div className="h-24 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg w-full mt-4" />
               </div>
             ))}
           </div>
         ) : filteredListings.length === 0 ? (
-          <div className="card p-16 text-center border-2 border-dashed border-gray-800">
+          <div className="glass-card neon-border p-16 text-center">
             <div className="max-w-2xl mx-auto">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#ff6b35]/10 mb-6">
-                <ShoppingCart className="text-[#ff6b35]" size={40} />
+              <div className="relative inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-[#ff6b35]/20 to-[#e85a26]/10 mb-8 pulse-ring">
+                <ShoppingCart className="text-[#ff6b35]" size={56} />
+                <div className="absolute inset-0 rounded-full bg-[#ff6b35]/20 animate-ping"></div>
               </div>
-              <h2 className="text-3xl font-bold mb-4">Be the First to List</h2>
-              <p className="text-gray-400 text-lg mb-6">
+              <h2 className="text-4xl font-black mb-4 gradient-text">Be the First to List</h2>
+              <p className="text-gray-300 text-lg mb-8 leading-relaxed">
                 The FutureScan Marketplace is ready. List your crypto products and reach thousands of traders worldwide.
               </p>
               <button
                 onClick={() => setShowListingForm(true)}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30"
+                className="cyber-button inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-bold text-lg transition-all shadow-2xl hover:scale-105 glow-orange"
               >
-                <Plus size={24} />
+                <Plus size={28} />
                 List Your First Product
               </button>
             </div>
