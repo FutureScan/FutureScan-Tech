@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "content": "Apply futuristic design to signals page",
+    "status": "in_progress",
+    "activeForm": "Enhancing signals page UI"
+  },
+  {
+    "content": "Apply futuristic design to insiders page",
+    "status": "pending",
+    "activeForm": "Enhancing insiders page UI"
+  },
+  {
+    "content": "Apply futuristic design to news page",
+    "status": "pending",
+    "activeForm": "Enhancing news page UI"
+  }
+]
