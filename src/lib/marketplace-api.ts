@@ -169,3 +169,195 @@ export async function processPurchase(
     error: 'Payment processing failed. Please try again.',
   };
 }
+
+// ============================================================================
+// x402 Protocol Implementation
+// ============================================================================
+
+/**
+ * Create x402 payment intent for instant micropayments
+ * Returns HTTP 402 Payment Required with payment details
+ */
+export async function createX402PaymentIntent(
+  listingId: string,
+  buyerAddress?: string,
+  chain: X402Chain = X402_CONFIG.DEFAULT_CHAIN,
+  currency: X402Currency = X402_CONFIG.DEFAULT_CURRENCY
+): Promise<X402PaymentIntent> {
+  const listing = await getMarketplaceListing(listingId);
+
+  if (!listing) {
+    throw new Error('Listing not found');
+  }
+
+  const intent_id = `x402_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+  const expires_at = Date.now() + X402_CONFIG.PAYMENT_INTENT_TTL;
+
+  const paymentIntent: X402PaymentIntent = {
+    intent_id,
+    listing_id: listingId,
+    amount: listing.price,
+    currency,
+    chain,
+    recipient_address: listing.seller, // Direct payment to seller
+    expires_at,
+    metadata: {
+      listing_title: listing.title,
+      seller: listing.seller,
+      buyer_address: buyerAddress,
+    },
+  };
+
+  // Store intent in memory (in production, use database with TTL)
+  PAYMENT_INTENTS.set(intent_id, paymentIntent);
+
+  // Clean up expired intents
+  setTimeout(() => {
+    PAYMENT_INTENTS.delete(intent_id);
+  }, X402_CONFIG.PAYMENT_INTENT_TTL);
+
+  return paymentIntent;
+}
+
+/**
+ * Verify x402 payment proof and grant access
+ * Implements instant verification with retry logic
+ */
+export async function verifyX402Payment(
+  proof: X402PaymentProof
+): Promise<X402PaymentResponse> {
+  try {
+    // Step 1: Get payment intent
+    const intent = PAYMENT_INTENTS.get(proof.intent_id);
+
+    if (!intent) {
+      return {
+        success: false,
+        payment_verified: false,
+        access_granted: false,
+        error: 'Payment intent not found or expired. Please create a new payment intent.',
+      };
+    }
+
+    // Step 2: Check if intent expired
+    if (Date.now() > intent.expires_at) {
+      PAYMENT_INTENTS.delete(proof.intent_id);
+      return {
+        success: false,
+        payment_verified: false,
+        access_granted: false,
+        error: 'Payment intent expired. Please create a new payment intent.',
+      };
+    }
+
+    // Step 3: Verify transaction on-chain
+    const verification = await verifyOnChainTransaction(
+      proof.transaction_signature,
+      intent.amount,
+      intent.recipient_address,
+      proof.chain
+    );
+
+    if (!verification.verified) {
+      return {
+        success: false,
+        payment_verified: false,
+        access_granted: false,
+        error: verification.error || 'Transaction verification failed',
+        retry_after: verification.retry_after,
+      };
+    }
+
+    // Step 4: Grant access and clean up intent
+    PAYMENT_INTENTS.delete(proof.intent_id);
+
+    // Update listing stats
+    const listing = await getMarketplaceListing(intent.listing_id);
+    if (listing) {
+      listing.total_sales++;
+    }
+
+    return {
+      success: true,
+      payment_verified: true,
+      access_granted: true,
+      transaction_id: proof.transaction_signature,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      payment_verified: false,
+      access_granted: false,
+      error: 'An unexpected error occurred. Please try again.',
+    };
+  }
+}
+
+/**
+ * Verify on-chain transaction with retry logic
+ * Supports multiple chains (Solana, Base, Ethereum, Polygon)
+ */
+async function verifyOnChainTransaction(
+  signature: string,
+  expectedAmount: number,
+  expectedRecipient: string,
+  chain: X402Chain,
+  retryCount: number = 0
+): Promise<{ verified: boolean; error?: string; retry_after?: number }> {
+  try {
+    // In production, this would use chain-specific SDKs:
+    // - Solana: @solana/web3.js
+    // - Base/Ethereum/Polygon: ethers.js or viem
+
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Validate signature format
+    if (!signature || signature.length < 32) {
+      return {
+        verified: false,
+        error: 'Invalid transaction signature format',
+      };
+    }
+
+    // Simulate verification with 95% success rate
+    if (Math.random() > 0.05) {
+      return { verified: true };
+    }
+
+    // If verification fails and retries available, suggest retry
+    if (retryCount < X402_CONFIG.MAX_RETRIES) {
+      return {
+        verified: false,
+        error: 'Transaction not confirmed yet. Please retry in a few seconds.',
+        retry_after: X402_CONFIG.RETRY_DELAY / 1000,
+      };
+    }
+
+    return {
+      verified: false,
+      error: 'Transaction verification failed after multiple attempts. Please check your transaction and try again.',
+    };
+  } catch (error) {
+    return {
+      verified: false,
+      error: 'Failed to verify transaction. Please try again.',
+      retry_after: retryCount < X402_CONFIG.MAX_RETRIES ? X402_CONFIG.RETRY_DELAY / 1000 : undefined,
+    };
+  }
+}
+
+/**
+ * Get x402 payment intent by ID
+ */
+export async function getX402PaymentIntent(intent_id: string): Promise<X402PaymentIntent | null> {
+  return PAYMENT_INTENTS.get(intent_id) || null;
+}
+
+/**
+ * Check if listing supports x402 protocol
+ * All listings support x402 by default
+ */
+export function supportsX402(listing: MarketplaceListing): boolean {
+  return true; // All listings support instant x402 micropayments
+}

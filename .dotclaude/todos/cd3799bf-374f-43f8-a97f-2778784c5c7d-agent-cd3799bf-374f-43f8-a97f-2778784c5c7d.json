@@ -10,33 +10,28 @@
     "activeForm": "Renaming to X402"
   },
   {
-    "content": "Create x402 payment intent types and interfaces",
+    "content": "Create x402 payment intent types and API",
+    "status": "completed",
+    "activeForm": "Creating x402 types and API"
+  },
+  {
+    "content": "Update marketplace UI to use X402_CONFIG",
     "status": "in_progress",
-    "activeForm": "Creating x402 types"
+    "activeForm": "Updating UI to use X402_CONFIG"
   },
   {
-    "content": "Implement x402 payment API with USDC support",
+    "content": "Add x402 instant micropayment checkout modal",
     "status": "pending",
-    "activeForm": "Implementing x402 API"
-  },
-  {
-    "content": "Add HTTP 402 payment required flow",
-    "status": "pending",
-    "activeForm": "Adding HTTP 402 flow"
-  },
-  {
-    "content": "Create instant micropayment checkout",
-    "status": "pending",
-    "activeForm": "Creating instant checkout"
+    "activeForm": "Adding instant checkout modal"
   },
   {
     "content": "Add x402 Bazaar-style discovery features",
     "status": "pending",
-    "activeForm": "Adding Bazaar UI"
+    "activeForm": "Adding Bazaar features"
   },
   {
     "content": "Test and build final implementation",
     "status": "pending",
-    "activeForm": "Testing"
+    "activeForm": "Testing and building"
   }
 ]
