@@ -198,14 +198,15 @@ export default function DashboardPage() {
             </div>
 
             {/* My Listings */}
-            <div className="mb-8">
+            <div className="mb-10">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">My Listings</h2>
+                <h2 className="text-3xl font-black gradient-text">My Listings</h2>
                 <Link
                   href="/marketplace"
-                  className="px-4 py-2 bg-[#ff6b35] hover:bg-[#ff8c5a] rounded-lg font-semibold transition-colors"
+                  className="cyber-button px-6 py-3 rounded-xl font-bold transition-all hover:scale-105 flex items-center gap-2"
                 >
-                  + Create New
+                  <Plus size={20} />
+                  Create New
                 </Link>
               </div>
 
