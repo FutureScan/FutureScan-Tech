@@ -212,8 +212,7 @@ export default function X402MarketplacePage() {
               {/* Create Listing Button */}
               <button
                 onClick={() => setShowListingForm(true)}
-                disabled={!wallet.connected}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/30"
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all shadow-lg shadow-[#ff6b35]/30"
               >
                 <Plus size={20} />
                 <span className="hidden md:inline">List Product</span>
@@ -226,7 +225,7 @@ export default function X402MarketplacePage() {
             <div className="flex items-start gap-3">
               <Sparkles className="text-blue-400 flex-shrink-0 mt-0.5" size={20} />
               <div className="text-sm text-blue-200">
-                <strong>True x402 Protocol:</strong> One-time 0.1 SOL listing fee, verified on-chain automatically. Zero buyer fees. Instant settlements.
+                <strong>Free Marketplace:</strong> List your crypto products at no cost. Zero listing fees, zero buyer fees. Instant publishing.
               </div>
             </div>
           </div>
