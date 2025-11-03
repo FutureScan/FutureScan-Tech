@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import bs58 from 'bs58';
+import type { Listing } from '@/types/marketplace';
 
 // x402 Configuration
 const X402_CONFIG = {
@@ -11,7 +12,7 @@ const X402_CONFIG = {
 };
 
 // In-memory storage for listings (use database in production)
-const LISTINGS: any[] = [];
+const LISTINGS: Listing[] = [];
 
 /**
  * POST /api/listings
