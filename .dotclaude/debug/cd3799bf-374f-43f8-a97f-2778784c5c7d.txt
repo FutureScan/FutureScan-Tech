@@ -5354,3 +5354,26 @@
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message f6251a0a-6857-4605-b37f-354d8ac3c9e9
+[DEBUG] FileHistory: Added snapshot for f6251a0a-6857-4605-b37f-354d8ac3c9e9, tracking 28 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: WebSearch
+[DEBUG] Skipping PreToolUse:WebSearch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebSearch
+[DEBUG] Skipping PreToolUse:WebSearch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebSearch
+[DEBUG] Skipping PreToolUse:WebSearch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebSearch
+[DEBUG] Skipping PreToolUse:WebSearch hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
