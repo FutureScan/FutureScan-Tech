@@ -148,5 +148,6 @@ export default function NewsPage() {
         )}
       </div>
     </div>
+    </div>
   );
 }
