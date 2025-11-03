@@ -32,6 +32,12 @@ import {
 import { formatDistanceToNow } from 'date-fns';
 
 export default function MarketplacePage() {
+  // Solana wallet integration
+  const wallet = useWallet();
+  const { connection } = useConnection();
+  const [walletBalance, setWalletBalance] = useState<number>(0);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+
   const [listings, setListings] = useState<MarketplaceListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<MarketplaceListing['category'] | 'all'>('all');
