@@ -1,23 +1,18 @@
 [
   {
     "content": "Create HTTP 402 API routes for listings",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Creating x402 API routes"
   },
   {
-    "content": "Implement PaymentRequirements generation",
-    "status": "pending",
-    "activeForm": "Implementing PaymentRequirements"
-  },
-  {
     "content": "Create x402 payment client handler",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating x402 client"
   },
   {
-    "content": "Build futuristic professional marketplace UI",
-    "status": "pending",
-    "activeForm": "Building professional UI"
+    "content": "Build professional futuristic marketplace UI with x402",
+    "status": "in_progress",
+    "activeForm": "Updating marketplace UI"
   },
   {
     "content": "Test complete x402 flow",
