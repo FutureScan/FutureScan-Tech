@@ -110,8 +110,8 @@ export async function submitListing(
     // Step 1: Verify the Solana transaction
     const verification = await verifySolanaTransaction(
       transactionSignature,
-      MARKETPLACE_CONFIG.POSTING_FEE_SOL,
-      MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS
+      X402_CONFIG.LISTING_FEE_SOL,
+      X402_CONFIG.FEE_WALLET_ADDRESS
     );
 
     if (!verification.verified) {
