@@ -206,87 +206,93 @@ export default function InsidersPage() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {signals.map((signal) => {
               const isExpanded = expandedCards.has(signal.id);
               return (
                 <div
                   key={signal.id}
-                  className={`card p-5 border transition-all ${getActionColor(signal.action)}`}
+                  className={`card-3d p-6 shine group transition-all ${getActionColor(signal.action)}`}
                   style={{ minHeight: '220px' }}
                 >
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h3 className="text-lg font-bold">{signal.coin}</h3>
-                      <span className="text-xs text-gray-500 uppercase">{signal.symbol}</span>
+                      <h3 className="text-xl font-black gradient-text">{signal.coin}</h3>
+                      <span className="text-xs text-gray-400 uppercase font-semibold tracking-wider">{signal.symbol}</span>
                     </div>
-                    <div className={`px-2 py-1 rounded-full ${getActionBadge(signal.action)} flex items-center gap-1`}>
-                      {signal.action === 'bullish' && <TrendingUp size={12} />}
-                      {signal.action === 'bearish' && <TrendingDown size={12} />}
-                      {signal.action === 'neutral' && <Minus size={12} />}
+                    <div className={`px-3 py-1.5 rounded-full glass-card border flex items-center gap-1.5 ${
+                      signal.action === 'bullish'
+                        ? 'border-green-500/30 text-green-400'
+                        : signal.action === 'bearish'
+                        ? 'border-red-500/30 text-red-400'
+                        : 'border-yellow-500/30 text-yellow-400'
+                    }`}>
+                      {signal.action === 'bullish' && <TrendingUp size={13} />}
+                      {signal.action === 'bearish' && <TrendingDown size={13} />}
+                      {signal.action === 'neutral' && <Minus size={13} />}
                       <span className="text-xs font-bold uppercase">{signal.action}</span>
                     </div>
                   </div>
 
                   {/* Activity Type */}
-                  <div className="mb-3 flex items-center gap-2 px-2 py-1.5 bg-[#0a0a0a] rounded-lg">
+                  <div className="mb-4 flex items-center gap-2 px-3 py-2 glass-card rounded-xl border border-[#ff6b35]/30">
                     <div className="text-[#ff6b35]">
                       {getActivityIcon(signal.activity_type)}
                     </div>
-                    <span className="text-xs font-semibold text-[#ff6b35]">
+                    <span className="text-xs font-bold text-[#ff6b35] uppercase tracking-wider">
                       {getActivityLabel(signal.activity_type)}
                     </span>
                   </div>
 
                   {/* Volume & Price */}
-                  <div className="mb-3 text-xs">
-                    <div className="flex justify-between mb-1">
-                      <span className="text-gray-500">Volume:</span>
-                      <span className="font-mono font-semibold">${(signal.volume / 1e6).toFixed(1)}M</span>
+                  <div className="mb-4 text-xs space-y-2">
+                    <div className="flex justify-between items-center p-2 glass-card rounded-lg border border-gray-700/30">
+                      <span className="text-gray-400 font-semibold">Volume:</span>
+                      <span className="font-mono font-black text-white">${(signal.volume / 1e6).toFixed(1)}M</span>
                     </div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-gray-500">Price:</span>
-                      <span className="font-mono">${signal.price_at_signal.toLocaleString()}</span>
+                    <div className="flex justify-between items-center p-2 glass-card rounded-lg border border-gray-700/30">
+                      <span className="text-gray-400 font-semibold">Price:</span>
+                      <span className="font-mono font-black text-white">${signal.price_at_signal.toLocaleString()}</span>
                     </div>
                     {signal.destination && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">Destination:</span>
-                        <span className="font-semibold text-[#ff6b35]">{signal.destination}</span>
+                      <div className="flex justify-between items-center p-2 glass-card rounded-lg border border-[#ff6b35]/30">
+                        <span className="text-gray-400 font-semibold">Destination:</span>
+                        <span className="font-bold text-[#ff6b35]">{signal.destination}</span>
                       </div>
                     )}
                   </div>
 
                   {/* Whale Address - Always visible and copyable */}
-                  <div className="mb-3 p-2 bg-[#0a0a0a] rounded border border-gray-800">
+                  <div className="mb-4 p-3 glass-card rounded-xl border border-blue-500/30">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                        <Wallet size={11} className="text-gray-500 flex-shrink-0" />
-                        <span className="font-mono text-xs text-gray-400 truncate">{signal.whale_address}</span>
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <Wallet size={13} className="text-blue-400 flex-shrink-0" />
+                        <span className="font-mono text-xs text-blue-300 truncate font-semibold">{signal.whale_address}</span>
                       </div>
                       <button
                         onClick={() => copyAddress(signal.whale_address)}
-                        className="flex-shrink-0 p-1 hover:bg-gray-700 rounded transition-colors ml-2"
+                        className="flex-shrink-0 p-1.5 glass-card rounded-lg border border-gray-700/30 hover:border-[#ff6b35]/50 transition-all ml-2 hover:scale-110"
                         title="Copy address"
                       >
                         {copiedAddress === signal.whale_address ? (
-                          <Check size={12} className="text-green-500" />
+                          <Check size={13} className="text-green-400" />
                         ) : (
-                          <Copy size={12} className="text-gray-500 hover:text-[#ff6b35]" />
+                          <Copy size={13} className="text-gray-400 hover:text-[#ff6b35]" />
                         )}
                       </button>
                     </div>
                   </div>
 
                   {/* Confidence */}
-                  <div className="mb-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-gray-500">Confidence</span>
-                      <span className="text-xs font-bold text-[#ff6b35]">{signal.confidence}%</span>
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs text-gray-400 font-semibold">Confidence</span>
+                      <span className="text-sm font-black gradient-text">{signal.confidence}%</span>
                     </div>
-                    <div className="w-full bg-gray-800 rounded-full h-1 overflow-hidden">
+                    <div className="w-full bg-gray-900/50 rounded-full h-2 overflow-hidden border border-[#ff6b35]/20">
                       <div
-                        className="h-full bg-gradient-to-r from-[#ff6b35] to-[#f7931e] transition-all"
+                        className="h-full bg-gradient-to-r from-[#ff6b35] via-[#f7931e] to-[#ff6b35] transition-all glow-orange"
                         style={{ width: `${signal.confidence}%` }}
                       />
                     </div>
@@ -294,7 +300,7 @@ export default function InsidersPage() {
 
                   {/* Expandable Details */}
                   {isExpanded && (
-                    <div className="mb-3 p-3 bg-[#0a0a0a] rounded-lg border border-gray-800">
+                    <div className="mb-4 p-4 glass-card rounded-xl border border-[#ff6b35]/30">
                       <div className="text-xs text-gray-300 whitespace-pre-line leading-relaxed">
                         {signal.details}
                       </div>
@@ -302,14 +308,14 @@ export default function InsidersPage() {
                   )}
 
                   {/* Footer with Expand Button */}
-                  <div className="flex items-center justify-between pt-2 border-t border-gray-800">
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <Clock size={11} />
+                  <div className="flex items-center justify-between pt-3 border-t border-[#ff6b35]/20">
+                    <div className="flex items-center gap-1.5 text-xs text-gray-400 font-semibold">
+                      <Clock size={12} />
                       <span>{formatDistanceToNow(signal.timestamp, { addSuffix: true })}</span>
                     </div>
                     <button
                       onClick={() => toggleCard(signal.id)}
-                      className="flex items-center gap-1 text-xs text-[#ff6b35] hover:text-[#ff8c5a] transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 glass-card rounded-lg border border-[#ff6b35]/30 text-xs text-[#ff6b35] hover:text-[#ff8c5a] hover:border-[#ff6b35]/50 transition-all hover:scale-105 font-bold"
                     >
                       {isExpanded ? (
                         <>
