@@ -287,6 +287,19 @@ export default function MarketplacePage() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              {/* Wallet Connect Button */}
+              <div className="wallet-adapter-button-trigger">
+                <WalletMultiButton />
+              </div>
+
+              {/* Show balance if connected */}
+              {wallet.connected && walletBalance > 0 && (
+                <div className="hidden md:flex items-center gap-2 px-3 py-2 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <Wallet size={16} className="text-green-500" />
+                  <span className="text-sm font-mono text-green-400">{walletBalance.toFixed(3)} SOL</span>
+                </div>
+              )}
+
               <button
                 onClick={reopenTutorial}
                 className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-800 rounded-lg font-medium transition-all"
