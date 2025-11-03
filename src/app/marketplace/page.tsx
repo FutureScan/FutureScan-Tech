@@ -463,6 +463,196 @@ export default function MarketplacePage() {
           </div>
         )}
 
+        {/* Professional Tutorial Modal */}
+        {showTutorial && (
+          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4">
+            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/50 rounded-2xl max-w-4xl w-full shadow-2xl shadow-[#ff6b35]/30">
+              {/* Tutorial Header */}
+              <div className="p-6 border-b border-gray-800">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold gradient-text">Welcome to X403 Marketplace</h2>
+                    <p className="text-sm text-gray-400 mt-1">Learn how to buy and sell crypto products</p>
+                  </div>
+                  <button
+                    onClick={closeTutorial}
+                    className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Tutorial Content */}
+              <div className="p-8" style={{ minHeight: '500px' }}>
+                {tutorialStep === 0 && (
+                  <div className="space-y-6 text-center">
+                    <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#e85a26] mb-4">
+                      <ShoppingCart className="text-white" size={48} />
+                    </div>
+                    <h3 className="text-3xl font-bold">The World's Premier Crypto Marketplace</h3>
+                    <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                      Buy and sell premium crypto products, services, and data with zero buyer fees. Powered by Solana for instant on-chain verification.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                      <div className="p-6 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl">
+                        <Shield className="text-green-500 mx-auto mb-3" size={32} />
+                        <div className="font-bold mb-2">On-Chain Verified</div>
+                        <div className="text-sm text-gray-400">All transactions verified on Solana blockchain</div>
+                      </div>
+                      <div className="p-6 bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-xl">
+                        <Zap className="text-blue-500 mx-auto mb-3" size={32} />
+                        <div className="font-bold mb-2">Zero Buyer Fees</div>
+                        <div className="text-sm text-gray-400">Buyers pay full price directly to sellers</div>
+                      </div>
+                      <div className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl">
+                        <TrendingUp className="text-purple-500 mx-auto mb-3" size={32} />
+                        <div className="font-bold mb-2">Premium Products</div>
+                        <div className="text-sm text-gray-400">Signals, data, tools, bots, research & APIs</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {tutorialStep === 1 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-8">
+                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#ff6b35]/20 mb-4">
+                        <Search className="text-[#ff6b35]" size={36} />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-2">Browsing & Buying</h3>
+                      <p className="text-gray-400">How to find and purchase products</p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex gap-4 p-4 bg-[#1a1a1a] rounded-lg border border-gray-800">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#ff6b35] flex items-center justify-center text-sm font-bold">1</div>
+                        <div>
+                          <div className="font-semibold mb-1">Browse Categories</div>
+                          <div className="text-sm text-gray-400">Filter by Signals, Data, Research, Tools, Bots, or API products</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-4 p-4 bg-[#1a1a1a] rounded-lg border border-gray-800">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#ff6b35] flex items-center justify-center text-sm font-bold">2</div>
+                        <div>
+                          <div className="font-semibold mb-1">Review Details</div>
+                          <div className="text-sm text-gray-400">Check seller ratings, features, previews, and pricing</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-4 p-4 bg-[#1a1a1a] rounded-lg border border-gray-800">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#ff6b35] flex items-center justify-center text-sm font-bold">3</div>
+                        <div>
+                          <div className="font-semibold mb-1">Purchase Directly</div>
+                          <div className="text-sm text-gray-400">Pay the seller directly with crypto or card - no platform fees!</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                      <div className="flex items-start gap-3">
+                        <Info className="text-blue-400 flex-shrink-0 mt-0.5" size={20} />
+                        <div className="text-sm text-blue-200">
+                          <strong>Pro Tip:</strong> Look for verified sellers (green shield icon) for the best experience
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {tutorialStep === 2 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-8">
+                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 mb-4">
+                        <Plus className="text-green-500" size={36} />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-2">Selling Your Products</h3>
+                      <p className="text-gray-400">List once, sell globally</p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex gap-4 p-4 bg-[#1a1a1a] rounded-lg border border-gray-800">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-sm font-bold">1</div>
+                        <div>
+                          <div className="font-semibold mb-1">Pay One-Time Fee</div>
+                          <div className="text-sm text-gray-400">Send 0.1 SOL to list your product (verified on-chain automatically)</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-4 p-4 bg-[#1a1a1a] rounded-lg border border-gray-800">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-sm font-bold">2</div>
+                        <div>
+                          <div className="font-semibold mb-1">Fill Product Details</div>
+                          <div className="text-sm text-gray-400">Title, description, category, price, and key features</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-4 p-4 bg-[#1a1a1a] rounded-lg border border-gray-800">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-sm font-bold">3</div>
+                        <div>
+                          <div className="font-semibold mb-1">Go Live</div>
+                          <div className="text-sm text-gray-400">Your listing appears after review (within 24 hours)</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mt-6">
+                      <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                        <CheckCircle className="text-green-500 mb-2" size={20} />
+                        <div className="text-sm font-semibold mb-1">Keep 100% of Sales</div>
+                        <div className="text-xs text-gray-400">No commission, no hidden fees</div>
+                      </div>
+                      <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                        <CheckCircle className="text-green-500 mb-2" size={20} />
+                        <div className="text-sm font-semibold mb-1">Global Audience</div>
+                        <div className="text-xs text-gray-400">Reach crypto traders worldwide</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Tutorial Footer */}
+              <div className="flex items-center justify-between px-8 py-6 border-t border-gray-800 bg-[#0a0a0a]/50">
+                <button
+                  onClick={() => setTutorialStep(Math.max(0, tutorialStep - 1))}
+                  disabled={tutorialStep === 0}
+                  className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ArrowLeft size={16} />
+                  Previous
+                </button>
+
+                <div className="flex items-center gap-2">
+                  {[0, 1, 2].map((step) => (
+                    <div
+                      key={step}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        step === tutorialStep ? 'bg-[#ff6b35] w-8' : 'bg-gray-700'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {tutorialStep < 2 ? (
+                  <button
+                    onClick={() => setTutorialStep(tutorialStep + 1)}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
+                  >
+                    Next
+                    <ArrowRight size={16} />
+                  </button>
+                ) : (
+                  <button
+                    onClick={closeTutorial}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 rounded-lg font-semibold transition-all"
+                  >
+                    <CheckCircle size={16} />
+                    Get Started
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Professional Listing Form Modal - Step Wizard */}
         {showListingForm && (
           <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4">
