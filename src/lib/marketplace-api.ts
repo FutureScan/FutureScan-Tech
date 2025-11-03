@@ -1,16 +1,39 @@
-import { MarketplaceListing } from '@/types';
+import { MarketplaceListing, X402PaymentIntent, X402PaymentProof, X402PaymentResponse, X402Chain, X402Currency } from '@/types';
 
-// Platform configuration
-export const MARKETPLACE_CONFIG = {
-  POSTING_FEE_SOL: 0.1, // One-time fee to list a product (0.1 SOL)
-  FEE_WALLET_ADDRESS: '6NXeYAn75nfunLCMbeEnBtrGJUb8tUs45ApbvPbdNRYD', // Solana wallet for posting fees
-  PAYMENT_METHODS: ['crypto', 'card'],
-  SUPPORTED_CHAINS: ['solana', 'ethereum', 'polygon', 'bsc'],
-  TRANSACTION_CONFIRMATION_BLOCKS: 15, // Number of blocks to wait for confirmation
+// x402 Protocol Configuration
+export const X402_CONFIG = {
+  // Seller listing fee (one-time payment to list products)
+  LISTING_FEE_SOL: 0.1,
+  FEE_WALLET_ADDRESS: '6NXeYAn75nfunLCMbeEnBtrGJUb8tUs45ApbvPbdNRYD',
+
+  // x402 micropayment settings
+  SUPPORTED_CHAINS: ['solana', 'base', 'ethereum', 'polygon'] as X402Chain[],
+  SUPPORTED_CURRENCIES: ['USDC', 'SOL', 'ETH', 'USDT'] as X402Currency[],
+  DEFAULT_CHAIN: 'solana' as X402Chain,
+  DEFAULT_CURRENCY: 'USDC' as X402Currency,
+
+  // Payment intent expiration (5 minutes)
+  PAYMENT_INTENT_TTL: 5 * 60 * 1000,
+
+  // Transaction confirmation requirements
+  CONFIRMATION_BLOCKS: {
+    solana: 15,
+    base: 12,
+    ethereum: 12,
+    polygon: 20,
+  },
+
+  // Retry configuration
+  MAX_RETRIES: 3,
+  RETRY_DELAY: 2000, // milliseconds
 };
 
 // Marketplace listings - starts empty, sellers will add their products
 const MARKETPLACE_LISTINGS: MarketplaceListing[] = [];
+
+// Active payment intents (in-memory store for demo)
+const PAYMENT_INTENTS = new Map<string, X402PaymentIntent>();
+
 
 // Get marketplace listings with optional filtering
 export async function getMarketplaceListings(
