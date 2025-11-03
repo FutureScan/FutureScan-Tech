@@ -319,29 +319,35 @@ export default function MarketplacePage() {
           </div>
 
           {/* Info Banner */}
-          <div className="card p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20 mb-6">
-            <div className="flex items-start gap-3">
-              <Sparkles className="text-blue-400 flex-shrink-0 mt-0.5" size={20} />
-              <div className="text-sm text-blue-200">
-                <strong>Free Marketplace:</strong> List your crypto products at no cost. Zero listing fees, zero buyer fees. Instant publishing.
+          <div className="glass-card holographic p-5 rounded-2xl mb-6 border border-[#ff6b35]/20">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 pulse-ring">
+                <Sparkles className="text-white" size={24} />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-white mb-1">Free Marketplace</h3>
+                <p className="text-sm text-gray-300">
+                  List your crypto products at no cost. Zero listing fees, zero buyer fees. Instant publishing.
+                </p>
               </div>
             </div>
           </div>
 
           {/* Search */}
-          <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500" size={20} />
+          <div className="relative mb-6 group">
+            <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-500 group-hover:text-[#ff6b35] transition-colors" size={20} />
             <input
               type="text"
               placeholder="Search listings..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-[#ff6b35] transition-colors"
+              className="w-full pl-14 pr-5 py-4 glass-card border border-gray-800/50 focus:border-[#ff6b35]/50 rounded-2xl focus:outline-none transition-all text-lg"
             />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#ff6b35]/0 via-[#ff6b35]/10 to-[#ff6b35]/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div>
           </div>
 
           {/* Category Filters */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mb-6">
             {[
               { value: 'all', label: 'All Categories', icon: <ShoppingCart size={16} /> },
               { value: 'signals', label: 'Signals', icon: <TrendingUp size={16} /> },
@@ -354,14 +360,19 @@ export default function MarketplacePage() {
               <button
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`group relative flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all hover:scale-105 ${
                   selectedCategory === cat.value
-                    ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/30'
-                    : 'bg-[#1a1a1a] text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
+                    ? 'cyber-button text-white glow-orange'
+                    : 'glass-card hover:bg-gray-800/80 text-gray-300 hover:text-white'
                 }`}
               >
-                {cat.icon}
+                <span className={selectedCategory === cat.value ? 'text-white' : 'text-[#ff6b35] group-hover:text-[#ff6b35]'}>
+                  {cat.icon}
+                </span>
                 {cat.label}
+                {selectedCategory === cat.value && (
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
+                )}
               </button>
             ))}
           </div>
