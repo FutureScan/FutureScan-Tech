@@ -194,13 +194,13 @@ export default function X402MarketplacePage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <h1 className="text-4xl md:text-5xl font-bold">
-                  <span className="gradient-text">X402</span> Marketplace
+                  <span className="gradient-text">Marketplace</span>
                 </h1>
-                <div className="px-3 py-1 bg-[#ff6b35]/20 border border-[#ff6b35]/50 rounded-full">
-                  <span className="text-xs font-bold text-[#ff6b35]">PROTOCOL</span>
+                <div className="px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-full">
+                  <span className="text-xs font-bold text-green-400">FREE</span>
                 </div>
               </div>
-              <p className="text-gray-400">Instant payments powered by HTTP 402</p>
+              <p className="text-gray-400">Buy and sell crypto intelligence products</p>
             </div>
 
             <div className="flex items-center gap-3">
@@ -289,7 +289,7 @@ export default function X402MarketplacePage() {
               </div>
               <h2 className="text-3xl font-bold mb-4">Be the First to List</h2>
               <p className="text-gray-400 text-lg mb-6">
-                The X402 Marketplace is ready. List your crypto products and reach thousands of traders worldwide.
+                The FutureScan Marketplace is ready. List your crypto products and reach thousands of traders worldwide.
               </p>
               <button
                 onClick={() => setShowListingForm(true)}
