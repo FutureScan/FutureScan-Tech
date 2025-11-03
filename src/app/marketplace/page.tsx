@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { MarketplaceListing } from '@/types';
-import { getMarketplaceListings, submitListing, MARKETPLACE_CONFIG } from '@/lib/marketplace-api';
+import { getMarketplaceListings, submitListing, X402_CONFIG } from '@/lib/marketplace-api';
 import {
   ShoppingCart,
   Star,
@@ -81,7 +81,7 @@ export default function MarketplacePage() {
 
   const copyWalletAddress = async () => {
     try {
-      await navigator.clipboard.writeText(MARKETPLACE_CONFIG.FEE_WALLET_ADDRESS);
+      await navigator.clipboard.writeText(X402_CONFIG.FEE_WALLET_ADDRESS);
       setCopiedWallet(true);
       setTimeout(() => setCopiedWallet(false), 2000);
     } catch (err) {
@@ -253,7 +253,7 @@ export default function MarketplacePage() {
             <div className="flex items-start gap-3">
               <Info className="text-blue-400 flex-shrink-0 mt-0.5" size={20} />
               <div className="text-sm text-blue-200">
-                <strong>Platform Notice:</strong> Sellers pay a one-time {MARKETPLACE_CONFIG.POSTING_FEE_SOL} SOL fee to list products.
+                <strong>Platform Notice:</strong> Sellers pay a one-time {X402_CONFIG.LISTING_FEE_SOL} SOL fee to list products.
                 Buyers pay directly to sellers with no platform fees. All products are for informational and educational purposes only.
                 <button
                   onClick={() => setShowTerms(true)}

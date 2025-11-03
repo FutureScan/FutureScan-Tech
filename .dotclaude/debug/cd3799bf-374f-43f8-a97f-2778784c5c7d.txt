@@ -4388,3 +4388,51 @@
 [DEBUG] Skills and commands included in Skill tool:
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/marketplace/page.tsx.tmp.175.1762128996862
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 52361 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/marketplace/page.tsx.tmp.175.1762128996862 to /home/vibecode/workspace/src/app/marketplace/page.tsx
+[DEBUG] File /home/vibecode/workspace/src/app/marketplace/page.tsx written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/marketplace/page.tsx.tmp.175.1762129003178
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 52354 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/marketplace/page.tsx.tmp.175.1762129003178 to /home/vibecode/workspace/src/app/marketplace/page.tsx
+[DEBUG] File /home/vibecode/workspace/src/app/marketplace/page.tsx written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/marketplace/page.tsx.tmp.175.1762129010083
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 52347 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/marketplace/page.tsx.tmp.175.1762129010083 to /home/vibecode/workspace/src/app/marketplace/page.tsx
+[DEBUG] File /home/vibecode/workspace/src/app/marketplace/page.tsx written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
