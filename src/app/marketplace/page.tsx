@@ -231,20 +231,31 @@ export default function MarketplacePage() {
   );
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Success Toast */}
-        {showSuccess && (
-          <div className="fixed top-4 right-4 z-[100] animate-in slide-in-from-top">
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl shadow-green-500/50 flex items-center gap-3">
-              <CheckCircle size={24} />
-              <div>
-                <div className="font-bold">Listing Created!</div>
-                <div className="text-sm text-green-100">Your product is now live on the Marketplace</div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#ff6b35]/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="relative p-4 md:p-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Success Toast */}
+          {showSuccess && (
+            <div className="fixed top-4 right-4 z-[100] animate-in slide-in-from-top">
+              <div className="glass-card bg-gradient-to-r from-green-600/80 to-emerald-600/80 text-white px-6 py-4 rounded-2xl shadow-2xl shadow-green-500/50 backdrop-blur-xl border border-green-400/20 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                  <CheckCircle size={24} />
+                </div>
+                <div>
+                  <div className="font-bold">Listing Created!</div>
+                  <div className="text-sm text-green-100">Your product is now live on the Marketplace</div>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* Header */}
         <div className="mb-8">
