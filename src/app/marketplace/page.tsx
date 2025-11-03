@@ -55,6 +55,8 @@ export default function MarketplacePage() {
   const [showListingForm, setShowListingForm] = useState(false);
   const [creating, setCreating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Listing | null>(null);
+  const [purchasing, setPurchasing] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
