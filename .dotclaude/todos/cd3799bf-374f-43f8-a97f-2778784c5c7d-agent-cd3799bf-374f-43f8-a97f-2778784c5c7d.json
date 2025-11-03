@@ -1,17 +1,1 @@
-[
-  {
-    "content": "Fix tutorial modal sizing to be compact and screen-friendly",
-    "status": "completed",
-    "activeForm": "Fixing tutorial modal sizing"
-  },
-  {
-    "content": "Fix listing form modal sizing to be compact",
-    "status": "completed",
-    "activeForm": "Fixing listing form modal sizing"
-  },
-  {
-    "content": "Build and verify no errors",
-    "status": "in_progress",
-    "activeForm": "Building and verifying"
-  }
-]
+[]
