@@ -5789,3 +5789,25 @@
 [DEBUG] Renaming /home/vibecode/.claude.json.tmp.175.1762131819541 to /home/vibecode/.claude.json
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message 80cede51-2933-48b5-9b14-4fd5e111a5f4
+[DEBUG] FileHistory: Missing tracked file: src/app/marketplace2/page.tsx
+[DEBUG] FileHistory: Added snapshot for 80cede51-2933-48b5-9b14-4fd5e111a5f4, tracking 31 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk

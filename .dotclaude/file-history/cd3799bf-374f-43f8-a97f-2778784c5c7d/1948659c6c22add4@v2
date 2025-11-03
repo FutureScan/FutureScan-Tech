@@ -1,0 +1,258 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import bs58 from 'bs58';
+
+// x402 Configuration
+const X402_CONFIG = {
+  LISTING_FEE_LAMPORTS: 100_000_000, // 0.1 SOL
+  FEE_WALLET_ADDRESS: '6NXeYAn75nfunLCMbeEnBtrGJUb8tUs45ApbvPbdNRYD',
+  SOLANA_RPC: 'https://api.mainnet-beta.solana.com',
+  SOL_MINT: 'So11111111111111111111111111111111111111112', // Native SOL
+};
+
+// In-memory storage for listings (use database in production)
+const LISTINGS: any[] = [];
+
+/**
+ * POST /api/listings
+ * x402 Protocol Implementation
+ *
+ * Flow:
+ * 1. Client POSTs without X-PAYMENT → Returns HTTP 402 with PaymentRequirements
+ * 2. Client POSTs with X-PAYMENT → Verifies payment and creates listing
+ */
+export async function POST(request: NextRequest) {
+  try {
+    const xPaymentHeader = request.headers.get('X-PAYMENT');
+    const body = await request.json();
+
+    // ============================================================================
+    // STEP 1: No Payment Header → Return HTTP 402 with PaymentRequirements
+    // ============================================================================
+    if (!xPaymentHeader) {
+      const paymentRequirements = {
+        paymentRequirements: [
+          {
+            scheme: 'solana-transfer',
+            network: 'solana-mainnet',
+            price: {
+              amount: X402_CONFIG.LISTING_FEE_LAMPORTS.toString(),
+              asset: {
+                address: X402_CONFIG.SOL_MINT,
+                decimals: 9,
+                symbol: 'SOL',
+              },
+            },
+            payTo: X402_CONFIG.FEE_WALLET_ADDRESS,
+            maxTimeoutSeconds: 300, // 5 minutes
+            config: {
+              description: 'X402 Marketplace Listing Fee',
+              resource: '/api/listings',
+              metadata: {
+                listingTitle: body.title || 'New Product',
+                category: body.category || 'unknown',
+              },
+            },
+          },
+        ],
+      };
+
+      // Return HTTP 402 Payment Required
+      return NextResponse.json(paymentRequirements, {
+        status: 402,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Payment-Required': 'true',
+        },
+      });
+    }
+
+    // ============================================================================
+    // STEP 2: X-PAYMENT Header Present → Verify Payment and Create Listing
+    // ============================================================================
+
+    // Parse X-PAYMENT header (base64 encoded JSON)
+    let paymentPayload: any;
+    try {
+      const decoded = Buffer.from(xPaymentHeader, 'base64').toString('utf-8');
+      paymentPayload = JSON.parse(decoded);
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Invalid X-PAYMENT header format' },
+        { status: 400 }
+      );
+    }
+
+    // Validate payment payload structure
+    if (!paymentPayload.signature || !paymentPayload.transaction) {
+      return NextResponse.json(
+        { error: 'Missing required payment fields' },
+        { status: 400 }
+      );
+    }
+
+    // Verify payment on-chain
+    const verificationResult = await verifyPaymentOnChain(
+      paymentPayload.signature,
+      paymentPayload.transaction
+    );
+
+    if (!verificationResult.verified) {
+      return NextResponse.json(
+        { error: verificationResult.error || 'Payment verification failed' },
+        { status: 402 }
+      );
+    }
+
+    // ============================================================================
+    // STEP 3: Payment Verified → Create Listing
+    // ============================================================================
+
+    const newListing = {
+      id: `listing_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+      title: body.title,
+      description: body.description,
+      category: body.category,
+      price: body.price,
+      seller: body.seller,
+      features: body.features || [],
+      verified: false,
+      created_at: Date.now(),
+      total_sales: 0,
+      seller_rating: 0,
+      payment_signature: paymentPayload.signature,
+    };
+
+    // Store listing (use database in production)
+    LISTINGS.push(newListing);
+
+    // Create X-PAYMENT-RESPONSE header
+    const paymentResponse = {
+      status: 'settled',
+      transactionId: paymentPayload.signature,
+      timestamp: Date.now(),
+      amount: X402_CONFIG.LISTING_FEE_LAMPORTS.toString(),
+      resource: '/api/listings',
+    };
+
+    // Return HTTP 200 OK with listing and payment confirmation
+    return NextResponse.json(
+      {
+        success: true,
+        listing: newListing,
+        message: 'Listing created successfully',
+      },
+      {
+        status: 200,
+        headers: {
+          'X-PAYMENT-RESPONSE': Buffer.from(JSON.stringify(paymentResponse)).toString('base64'),
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  } catch (error: any) {
+    console.error('API Error:', error);
+    return NextResponse.json(
+      { error: error.message || 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * GET /api/listings
+ * Fetch all listings (no payment required)
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+
+    let filtered = LISTINGS;
+    if (category && category !== 'all') {
+      filtered = LISTINGS.filter(l => l.category === category);
+    }
+
+    return NextResponse.json({
+      listings: filtered,
+      total: filtered.length,
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.message || 'Failed to fetch listings' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * Verify Solana transaction on-chain
+ */
+async function verifyPaymentOnChain(
+  signature: string,
+  transactionBase58: string
+): Promise<{ verified: boolean; error?: string }> {
+  try {
+    const connection = new Connection(X402_CONFIG.SOLANA_RPC, 'confirmed');
+
+    // Verify signature format
+    if (!signature || signature.length < 64) {
+      return { verified: false, error: 'Invalid signature format' };
+    }
+
+    // Fetch transaction from blockchain
+    const txInfo = await connection.getTransaction(signature, {
+      commitment: 'confirmed',
+      maxSupportedTransactionVersion: 0,
+    });
+
+    if (!txInfo) {
+      return { verified: false, error: 'Transaction not found on blockchain' };
+    }
+
+    // Verify transaction success
+    if (txInfo.meta?.err) {
+      return { verified: false, error: 'Transaction failed on-chain' };
+    }
+
+    // Verify recipient
+    const recipientPubkey = new PublicKey(X402_CONFIG.FEE_WALLET_ADDRESS);
+    const accountKeys = txInfo.transaction.message.staticAccountKeys ||
+                        txInfo.transaction.message.accountKeys;
+
+    const hasRecipient = accountKeys.some(key =>
+      key.toString() === recipientPubkey.toString()
+    );
+
+    if (!hasRecipient) {
+      return { verified: false, error: 'Transaction recipient mismatch' };
+    }
+
+    // Verify amount (check post-balances)
+    const preBalances = txInfo.meta?.preBalances || [];
+    const postBalances = txInfo.meta?.postBalances || [];
+
+    const recipientIndex = accountKeys.findIndex(key =>
+      key.toString() === recipientPubkey.toString()
+    );
+
+    if (recipientIndex >= 0) {
+      const received = postBalances[recipientIndex] - preBalances[recipientIndex];
+
+      if (received < X402_CONFIG.LISTING_FEE_LAMPORTS) {
+        return {
+          verified: false,
+          error: `Insufficient payment: ${received} lamports (expected ${X402_CONFIG.LISTING_FEE_LAMPORTS})`
+        };
+      }
+    }
+
+    return { verified: true };
+  } catch (error: any) {
+    console.error('Verification error:', error);
+    return {
+      verified: false,
+      error: error.message || 'Failed to verify payment on-chain'
+    };
+  }
+}
