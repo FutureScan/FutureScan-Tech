@@ -293,11 +293,10 @@ export default function X402MarketplacePage() {
               </p>
               <button
                 onClick={() => setShowListingForm(true)}
-                disabled={!wallet.connected}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] disabled:opacity-50 rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-bold text-lg transition-all shadow-2xl shadow-[#ff6b35]/30"
               >
                 <Plus size={24} />
-                {wallet.connected ? 'List Your First Product' : 'Connect Wallet to Start'}
+                List Your First Product
               </button>
             </div>
           </div>
@@ -387,8 +386,8 @@ export default function X402MarketplacePage() {
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-800">
                 <div>
-                  <h2 className="text-2xl font-bold gradient-text">List on X402 Marketplace</h2>
-                  <p className="text-xs text-gray-500 mt-1">Payment handled automatically via x402 protocol</p>
+                  <h2 className="text-2xl font-bold gradient-text">List on Marketplace</h2>
+                  <p className="text-xs text-gray-500 mt-1">Free listing - no payment required</p>
                 </div>
                 <button
                   onClick={() => !creating && setShowListingForm(false)}
@@ -402,15 +401,15 @@ export default function X402MarketplacePage() {
               {/* Form */}
               <div className="p-6 max-h-[60vh] overflow-y-auto">
                 {creating ? (
-                  // Payment Processing State
+                  // Creating Listing State
                   <div className="text-center py-12">
                     <Loader2 size={64} className="mx-auto mb-4 text-[#ff6b35] animate-spin" />
-                    <h3 className="text-xl font-bold mb-2">Processing Payment...</h3>
+                    <h3 className="text-xl font-bold mb-2">Creating Your Listing...</h3>
                     <p className="text-sm text-gray-400 mb-4">
-                      Please approve the transaction in your wallet
+                      Please wait while we publish your product
                     </p>
                     <div className="p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs text-blue-300 max-w-md mx-auto">
-                      <strong>X402 Protocol:</strong> Automatic 0.1 SOL payment verification in progress
+                      <strong>Free Publishing:</strong> No payment required
                     </div>
                   </div>
                 ) : (
