@@ -655,13 +655,13 @@ export default function MarketplacePage() {
 
         {/* Professional Listing Form Modal - Step Wizard */}
         {showListingForm && (
-          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4">
-            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/40 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/20">
+          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/40 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/20 my-4">
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-800">
+              <div className="flex items-center justify-between p-4 border-b border-gray-800">
                 <div>
-                  <h2 className="text-2xl font-bold gradient-text">List on X403 Marketplace</h2>
-                  <p className="text-xs text-gray-500 mt-1">Join the world's premier crypto marketplace</p>
+                  <h2 className="text-xl font-bold gradient-text">List on X403 Marketplace</h2>
+                  <p className="text-xs text-gray-500 mt-0.5">Join the world's premier crypto marketplace</p>
                 </div>
                 <button
                   onClick={() => {
@@ -670,12 +670,12 @@ export default function MarketplacePage() {
                   }}
                   className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
 
               {/* Progress Steps */}
-              <div className="flex items-center justify-center gap-4 px-6 py-4 bg-[#0a0a0a]/50">
+              <div className="flex items-center justify-center gap-3 px-5 py-3 bg-[#0a0a0a]/50">
                 {[
                   { num: 1, label: 'Payment', icon: Wallet },
                   { num: 2, label: 'Details', icon: FileText },
@@ -686,16 +686,16 @@ export default function MarketplacePage() {
                   const isCompleted = listingStep > step.num;
                   return (
                     <div key={step.num} className="flex items-center gap-2">
-                      <div className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
+                      <div className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg transition-all ${
                         isActive ? 'bg-[#ff6b35] text-white' :
                         isCompleted ? 'bg-green-500/20 text-green-400' :
                         'bg-gray-800 text-gray-500'
                       }`}>
-                        <Icon size={16} />
+                        <Icon size={14} />
                         <span className="text-xs font-semibold">{step.label}</span>
                       </div>
                       {idx < 2 && (
-                        <ArrowRight size={16} className="text-gray-700" />
+                        <ArrowRight size={14} className="text-gray-700" />
                       )}
                     </div>
                   );
@@ -703,7 +703,7 @@ export default function MarketplacePage() {
               </div>
 
               {/* Step Content */}
-              <div className="p-6" style={{ minHeight: '400px', maxHeight: '400px' }}>
+              <div className="p-5 max-h-[55vh] overflow-y-auto">
                 {/* STEP 1: PAYMENT */}
                 {listingStep === 1 && (
                   <div className="space-y-4">
