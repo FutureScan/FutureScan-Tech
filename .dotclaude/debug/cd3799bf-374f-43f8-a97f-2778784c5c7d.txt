@@ -6279,3 +6279,35 @@
 [DEBUG] Skills and commands included in Skill tool:
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
+[DEBUG] Metrics export disabled by organization setting
+[DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Tracked file modification for /home/vibecode/workspace/src/app/api/orders/route.ts
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/api/orders/route.ts.tmp.175.1762134121835
+[DEBUG] Temp file written successfully, size: 1509 bytes
+[DEBUG] Renaming /home/vibecode/workspace/src/app/api/orders/route.ts.tmp.175.1762134121835 to /home/vibecode/workspace/src/app/api/orders/route.ts
+[DEBUG] File /home/vibecode/workspace/src/app/api/orders/route.ts written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Tracked file modification for /home/vibecode/workspace/src/app/api/sellers/[address]/route.ts
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/api/sellers/[address]/route.ts.tmp.175.1762134131639
+[DEBUG] Temp file written successfully, size: 1543 bytes
+[DEBUG] Renaming /home/vibecode/workspace/src/app/api/sellers/[address]/route.ts.tmp.175.1762134131639 to /home/vibecode/workspace/src/app/api/sellers/[address]/route.ts
+[DEBUG] File /home/vibecode/workspace/src/app/api/sellers/[address]/route.ts written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
