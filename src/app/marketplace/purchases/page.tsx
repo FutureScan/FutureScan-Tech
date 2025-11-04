@@ -246,7 +246,7 @@ export default function PurchasesPage() {
                 <div className="text-right">
                   <div className="text-sm text-gray-400 mb-1">Total Spent</div>
                   <div className="text-2xl font-bold text-[#ff6b35]">
-                    ${purchases.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
+                    ${purchases.reduce((sum, p) => sum + p.amount_usd, 0).toFixed(2)}
                   </div>
                 </div>
               </div>
