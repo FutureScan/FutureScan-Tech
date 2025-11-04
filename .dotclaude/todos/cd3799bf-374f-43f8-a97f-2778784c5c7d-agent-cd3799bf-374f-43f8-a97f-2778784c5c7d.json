@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "content": "Scan and fix all dashboard errors",
+    "status": "in_progress",
+    "activeForm": "Finding all errors"
+  },
+  {
+    "content": "Build complete seller dashboard with sales tracking",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Add edit/delete listing functionality",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Fix all type mismatches in purchases",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Add proper search and filtering",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Test every single feature end-to-end",
+    "status": "pending",
+    "activeForm": "Pending"
+  }
+]
