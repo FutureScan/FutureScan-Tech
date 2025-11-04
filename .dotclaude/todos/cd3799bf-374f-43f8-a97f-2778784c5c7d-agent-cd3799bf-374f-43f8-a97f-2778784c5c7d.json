@@ -1,7 +1,22 @@
 [
   {
-    "content": "Create comprehensive x402 marketplace documentation",
+    "content": "Locate homepage and logo files",
     "status": "in_progress",
-    "activeForm": "Creating final summary"
+    "activeForm": "Finding homepage and logo"
+  },
+  {
+    "content": "Enhance dashboard design",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Integrate logo throughout UI",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Add marketplace advertising to homepage",
+    "status": "pending",
+    "activeForm": "Pending"
   }
 ]
