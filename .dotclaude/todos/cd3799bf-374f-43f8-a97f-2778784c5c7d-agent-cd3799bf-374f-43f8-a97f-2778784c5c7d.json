@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "content": "Fix build error in marketplace dashboard",
+    "status": "in_progress",
+    "activeForm": "Fixing build error in marketplace dashboard"
+  },
+  {
+    "content": "Implement complete x402 payment protocol integration",
+    "status": "pending",
+    "activeForm": "Implementing complete x402 payment protocol"
+  },
+  {
+    "content": "Add seller crypto payment selection (SOL, USDC, BONK, etc)",
+    "status": "pending",
+    "activeForm": "Adding seller crypto payment selection"
+  },
+  {
+    "content": "Build working buyer purchase flow with wallet",
+    "status": "pending",
+    "activeForm": "Building working buyer purchase flow"
+  },
+  {
+    "content": "Add proper error handling and transaction verification",
+    "status": "pending",
+    "activeForm": "Adding error handling and verification"
+  },
+  {
+    "content": "Test complete marketplace flow end-to-end",
+    "status": "pending",
+    "activeForm": "Testing complete marketplace flow"
+  }
+]
