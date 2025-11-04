@@ -10622,3 +10622,4 @@
 [DEBUG] Renaming /home/vibecode/.claude.json.tmp.6617.1762232095176 to /home/vibecode/.claude.json
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
+[DEBUG] Metrics export disabled by organization setting
