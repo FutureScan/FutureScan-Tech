@@ -7,18 +7,18 @@ const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
 
 /**
  * POST /api/purchases
- * Purchase a product using x402 protocol
+ * Purchase a product with x402 payment protocol
  *
- * Payment is sent directly to the seller (peer-to-peer)
+ * Payment is sent directly to the seller (peer-to-peer) using selected token
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { listing_id, buyer_wallet, transaction_signature } = body;
 
-    if (!listing_id || !buyer_wallet) {
+    if (!listing_id || !buyer_wallet || !transaction_signature) {
       return NextResponse.json(
-        { error: 'Listing ID and buyer wallet required' },
+        { error: 'Listing ID, buyer wallet, and transaction signature required' },
         { status: 400 }
       );
     }
@@ -45,8 +45,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // PAYMENT DISABLED FOR NOW - Will implement x402 later
     // In production, verify transaction_signature on-chain here
+    // For now, we trust the client-side payment was successful
 
     // Create purchase record
     const purchase: Purchase = {
@@ -55,7 +55,8 @@ export async function POST(request: NextRequest) {
       buyer_wallet,
       seller_wallet: listing.seller_wallet,
       amount: listing.price,
-      transaction_signature: transaction_signature || 'FREE_FOR_TESTING',
+      payment_token: listing.payment_token,
+      transaction_signature,
       purchased_at: Date.now(),
       status: 'completed',
       access_granted: true,
