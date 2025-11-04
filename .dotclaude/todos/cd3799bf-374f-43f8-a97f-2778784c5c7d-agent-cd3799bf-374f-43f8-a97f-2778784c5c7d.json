@@ -1,22 +1,27 @@
 [
   {
     "content": "Read all official x402 Coinbase documentation",
-    "status": "in_progress",
-    "activeForm": "Reading x402 documentation"
+    "status": "completed",
+    "activeForm": "Reading documentation"
   },
   {
     "content": "Understand proper x402 HTTP 402 implementation",
-    "status": "pending",
-    "activeForm": "Understanding x402 protocol"
+    "status": "completed",
+    "activeForm": "Understanding x402"
   },
   {
-    "content": "Implement official x402 protocol with HTTP 402",
-    "status": "pending",
-    "activeForm": "Implementing proper x402"
+    "content": "Install official x402 packages (@coinbase/x402, x402-next)",
+    "status": "in_progress",
+    "activeForm": "Installing x402 packages"
   },
   {
-    "content": "Test proper x402 payment flow",
+    "content": "Implement proper HTTP 402 responses with facilitator",
     "status": "pending",
-    "activeForm": "Testing x402 flow"
+    "activeForm": "Implementing HTTP 402"
+  },
+  {
+    "content": "Test complete x402 payment flow",
+    "status": "pending",
+    "activeForm": "Testing x402"
   }
 ]
