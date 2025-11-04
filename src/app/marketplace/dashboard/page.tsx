@@ -26,6 +26,8 @@ export default function DashboardPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [editingListing, setEditingListing] = useState<Listing | null>(null);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     if (wallet.connected && wallet.publicKey) {
@@ -85,6 +87,45 @@ export default function DashboardPage() {
       alert(`Error: ${error.message}`);
     } finally {
       setDeleting(null);
+    }
+  }
+
+  async function handleUpdateListing(updatedListing: Listing) {
+    if (!wallet.publicKey) return;
+
+    setUpdating(true);
+
+    try {
+      const response = await fetch('/api/listings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: updatedListing.id,
+          seller_wallet: wallet.publicKey.toString(),
+          title: updatedListing.title,
+          description: updatedListing.description,
+          price_usd: updatedListing.price_usd,
+          payment_token: updatedListing.payment_token,
+          features: updatedListing.features,
+          access_info: updatedListing.access_info,
+          delivery_type: updatedListing.delivery_type,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // Update in state
+        setListings(listings.map(l => l.id === updatedListing.id ? result.listing : l));
+        setEditingListing(null);
+        alert('Listing updated successfully!');
+      } else {
+        alert(`Failed to update: ${result.error}`);
+      }
+    } catch (error: any) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setUpdating(false);
     }
   }
 
