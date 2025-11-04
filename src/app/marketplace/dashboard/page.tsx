@@ -16,6 +16,7 @@ import {
   AlertCircle,
   Loader2,
   Plus,
+  X,
 } from 'lucide-react';
 import type { Listing, Order } from '@/types/marketplace';
 
@@ -416,6 +417,133 @@ export default function DashboardPage() {
               )}
             </div>
           </>
+        )}
+
+        {/* Edit Listing Modal */}
+        {editingListing && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="glass-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-800">
+                <h2 className="text-2xl font-bold gradient-text">Edit Listing</h2>
+                <button
+                  onClick={() => setEditingListing(null)}
+                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Form */}
+              <div className="p-6 space-y-4">
+                {updating ? (
+                  <div className="text-center py-12">
+                    <Loader2 size={48} className="mx-auto mb-4 text-[#ff6b35] animate-spin" />
+                    <p>Updating listing...</p>
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Title *</label>
+                      <input
+                        type="text"
+                        value={editingListing.title}
+                        onChange={(e) => setEditingListing({ ...editingListing, title: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Description *</label>
+                      <textarea
+                        rows={4}
+                        value={editingListing.description}
+                        onChange={(e) => setEditingListing({ ...editingListing, description: e.target.value })}
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) *</label>
+                        <input
+                          type="number"
+                          min="0.01"
+                          step="0.01"
+                          value={editingListing.price_usd}
+                          onChange={(e) => setEditingListing({ ...editingListing, price_usd: parseFloat(e.target.value) })}
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Payment Token *</label>
+                        <select
+                          value={editingListing.payment_token}
+                          onChange={(e) => setEditingListing({ ...editingListing, payment_token: e.target.value as any })}
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
+                        >
+                          <option value="SOL">◎ SOL</option>
+                          <option value="USDC">$ USDC</option>
+                          <option value="USDT">₮ USDT</option>
+                          <option value="BONK">🐕 BONK</option>
+                          <option value="RAY">⚡ RAY</option>
+                          <option value="ORCA">🐋 ORCA</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Features *</label>
+                      {editingListing.features.map((feature, idx) => (
+                        <input
+                          key={idx}
+                          type="text"
+                          value={feature}
+                          onChange={(e) => {
+                            const newFeatures = [...editingListing.features];
+                            newFeatures[idx] = e.target.value;
+                            setEditingListing({ ...editingListing, features: newFeatures });
+                          }}
+                          placeholder={`Feature ${idx + 1}`}
+                          className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none mb-2"
+                        />
+                      ))}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Product Access Info *</label>
+                      <textarea
+                        rows={6}
+                        value={editingListing.access_info || ''}
+                        onChange={(e) => setEditingListing({ ...editingListing, access_info: e.target.value })}
+                        placeholder="Download link, API key, access instructions..."
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none font-mono text-sm"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Footer */}
+              {!updating && (
+                <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-800">
+                  <button
+                    onClick={() => setEditingListing(null)}
+                    className="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-semibold transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleUpdateListing(editingListing)}
+                    className="px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-lg font-semibold transition-all"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </div>
