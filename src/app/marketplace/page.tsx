@@ -246,50 +246,6 @@ export default function MarketplacePage() {
     }
   }
 
-  // Purchase Product (Free for now)
-  async function handlePurchase(listing: Listing) {
-    if (!wallet.connected || !wallet.publicKey) {
-      alert('Please connect your wallet to make purchases');
-      return;
-    }
-
-    // Don't allow buying your own products
-    if (listing.seller_wallet === wallet.publicKey.toString()) {
-      alert('You cannot purchase your own product');
-      return;
-    }
-
-    setPurchasing(true);
-
-    try {
-      const response = await fetch('/api/purchases', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          listing_id: listing.id,
-          buyer_wallet: wallet.publicKey.toString(),
-          transaction_signature: 'FREE_PURCHASE', // No payment for now
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        alert(
-          `Purchase successful!\n\nAccess Key: ${result.purchase.access_key}\n\nCheck your dashboard for full details.`
-        );
-        setSelectedProduct(null);
-        await loadListings(); // Refresh to update sales count
-      } else {
-        alert(`Purchase failed: ${result.error}`);
-      }
-    } catch (error: any) {
-      alert(`Error: ${error.message}`);
-    } finally {
-      setPurchasing(false);
-    }
-  }
-
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'signals': return <TrendingUp size={18} />;
