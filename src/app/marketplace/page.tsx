@@ -25,6 +25,9 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { PaymentToken } from '@/types/marketplace';
+import { TOKEN_CONFIGS, formatTokenAmount } from '@/lib/tokens';
+import { executeDirectPayment, checkBalance } from '@/lib/x402-client';
 
 interface Listing {
   id: string;
@@ -32,6 +35,7 @@ interface Listing {
   description: string;
   category: 'signals' | 'research' | 'data' | 'tools' | 'bots' | 'api';
   price: number;
+  payment_token: PaymentToken;
   seller: string;
   seller_wallet: string;
   features: string[];
@@ -64,6 +68,7 @@ export default function MarketplacePage() {
     description: '',
     category: 'signals' as Listing['category'],
     price: '',
+    payment_token: 'SOL' as PaymentToken,
     seller: '',
     features: ['', '', ''],
   });
@@ -88,7 +93,7 @@ export default function MarketplacePage() {
     }
   }
 
-  // Create Listing (No Payment Required)
+  // Create Listing with Payment Token Selection
   async function handleCreateListing() {
     // Check wallet connection
     if (!wallet.connected || !wallet.publicKey) {
@@ -111,7 +116,7 @@ export default function MarketplacePage() {
     setCreating(true);
 
     try {
-      // Direct POST - no payment required
+      // Create listing with selected payment token
       const response = await fetch('/api/listings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -120,10 +125,11 @@ export default function MarketplacePage() {
           description: formData.description,
           category: formData.category,
           price: parseFloat(formData.price),
+          payment_token: formData.payment_token,
           seller: formData.seller,
-          seller_wallet: wallet.publicKey.toString(), // Add wallet address
+          seller_wallet: wallet.publicKey.toString(),
           features: validFeatures,
-          delivery_type: 'manual',
+          delivery_type: 'instant',
         }),
       });
 
@@ -138,6 +144,7 @@ export default function MarketplacePage() {
           description: '',
           category: 'signals',
           price: '',
+          payment_token: 'SOL',
           seller: '',
           features: ['', '', ''],
         });
@@ -154,6 +161,88 @@ export default function MarketplacePage() {
       alert(`Error: ${error.message}`);
     } finally {
       setCreating(false);
+    }
+  }
+
+  // Purchase with X402 Payment Protocol
+  async function handlePurchase(listing: Listing) {
+    if (!wallet.connected || !wallet.publicKey) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
+    // Check if trying to buy own listing
+    if (listing.seller_wallet === wallet.publicKey.toString()) {
+      alert('You cannot purchase your own listing');
+      return;
+    }
+
+    setPurchasing(true);
+    setSelectedProduct(listing);
+
+    try {
+      // Step 1: Check balance
+      const balanceCheck = await checkBalance(
+        listing.price,
+        listing.payment_token,
+        wallet,
+        connection
+      );
+
+      if (!balanceCheck.sufficient) {
+        alert(
+          `Insufficient ${listing.payment_token} balance!\n\nRequired: ${listing.price} ${listing.payment_token}\nYour balance: ${balanceCheck.balance.toFixed(4)} ${listing.payment_token}`
+        );
+        setPurchasing(false);
+        setSelectedProduct(null);
+        return;
+      }
+
+      // Step 2: Execute payment
+      const paymentResult = await executeDirectPayment(
+        {
+          amount: listing.price,
+          token: listing.payment_token,
+          recipient: listing.seller_wallet,
+          memo: `Purchase: ${listing.title}`,
+        },
+        wallet,
+        connection
+      );
+
+      if (!paymentResult.success) {
+        alert(`Payment failed: ${paymentResult.error || 'Unknown error'}`);
+        setPurchasing(false);
+        setSelectedProduct(null);
+        return;
+      }
+
+      // Step 3: Record purchase
+      const purchaseResponse = await fetch('/api/purchases', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          listing_id: listing.id,
+          buyer_wallet: wallet.publicKey.toString(),
+          transaction_signature: paymentResult.signature,
+        }),
+      });
+
+      const purchaseResult = await purchaseResponse.json();
+
+      if (purchaseResponse.ok && purchaseResult.success) {
+        alert(
+          `Purchase successful! 🎉\n\nTransaction: ${paymentResult.signature?.substring(0, 20)}...\n\nAccess Key: ${purchaseResult.purchase.access_key}\n\nCheck your purchases page for details!`
+        );
+        await loadListings();
+      } else {
+        alert(`Failed to record purchase: ${purchaseResult.error || 'Unknown error'}`);
+      }
+    } catch (error: any) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setPurchasing(false);
+      setSelectedProduct(null);
     }
   }
 
