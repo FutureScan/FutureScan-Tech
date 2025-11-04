@@ -1,23 +1,23 @@
 [
   {
     "content": "Scan entire site for errors",
-    "status": "in_progress",
-    "activeForm": "Finding all remaining errors"
+    "status": "completed",
+    "activeForm": "Fixed marketplace ad"
   },
   {
     "content": "Fix all errors found",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "in_progress",
+    "activeForm": "Checking for runtime errors"
   },
   {
     "content": "Remove logo from marketplace ad",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "completed",
+    "activeForm": "Done"
   },
   {
     "content": "Improve marketplace ad design",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "completed",
+    "activeForm": "Done"
   },
   {
     "content": "Test everything works",

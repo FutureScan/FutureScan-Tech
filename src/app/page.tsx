@@ -9,7 +9,7 @@ import { SentimentCard } from '@/components/SentimentCard';
 import { Watchlist } from '@/components/Watchlist';
 import { NewsList } from '@/components/NewsList';
 import Link from 'next/link';
-import { ArrowRight, Zap, TrendingUp, Newspaper, Activity, ShoppingCart, DollarSign, Shield } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Newspaper, Activity, ShoppingCart, DollarSign, Shield, Package } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Dashboard() {
@@ -292,56 +292,84 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* Right: Visual with Logo */}
+                {/* Right: Enhanced Visual Stats */}
                 <div className="relative">
                   {/* Background glow effects */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#ff6b35]/20 via-purple-500/20 to-blue-500/20 blur-3xl animate-pulse"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/20 via-purple-500/20 to-blue-500/20 blur-3xl animate-pulse"></div>
 
-                  {/* Card with stats */}
-                  <div className="relative glass-card p-8 border border-[#ff6b35]/30">
-                    {/* Logo at top */}
+                  {/* Main Card */}
+                  <div className="relative glass-card p-8 border-2 border-[#ff6b35]/30">
+                    {/* Animated icon header */}
                     <div className="flex justify-center mb-6">
                       <div className="relative">
-                        <div className="absolute inset-0 bg-[#ff6b35] blur-2xl opacity-50 animate-pulse"></div>
-                        <Image
-                          src="/logo.png"
-                          alt="FutureScan"
-                          width={120}
-                          height={120}
-                          className="relative z-10"
-                        />
+                        <div className="absolute inset-0 bg-[#ff6b35] blur-3xl opacity-50 animate-pulse"></div>
+                        <div className="relative z-10 p-6 rounded-2xl bg-gradient-to-br from-[#ff6b35]/30 to-purple-500/30 border border-[#ff6b35]/50">
+                          <ShoppingCart size={48} className="text-[#ff6b35]" />
+                        </div>
                       </div>
                     </div>
 
-                    <h3 className="text-xl font-bold text-center mb-6 gradient-text">Marketplace Stats</h3>
+                    <h3 className="text-2xl font-black text-center mb-2 gradient-text">Live Now</h3>
+                    <p className="text-sm text-gray-400 text-center mb-6">Real-time marketplace statistics</p>
 
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-[#ff6b35]/10 to-transparent">
-                        <span className="text-gray-400">Active Listings</span>
-                        <span className="text-2xl font-black gradient-text">Live</span>
+                    <div className="space-y-3">
+                      <div className="p-4 rounded-xl bg-gradient-to-r from-[#ff6b35]/10 to-transparent border border-[#ff6b35]/20 hover:border-[#ff6b35]/40 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-[#ff6b35]/20 flex items-center justify-center">
+                              <Package size={20} className="text-[#ff6b35]" />
+                            </div>
+                            <span className="text-gray-300 font-medium">Active Listings</span>
+                          </div>
+                          <span className="text-2xl font-black gradient-text">Live</span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-transparent">
-                        <span className="text-gray-400">Payment Methods</span>
-                        <span className="text-2xl font-black text-purple-400">6 Tokens</span>
+                      <div className="p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-transparent border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                              <DollarSign size={20} className="text-purple-400" />
+                            </div>
+                            <span className="text-gray-300 font-medium">Supported Tokens</span>
+                          </div>
+                          <span className="text-2xl font-black text-purple-400">6</span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-transparent">
-                        <span className="text-gray-400">Settlement</span>
-                        <span className="text-2xl font-black text-blue-400">Instant</span>
+                      <div className="p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-transparent border border-blue-500/20 hover:border-blue-500/40 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                              <Zap size={20} className="text-blue-400" />
+                            </div>
+                            <span className="text-gray-300 font-medium">Settlement</span>
+                          </div>
+                          <span className="text-2xl font-black text-blue-400">Instant</span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-transparent">
-                        <span className="text-gray-400">Fees</span>
-                        <span className="text-2xl font-black text-green-400">0%</span>
+                      <div className="p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-transparent border border-green-500/20 hover:border-green-500/40 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
+                              <Shield size={20} className="text-green-400" />
+                            </div>
+                            <span className="text-gray-300 font-medium">Platform Fees</span>
+                          </div>
+                          <span className="text-2xl font-black text-green-400">0%</span>
+                        </div>
                       </div>
                     </div>
 
                     {/* Protocol badge */}
                     <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-[#ff6b35]/20 to-purple-500/20 border border-[#ff6b35]/30 text-center">
-                      <div className="text-xs text-gray-400 mb-1">Powered by</div>
-                      <div className="font-mono font-bold text-[#ff6b35]">x402 Protocol</div>
-                      <div className="text-xs text-gray-500 mt-1">Official Coinbase Implementation</div>
+                      <div className="flex items-center justify-center gap-2 mb-1">
+                        <Shield size={16} className="text-[#ff6b35]" />
+                        <div className="text-xs text-gray-400 font-semibold">POWERED BY</div>
+                      </div>
+                      <div className="font-mono font-black text-xl text-[#ff6b35] mb-1">x402</div>
+                      <div className="text-xs text-gray-500">Official Coinbase Protocol</div>
                     </div>
                   </div>
                 </div>
