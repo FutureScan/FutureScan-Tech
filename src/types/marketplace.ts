@@ -58,7 +58,7 @@ export interface Order {
   listing_title: string;
   buyer_wallet: string;
   buyer_name?: string;
-  amount: number;
+  amount: number; // Amount in USD
   purchased_at: number;
   status: 'completed' | 'pending' | 'refunded';
 }
