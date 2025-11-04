@@ -10032,3 +10032,56 @@
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message 12b82833-4cc1-4719-960f-2df5f081b04c
+[DEBUG] FileHistory: Missing tracked file: src/app/marketplace2/page.tsx
+[DEBUG] FileHistory: Added snapshot for 12b82833-4cc1-4719-960f-2df5f081b04c, tracking 40 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Skipping PreToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json.tmp.218.1762225938101
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json.tmp.218.1762225938101 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.218.1762225938106
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 457 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.218.1762225938106 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json written atomically
+[DEBUG] Skipping PostToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Read
+[DEBUG] Skipping PreToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:Read hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:

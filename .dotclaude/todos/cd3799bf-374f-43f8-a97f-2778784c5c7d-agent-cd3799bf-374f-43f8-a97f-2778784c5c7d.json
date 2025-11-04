@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "content": "Find all errors across the site",
+    "status": "in_progress",
+    "activeForm": "Scanning for errors"
+  },
+  {
+    "content": "Fix all TypeScript/build errors",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Fix all runtime errors",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Verify all pages load correctly",
+    "status": "pending",
+    "activeForm": "Pending"
+  }
+]
