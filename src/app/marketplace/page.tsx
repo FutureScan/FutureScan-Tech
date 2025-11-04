@@ -94,7 +94,7 @@ export default function MarketplacePage() {
     }
   }
 
-  // Create Listing with Payment Token Selection
+  // Create Listing with USD Pricing
   async function handleCreateListing() {
     // Check wallet connection
     if (!wallet.connected || !wallet.publicKey) {
@@ -103,7 +103,7 @@ export default function MarketplacePage() {
     }
 
     // Validate form
-    if (!formData.title || !formData.description || !formData.price || !formData.seller) {
+    if (!formData.title || !formData.description || !formData.price_usd || !formData.seller) {
       alert('Please fill in all required fields');
       return;
     }
@@ -114,10 +114,16 @@ export default function MarketplacePage() {
       return;
     }
 
+    const priceUSD = parseFloat(formData.price_usd);
+    if (isNaN(priceUSD) || priceUSD <= 0) {
+      alert('Please enter a valid price in USD (e.g., 5.00 for $5)');
+      return;
+    }
+
     setCreating(true);
 
     try {
-      // Create listing with selected payment token
+      // Create listing with USD price
       const response = await fetch('/api/listings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -125,7 +131,7 @@ export default function MarketplacePage() {
           title: formData.title,
           description: formData.description,
           category: formData.category,
-          price: parseFloat(formData.price),
+          price_usd: priceUSD,
           payment_token: formData.payment_token,
           seller: formData.seller,
           seller_wallet: wallet.publicKey.toString(),
@@ -137,14 +143,20 @@ export default function MarketplacePage() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        // Success!
+        // Calculate equivalent token amount for display
+        const tokenAmount = convertUSDToToken(priceUSD, formData.payment_token);
+
+        alert(
+          `✅ Listing Created Successfully!\n\nPrice: $${priceUSD.toFixed(2)} USD\nEquivalent: ${tokenAmount.toFixed(4)} ${formData.payment_token}\n\nYour product is now live!`
+        );
+
         setShowSuccess(true);
         setShowListingForm(false);
         setFormData({
           title: '',
           description: '',
           category: 'signals',
-          price: '',
+          price_usd: '',
           payment_token: 'SOL',
           seller: '',
           features: ['', '', ''],
