@@ -757,9 +757,32 @@ export default function MarketplacePage() {
                           className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
                         />
                         <p className="text-xs text-gray-500 mt-1">
-                          Set your price in USD (e.g., 5.00 for $5). Buyers will pay the equivalent amount in {formData.payment_token}.
+                          Set your price in USD (e.g., 5.00 for $5)
                         </p>
                       </div>
+                    </div>
+
+                    {/* Payment Token Selector */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">
+                        Payment Token *
+                        <span className="text-xs font-normal text-gray-500 ml-2">(Which crypto do you want to receive?)</span>
+                      </label>
+                      <select
+                        value={formData.payment_token}
+                        onChange={(e) => setFormData({ ...formData, payment_token: e.target.value as PaymentToken })}
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-base"
+                      >
+                        <option value="SOL">◎ SOL - Solana</option>
+                        <option value="USDC">$ USDC - USD Coin (Stablecoin)</option>
+                        <option value="USDT">₮ USDT - Tether USD (Stablecoin)</option>
+                        <option value="BONK">🐕 BONK - Bonk</option>
+                        <option value="RAY">⚡ RAY - Raydium</option>
+                        <option value="ORCA">🐋 ORCA - Orca</option>
+                      </select>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Buyers will pay ${formData.price_usd || '0.00'} worth of {formData.payment_token} directly to your wallet
+                      </p>
                     </div>
 
                     <div>
