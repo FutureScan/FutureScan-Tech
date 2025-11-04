@@ -10348,3 +10348,4 @@
 [DEBUG] Stream started - received first chunk
 [DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Metrics export disabled by organization setting
