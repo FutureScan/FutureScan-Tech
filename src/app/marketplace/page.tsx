@@ -138,7 +138,8 @@ export default function MarketplacePage() {
           seller: formData.seller,
           seller_wallet: wallet.publicKey.toString(),
           features: validFeatures,
-          delivery_type: 'instant',
+          delivery_type: formData.delivery_type,
+          access_info: formData.access_info,
         }),
       });
 
@@ -162,6 +163,8 @@ export default function MarketplacePage() {
           payment_token: 'SOL',
           seller: '',
           features: ['', '', ''],
+          delivery_type: 'instant',
+          access_info: '',
         });
 
         // Reload listings
