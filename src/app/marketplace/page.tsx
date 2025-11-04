@@ -672,13 +672,16 @@ export default function MarketplacePage() {
                         <label className="block text-sm font-semibold text-gray-300 mb-2">Price (USD) *</label>
                         <input
                           type="number"
-                          min="1"
+                          min="0.01"
                           step="0.01"
-                          value={formData.price}
-                          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                          placeholder="99.99"
+                          value={formData.price_usd}
+                          onChange={(e) => setFormData({ ...formData, price_usd: e.target.value })}
+                          placeholder="5.00"
                           className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none"
                         />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Set your price in USD (e.g., 5.00 for $5). Buyers will pay the equivalent amount in {formData.payment_token}.
+                        </p>
                       </div>
                     </div>
 
