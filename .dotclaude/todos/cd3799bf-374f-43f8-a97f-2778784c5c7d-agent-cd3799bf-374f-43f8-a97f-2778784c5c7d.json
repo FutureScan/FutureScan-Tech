@@ -1,18 +1,18 @@
 [
   {
     "content": "Find all errors across the site",
-    "status": "in_progress",
-    "activeForm": "Scanning for errors"
+    "status": "completed",
+    "activeForm": "Found and fixed all errors"
   },
   {
     "content": "Fix all TypeScript/build errors",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "completed",
+    "activeForm": "All TypeScript errors fixed"
   },
   {
     "content": "Fix all runtime errors",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "in_progress",
+    "activeForm": "Checking for runtime issues"
   },
   {
     "content": "Verify all pages load correctly",
