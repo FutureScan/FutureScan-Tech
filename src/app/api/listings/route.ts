@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Connection, PublicKey, Transaction } from '@solana/web3.js';
-import bs58 from 'bs58';
 import type { Listing, PaymentToken } from '@/types/marketplace';
 import { LISTINGS } from '@/lib/marketplace-store';
 
 /**
  * POST /api/listings
- * Create new marketplace listing (no listing fee required)
+ * Create new marketplace listing with USD pricing
  */
 export async function POST(request: NextRequest) {
   try {
@@ -20,9 +18,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!body.title || !body.description || !body.price || !body.payment_token) {
+    if (!body.title || !body.description || !body.price_usd || !body.payment_token) {
       return NextResponse.json(
-        { error: 'Missing required fields: title, description, price, payment_token' },
+        { error: 'Missing required fields: title, description, price_usd, payment_token' },
         { status: 400 }
       );
     }
@@ -36,12 +34,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate USD price
+    const priceUSD = parseFloat(body.price_usd);
+    if (isNaN(priceUSD) || priceUSD <= 0) {
+      return NextResponse.json(
+        { error: 'Invalid price - must be a positive number in USD' },
+        { status: 400 }
+      );
+    }
+
     const newListing: Listing = {
       id: `listing_${Date.now()}_${Math.random().toString(36).substring(7)}`,
       title: body.title,
       description: body.description,
       category: body.category,
-      price: body.price,
+      price_usd: priceUSD,
       payment_token: body.payment_token,
       seller: body.seller,
       seller_wallet: body.seller_wallet,
