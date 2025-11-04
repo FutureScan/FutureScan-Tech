@@ -1,37 +1,7 @@
 [
   {
-    "content": "Scan and fix all dashboard errors",
-    "status": "completed",
-    "activeForm": "All errors fixed"
-  },
-  {
-    "content": "Build complete seller dashboard with sales tracking",
-    "status": "completed",
-    "activeForm": "Dashboard complete"
-  },
-  {
-    "content": "Add edit/delete listing functionality",
-    "status": "completed",
-    "activeForm": "Edit/delete working"
-  },
-  {
-    "content": "Fix all type mismatches in purchases",
-    "status": "completed",
-    "activeForm": "Types fixed"
-  },
-  {
-    "content": "Add proper search and filtering",
-    "status": "completed",
-    "activeForm": "Search already works"
-  },
-  {
-    "content": "Verify all x402 protocol implementation",
+    "content": "Create comprehensive x402 marketplace documentation",
     "status": "in_progress",
-    "activeForm": "Final verification"
-  },
-  {
-    "content": "Build comprehensive test checklist",
-    "status": "pending",
-    "activeForm": "Pending"
+    "activeForm": "Creating final summary"
   }
 ]
