@@ -8429,3 +8429,57 @@
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Skipping Notification hook execution - workspace trust not accepted
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skipping UserPromptSubmit hook execution - workspace trust not accepted
+[DEBUG] FileHistory: Making snapshot for message b8749ff2-380e-46a8-8f85-2d1d7645998d
+[DEBUG] FileHistory: Missing tracked file: src/app/marketplace2/page.tsx
+[DEBUG] FileHistory: Added snapshot for b8749ff2-380e-46a8-8f85-2d1d7645998d, tracking 40 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: TodoWrite
+[DEBUG] Skipping PreToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json.tmp.218.1762219110511
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json.tmp.218.1762219110511 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-a2d23557-caae-4a1e-8acf-9fd2605baa53.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.218.1762219110516
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 562 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json.tmp.218.1762219110516 to /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json
+[DEBUG] File /home/vibecode/.claude/todos/cd3799bf-374f-43f8-a97f-2778784c5c7d-agent-cd3799bf-374f-43f8-a97f-2778784c5c7d.json written atomically
+[DEBUG] Skipping PostToolUse:TodoWrite hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: WebFetch
+[DEBUG] Skipping PreToolUse:WebFetch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebFetch
+[DEBUG] Skipping PreToolUse:WebFetch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebFetch
+[DEBUG] Skipping PreToolUse:WebFetch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebFetch
+[DEBUG] Skipping PreToolUse:WebFetch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebFetch
+[DEBUG] Skipping PreToolUse:WebFetch hook execution - workspace trust not accepted
+[DEBUG] executePreToolHooks called for tool: WebFetch
+[DEBUG] Skipping PreToolUse:WebFetch hook execution - workspace trust not accepted
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Skipping PostToolUse:WebFetch hook execution - workspace trust not accepted
+[DEBUG] Skipping PostToolUse:WebFetch hook execution - workspace trust not accepted
