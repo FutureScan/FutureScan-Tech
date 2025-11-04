@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ArrowLeft,
   Edit,
@@ -167,26 +168,47 @@ export default function DashboardPage() {
 
       <div className="relative p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Enhanced Header with Logo */}
         <div className="mb-8">
           <Link
             href="/marketplace"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-4 transition-colors"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors group"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             Back to Marketplace
           </Link>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-2">
-                Seller Dashboard
-              </h1>
-              <p className="text-gray-400">Manage your listings and track sales</p>
-            </div>
+          <div className="glass-card p-8 border border-[#ff6b35]/20">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              {/* Left: Logo and Title */}
+              <div className="flex items-center gap-6">
+                {/* Logo */}
+                <div className="relative flex-shrink-0">
+                  <div className="absolute inset-0 bg-[#ff6b35] blur-2xl opacity-40 animate-pulse"></div>
+                  <Image
+                    src="/logo.png"
+                    alt="FutureScan"
+                    width={80}
+                    height={80}
+                    className="relative z-10"
+                  />
+                </div>
 
-            <div className="wallet-adapter-button-trigger">
-              <WalletMultiButton />
+                {/* Title and subtitle */}
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-black gradient-text mb-2">
+                    Seller Dashboard
+                  </h1>
+                  <p className="text-gray-400 text-sm md:text-base">
+                    Manage your listings and track sales • <span className="text-[#ff6b35] font-semibold">x402 Protocol</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: Wallet */}
+              <div className="wallet-adapter-button-trigger">
+                <WalletMultiButton />
+              </div>
             </div>
           </div>
         </div>
