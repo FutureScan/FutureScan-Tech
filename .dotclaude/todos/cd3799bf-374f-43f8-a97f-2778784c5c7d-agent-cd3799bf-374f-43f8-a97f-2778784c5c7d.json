@@ -12,16 +12,16 @@
   {
     "content": "Test complete seller listing creation",
     "status": "completed",
-    "activeForm": "Verifying complete implementation"
+    "activeForm": "Verified seller flow"
   },
   {
     "content": "Test complete buyer purchase flow",
-    "status": "in_progress",
-    "activeForm": "Verifying buyer flow"
+    "status": "completed",
+    "activeForm": "Verified buyer flow"
   },
   {
     "content": "Verify entire marketplace works perfectly",
-    "status": "pending",
-    "activeForm": "End-to-end verification"
+    "status": "in_progress",
+    "activeForm": "Final verification"
   }
 ]
