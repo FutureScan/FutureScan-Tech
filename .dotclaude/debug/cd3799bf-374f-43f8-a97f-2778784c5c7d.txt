@@ -7676,3 +7676,7 @@
 [DEBUG] Summarizing last 1 of 102 messages (~81508 tokens)
 [DEBUG] Stream started - received first chunk
 [DEBUG] Stream started - received first chunk
+[DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
+[DEBUG] Metrics export disabled by organization setting
+[DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
+[DEBUG] Metrics export disabled by organization setting
