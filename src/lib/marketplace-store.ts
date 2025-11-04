@@ -36,7 +36,7 @@ export function getSellerStats(sellerWallet: string) {
   return {
     total_listings: listings.length,
     total_sales: sales.length,
-    total_revenue: sales.reduce((sum, p) => sum + p.amount, 0),
+    total_revenue: sales.reduce((sum, p) => sum + p.amount_usd, 0),
     active_listings: listings.filter(l => l.total_sales < 1000).length, // arbitrary active threshold
   };
 }
