@@ -177,7 +177,7 @@ export default function MarketplacePage() {
     }
   }
 
-  // Purchase with X402 Payment Protocol
+  // Purchase with X402 Payment Protocol - USD to Token Conversion
   async function handlePurchase(listing: Listing) {
     if (!wallet.connected || !wallet.publicKey) {
       alert('Please connect your wallet first');
@@ -190,13 +190,29 @@ export default function MarketplacePage() {
       return;
     }
 
+    // Convert USD price to token amount
+    const tokenAmount = convertUSDToToken(listing.price_usd, listing.payment_token);
+
+    // Show purchase confirmation with both USD and token amounts
+    const confirmed = confirm(
+      `Purchase "${listing.title}"?\n\n` +
+      `Price: $${listing.price_usd.toFixed(2)} USD\n` +
+      `You will pay: ${tokenAmount.toFixed(4)} ${listing.payment_token}\n\n` +
+      `Seller: ${listing.seller}\n` +
+      `Click OK to proceed with payment.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     setPurchasing(true);
     setSelectedProduct(listing);
 
     try {
-      // Step 1: Check balance
+      // Step 1: Check balance (using token amount, not USD)
       const balanceCheck = await checkBalance(
-        listing.price,
+        tokenAmount,
         listing.payment_token,
         wallet,
         connection
@@ -204,20 +220,22 @@ export default function MarketplacePage() {
 
       if (!balanceCheck.sufficient) {
         alert(
-          `Insufficient ${listing.payment_token} balance!\n\nRequired: ${listing.price} ${listing.payment_token}\nYour balance: ${balanceCheck.balance.toFixed(4)} ${listing.payment_token}`
+          `Insufficient ${listing.payment_token} balance!\n\n` +
+          `Required: ${tokenAmount.toFixed(4)} ${listing.payment_token} ($${listing.price_usd.toFixed(2)} USD)\n` +
+          `Your balance: ${balanceCheck.balance.toFixed(4)} ${listing.payment_token}`
         );
         setPurchasing(false);
         setSelectedProduct(null);
         return;
       }
 
-      // Step 2: Execute payment
+      // Step 2: Execute payment with correct token amount
       const paymentResult = await executeDirectPayment(
         {
-          amount: listing.price,
+          amount: tokenAmount, // Use converted token amount!
           token: listing.payment_token,
           recipient: listing.seller_wallet,
-          memo: `Purchase: ${listing.title}`,
+          memo: `FutureScan Marketplace: ${listing.title}`,
         },
         wallet,
         connection
@@ -245,7 +263,11 @@ export default function MarketplacePage() {
 
       if (purchaseResponse.ok && purchaseResult.success) {
         alert(
-          `Purchase successful! 🎉\n\nTransaction: ${paymentResult.signature?.substring(0, 20)}...\n\nAccess Key: ${purchaseResult.purchase.access_key}\n\nCheck your purchases page for details!`
+          `✅ Purchase Successful! 🎉\n\n` +
+          `Paid: ${tokenAmount.toFixed(4)} ${listing.payment_token} ($${listing.price_usd.toFixed(2)} USD)\n\n` +
+          `Transaction: ${paymentResult.signature?.substring(0, 30)}...\n\n` +
+          `Access Key: ${purchaseResult.purchase.access_key}\n\n` +
+          `Check "My Purchases" for full details!`
         );
         await loadListings();
       } else {
