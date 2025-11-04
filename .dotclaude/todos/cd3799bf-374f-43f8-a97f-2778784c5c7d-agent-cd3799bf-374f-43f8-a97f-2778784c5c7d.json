@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "content": "Scan entire site for errors",
+    "status": "in_progress",
+    "activeForm": "Finding all remaining errors"
+  },
+  {
+    "content": "Fix all errors found",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Remove logo from marketplace ad",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Improve marketplace ad design",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Test everything works",
+    "status": "pending",
+    "activeForm": "Pending"
+  }
+]
