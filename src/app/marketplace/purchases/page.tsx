@@ -93,22 +93,43 @@ export default function PurchasesPage() {
         <div className="mb-8">
           <Link
             href="/marketplace"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-4 transition-colors"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors group"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             Back to Marketplace
           </Link>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-2">
-                My Purchases
-              </h1>
-              <p className="text-gray-400">Products you've purchased</p>
-            </div>
+          <div className="glass-card p-8 border border-[#ff6b35]/20">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              {/* Left: Logo and Title */}
+              <div className="flex items-center gap-6">
+                {/* Logo */}
+                <div className="relative flex-shrink-0">
+                  <div className="absolute inset-0 bg-[#ff6b35] blur-2xl opacity-40 animate-pulse"></div>
+                  <Image
+                    src="/logo.png"
+                    alt="FutureScan"
+                    width={80}
+                    height={80}
+                    className="relative z-10"
+                  />
+                </div>
 
-            <div className="wallet-adapter-button-trigger">
-              <WalletMultiButton />
+                {/* Title and subtitle */}
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-black gradient-text mb-2">
+                    My Purchases
+                  </h1>
+                  <p className="text-gray-400 text-sm md:text-base">
+                    Products you've purchased • <span className="text-[#ff6b35] font-semibold">x402 Protocol</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: Wallet */}
+              <div className="wallet-adapter-button-trigger">
+                <WalletMultiButton />
+              </div>
             </div>
           </div>
         </div>
