@@ -833,6 +833,48 @@ export default function MarketplacePage() {
                         />
                       ))}
                     </div>
+
+                    {/* Delivery Type */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">
+                        Delivery Type *
+                      </label>
+                      <select
+                        value={formData.delivery_type}
+                        onChange={(e) => setFormData({ ...formData, delivery_type: e.target.value as 'instant' | 'manual' | 'subscription' })}
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none text-base"
+                      >
+                        <option value="instant">⚡ Instant - Immediate access after purchase</option>
+                        <option value="manual">👤 Manual - You'll deliver within 24h</option>
+                        <option value="subscription">🔄 Subscription - Recurring access</option>
+                      </select>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Choose how buyers will receive your product
+                      </p>
+                    </div>
+
+                    {/* Product Access Info */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">
+                        Product Access Info *
+                        <span className="text-xs font-normal text-gray-500 ml-2">(How buyers will access your product)</span>
+                      </label>
+                      <textarea
+                        rows={6}
+                        maxLength={1000}
+                        value={formData.access_info}
+                        onChange={(e) => setFormData({ ...formData, access_info: e.target.value })}
+                        placeholder="Provide one of the following:&#10;• Download link (Dropbox, Google Drive, etc.)&#10;• API key or access credentials&#10;• Login instructions&#10;• Telegram/Discord invite link&#10;• Step-by-step access instructions&#10;&#10;Example: 'Download link: https://drive.google.com/... Password: XYZ123'"
+                        className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-700 focus:border-[#ff6b35] rounded-lg transition-colors focus:outline-none resize-none font-mono text-sm"
+                      />
+                      <div className="flex items-center justify-between mt-1">
+                        <p className="text-xs text-yellow-400 flex items-center gap-1">
+                          <Shield size={12} />
+                          This will only be shown to buyers after successful payment
+                        </p>
+                        <div className="text-xs text-gray-500">{formData.access_info.length}/1000</div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

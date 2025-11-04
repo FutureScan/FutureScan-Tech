@@ -1,22 +1,22 @@
 [
   {
     "content": "Add file upload/access info input to seller form",
-    "status": "in_progress",
-    "activeForm": "Adding product upload/access field"
+    "status": "completed",
+    "activeForm": "Added access fields to form"
   },
   {
     "content": "Store and handle product files/access info",
-    "status": "pending",
-    "activeForm": "Implementing file storage"
+    "status": "completed",
+    "activeForm": "API already supports it"
   },
   {
     "content": "Show purchased content to buyers after payment",
-    "status": "pending",
-    "activeForm": "Implementing buyer access to purchases"
+    "status": "in_progress",
+    "activeForm": "Creating purchases page"
   },
   {
     "content": "Test complete upload and access flow",
     "status": "pending",
-    "activeForm": "Testing end-to-end product delivery"
+    "activeForm": "Testing flow"
   }
 ]
