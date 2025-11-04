@@ -6,27 +6,27 @@
   },
   {
     "content": "Implement complete x402 payment protocol integration",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Implementing complete x402 payment protocol"
   },
   {
-    "content": "Add seller crypto payment selection (SOL, USDC, BONK, etc)",
+    "content": "Update API endpoints to support payment token selection",
+    "status": "in_progress",
+    "activeForm": "Updating API to support payment tokens"
+  },
+  {
+    "content": "Add seller crypto payment selection UI (SOL, USDC, BONK, etc)",
     "status": "pending",
-    "activeForm": "Adding seller crypto payment selection"
+    "activeForm": "Adding seller token selection UI"
   },
   {
     "content": "Build working buyer purchase flow with wallet",
     "status": "pending",
-    "activeForm": "Building working buyer purchase flow"
-  },
-  {
-    "content": "Add proper error handling and transaction verification",
-    "status": "pending",
-    "activeForm": "Adding error handling and verification"
+    "activeForm": "Building buyer purchase flow"
   },
   {
     "content": "Test complete marketplace flow end-to-end",
     "status": "pending",
-    "activeForm": "Testing complete marketplace flow"
+    "activeForm": "Testing marketplace"
   }
 ]

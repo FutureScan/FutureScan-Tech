@@ -1,10 +1,26 @@
-import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  SystemProgram,
+  LAMPORTS_PER_SOL,
+  TransactionInstruction,
+} from '@solana/web3.js';
+import {
+  TOKEN_PROGRAM_ID,
+  createTransferInstruction,
+  getAssociatedTokenAddress,
+  createAssociatedTokenAccountInstruction,
+  getAccount,
+} from '@solana/spl-token';
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import bs58 from 'bs58';
+import { PaymentToken } from '@/types/marketplace';
+import { getTokenMint, TOKEN_CONFIGS } from './tokens';
 
 /**
  * X402 Protocol Client Handler
- * Implements the official x402 payment flow for Solana
+ * Implements payment flow for Solana (SOL + SPL Tokens)
  */
 
 export interface X402PaymentRequirement {
@@ -44,193 +60,332 @@ export interface X402Response<T> {
   error?: string;
 }
 
+export interface DirectPaymentRequest {
+  amount: number;
+  token: PaymentToken;
+  recipient: string;
+  memo?: string;
+}
+
+export interface PaymentResult {
+  success: boolean;
+  signature?: string;
+  error?: string;
+}
+
 /**
- * Execute x402 payment flow
- * Automatically handles HTTP 402 responses and payment creation
+ * Execute direct payment (bypass HTTP 402, used for marketplace purchases)
  */
-export async function executeX402Request<T>(
-  url: string,
-  body: any,
+export async function executeDirectPayment(
+  request: DirectPaymentRequest,
   wallet: WalletContextState,
   connection: Connection
-): Promise<X402Response<T>> {
+): Promise<PaymentResult> {
   try {
-    // Step 1: Initial request (without payment)
-    const initialResponse = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    // If not 402, return response
-    if (initialResponse.status !== 402) {
-      if (initialResponse.ok) {
-        const data = await initialResponse.json();
-        return { success: true, data };
-      } else {
-        const error = await initialResponse.json();
-        return { success: false, error: error.error || 'Request failed' };
-      }
+    if (!wallet.publicKey || !wallet.signTransaction || !wallet.sendTransaction) {
+      throw new Error('Wallet not connected');
     }
 
-    // Step 2: HTTP 402 received - extract PaymentRequirements
-    const paymentRequiredResponse = await initialResponse.json();
-    const paymentRequirements = paymentRequiredResponse.paymentRequirements;
+    const recipientPubkey = new PublicKey(request.recipient);
 
-    if (!paymentRequirements || paymentRequirements.length === 0) {
-      return { success: false, error: 'No payment requirements provided' };
-    }
+    let signature: string;
 
-    // Use first payment requirement
-    const requirement = paymentRequirements[0];
-
-    // Step 3: Create and sign payment transaction
-    const paymentResult = await createPaymentFromRequirement(
-      requirement,
-      wallet,
-      connection
-    );
-
-    if (!paymentResult.success || !paymentResult.payload) {
-      return {
-        success: false,
-        error: paymentResult.error || 'Failed to create payment'
-      };
-    }
-
-    // Step 4: Retry request with X-PAYMENT header
-    const xPaymentHeader = Buffer.from(JSON.stringify(paymentResult.payload)).toString('base64');
-
-    const paidResponse = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-PAYMENT': xPaymentHeader,
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (paidResponse.ok) {
-      const data = await paidResponse.json();
-      return { success: true, data };
+    if (request.token === 'SOL') {
+      // Native SOL transfer
+      signature = await transferSOL(
+        recipientPubkey,
+        request.amount,
+        wallet,
+        connection,
+        request.memo
+      );
     } else {
-      const error = await paidResponse.json();
-      return { success: false, error: error.error || 'Payment verification failed' };
+      // SPL Token transfer
+      signature = await transferSPLToken(
+        recipientPubkey,
+        request.amount,
+        request.token,
+        wallet,
+        connection,
+        request.memo
+      );
     }
+
+    return {
+      success: true,
+      signature,
+    };
   } catch (error: any) {
+    console.error('Payment Error:', error);
+
+    // User-friendly error messages
+    let errorMessage = 'Payment failed';
+    if (error.message?.includes('User rejected') || error.message?.includes('cancelled')) {
+      errorMessage = 'Payment cancelled by user';
+    } else if (error.message?.includes('insufficient')) {
+      errorMessage = `Insufficient ${request.token} balance`;
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     return {
       success: false,
-      error: error.message || 'X402 request failed'
+      error: errorMessage,
     };
   }
 }
 
 /**
- * Create payment transaction from x402 PaymentRequirement
+ * Transfer native SOL
  */
-async function createPaymentFromRequirement(
-  requirement: X402PaymentRequirement,
+async function transferSOL(
+  recipient: PublicKey,
+  amount: number,
   wallet: WalletContextState,
-  connection: Connection
-): Promise<{ success: boolean; payload?: X402PaymentPayload; error?: string }> {
-  try {
-    if (!wallet.publicKey || !wallet.signTransaction) {
-      return { success: false, error: 'Wallet not connected' };
-    }
+  connection: Connection,
+  memo?: string
+): Promise<string> {
+  if (!wallet.publicKey || !wallet.sendTransaction) {
+    throw new Error('Wallet not connected');
+  }
 
-    // Validate scheme
-    if (requirement.scheme !== 'solana-transfer') {
-      return { success: false, error: `Unsupported payment scheme: ${requirement.scheme}` };
-    }
+  const lamports = Math.floor(amount * LAMPORTS_PER_SOL);
 
-    // Parse amount and recipient
-    const amountLamports = parseInt(requirement.price.amount);
-    const recipientPubkey = new PublicKey(requirement.payTo);
+  const transaction = new Transaction().add(
+    SystemProgram.transfer({
+      fromPubkey: wallet.publicKey,
+      toPubkey: recipient,
+      lamports,
+    })
+  );
 
-    // Create transfer transaction
-    const transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: wallet.publicKey,
-        toPubkey: recipientPubkey,
-        lamports: amountLamports,
+  // Add memo if provided
+  if (memo) {
+    transaction.add(
+      new TransactionInstruction({
+        keys: [],
+        programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
+        data: Buffer.from(memo, 'utf-8'),
       })
     );
+  }
 
-    // Get recent blockhash
-    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('finalized');
-    transaction.recentBlockhash = blockhash;
-    transaction.feePayer = wallet.publicKey;
+  // Get latest blockhash
+  const { blockhash, lastValidBlockHeight } =
+    await connection.getLatestBlockhash('finalized');
 
-    // Sign transaction
-    const signed = await wallet.signTransaction(transaction);
+  transaction.recentBlockhash = blockhash;
+  transaction.feePayer = wallet.publicKey;
 
-    // Send and confirm transaction
-    const signature = await connection.sendRawTransaction(signed.serialize(), {
-      skipPreflight: false,
-      preflightCommitment: 'confirmed',
-    });
+  // Send transaction
+  const signature = await wallet.sendTransaction(transaction, connection, {
+    skipPreflight: false,
+    preflightCommitment: 'confirmed',
+  });
 
-    // Wait for confirmation
-    await connection.confirmTransaction({
+  // Confirm transaction
+  await connection.confirmTransaction(
+    {
       signature,
       blockhash,
       lastValidBlockHeight,
-    }, 'confirmed');
+    },
+    'confirmed'
+  );
 
-    // Create X-PAYMENT payload
-    const payload: X402PaymentPayload = {
-      scheme: requirement.scheme,
-      network: requirement.network,
-      signature: signature,
-      transaction: bs58.encode(signed.serialize()),
-      timestamp: Date.now(),
-    };
-
-    return { success: true, payload };
-  } catch (error: any) {
-    console.error('Payment creation error:', error);
-
-    // User-friendly error messages
-    if (error.message?.includes('User rejected')) {
-      return { success: false, error: 'Payment cancelled by user' };
-    }
-
-    if (error.message?.includes('insufficient funds')) {
-      return { success: false, error: 'Insufficient SOL balance' };
-    }
-
-    return {
-      success: false,
-      error: error.message || 'Failed to create payment transaction'
-    };
-  }
+  return signature;
 }
 
 /**
- * Check if wallet has sufficient balance for payment requirement
+ * Transfer SPL Token
  */
-export async function checkSufficientBalance(
-  requirement: X402PaymentRequirement,
+async function transferSPLToken(
+  recipient: PublicKey,
+  amount: number,
+  token: PaymentToken,
+  wallet: WalletContextState,
+  connection: Connection,
+  memo?: string
+): Promise<string> {
+  if (!wallet.publicKey || !wallet.sendTransaction) {
+    throw new Error('Wallet not connected');
+  }
+
+  const tokenMint = getTokenMint(token);
+  const tokenConfig = TOKEN_CONFIGS[token];
+  const tokenAmount = Math.floor(amount * Math.pow(10, tokenConfig.decimals));
+
+  // Get sender's token account
+  const senderTokenAccount = await getAssociatedTokenAddress(
+    tokenMint,
+    wallet.publicKey
+  );
+
+  // Check sender has token account and balance
+  try {
+    const senderAccount = await getAccount(connection, senderTokenAccount);
+    if (Number(senderAccount.amount) < tokenAmount) {
+      throw new Error(`Insufficient ${token} balance`);
+    }
+  } catch (error) {
+    throw new Error(`No ${token} token account found. Please add ${token} to your wallet first.`);
+  }
+
+  // Get recipient's token account
+  const recipientTokenAccount = await getAssociatedTokenAddress(
+    tokenMint,
+    recipient
+  );
+
+  const transaction = new Transaction();
+
+  // Check if recipient token account exists, create if not
+  try {
+    await getAccount(connection, recipientTokenAccount);
+  } catch (error) {
+    // Account doesn't exist, create it
+    transaction.add(
+      createAssociatedTokenAccountInstruction(
+        wallet.publicKey,
+        recipientTokenAccount,
+        recipient,
+        tokenMint
+      )
+    );
+  }
+
+  // Add transfer instruction
+  transaction.add(
+    createTransferInstruction(
+      senderTokenAccount,
+      recipientTokenAccount,
+      wallet.publicKey,
+      tokenAmount,
+      [],
+      TOKEN_PROGRAM_ID
+    )
+  );
+
+  // Add memo if provided
+  if (memo) {
+    transaction.add(
+      new TransactionInstruction({
+        keys: [],
+        programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
+        data: Buffer.from(memo, 'utf-8'),
+      })
+    );
+  }
+
+  // Get latest blockhash
+  const { blockhash, lastValidBlockHeight } =
+    await connection.getLatestBlockhash('finalized');
+
+  transaction.recentBlockhash = blockhash;
+  transaction.feePayer = wallet.publicKey;
+
+  // Send transaction
+  const signature = await wallet.sendTransaction(transaction, connection, {
+    skipPreflight: false,
+    preflightCommitment: 'confirmed',
+  });
+
+  // Confirm transaction
+  await connection.confirmTransaction(
+    {
+      signature,
+      blockhash,
+      lastValidBlockHeight,
+    },
+    'confirmed'
+  );
+
+  return signature;
+}
+
+/**
+ * Check if user has sufficient balance
+ */
+export async function checkBalance(
+  amount: number,
+  token: PaymentToken,
   wallet: WalletContextState,
   connection: Connection
 ): Promise<{ sufficient: boolean; balance: number; required: number }> {
   try {
     if (!wallet.publicKey) {
-      return { sufficient: false, balance: 0, required: 0 };
+      return { sufficient: false, balance: 0, required: amount };
     }
 
-    const balance = await connection.getBalance(wallet.publicKey);
-    const required = parseInt(requirement.price.amount);
+    if (token === 'SOL') {
+      const balance = await connection.getBalance(wallet.publicKey);
+      const balanceSOL = balance / LAMPORTS_PER_SOL;
+      // Add buffer for tx fees (0.00001 SOL)
+      const required = amount + 0.00001;
+      return {
+        sufficient: balanceSOL >= required,
+        balance: balanceSOL,
+        required: amount,
+      };
+    } else {
+      const tokenMint = getTokenMint(token);
+      const tokenAccount = await getAssociatedTokenAddress(
+        tokenMint,
+        wallet.publicKey
+      );
 
-    // Add some buffer for transaction fees
-    const requiredWithFees = required + 5000; // ~0.000005 SOL for fees
-
-    return {
-      sufficient: balance >= requiredWithFees,
-      balance: balance / LAMPORTS_PER_SOL,
-      required: required / LAMPORTS_PER_SOL,
-    };
+      try {
+        const account = await getAccount(connection, tokenAccount);
+        const tokenConfig = TOKEN_CONFIGS[token];
+        const balance = Number(account.amount) / Math.pow(10, tokenConfig.decimals);
+        return {
+          sufficient: balance >= amount,
+          balance,
+          required: amount,
+        };
+      } catch {
+        return { sufficient: false, balance: 0, required: amount };
+      }
+    }
   } catch (error) {
-    return { sufficient: false, balance: 0, required: 0 };
+    console.error('Balance check error:', error);
+    return { sufficient: false, balance: 0, required: amount };
+  }
+}
+
+/**
+ * Get user's token balance
+ */
+export async function getBalance(
+  token: PaymentToken,
+  wallet: WalletContextState,
+  connection: Connection
+): Promise<number> {
+  try {
+    if (!wallet.publicKey) {
+      return 0;
+    }
+
+    if (token === 'SOL') {
+      const balance = await connection.getBalance(wallet.publicKey);
+      return balance / LAMPORTS_PER_SOL;
+    } else {
+      const tokenMint = getTokenMint(token);
+      const tokenAccount = await getAssociatedTokenAddress(
+        tokenMint,
+        wallet.publicKey
+      );
+
+      try {
+        const account = await getAccount(connection, tokenAccount);
+        const tokenConfig = TOKEN_CONFIGS[token];
+        return Number(account.amount) / Math.pow(10, tokenConfig.decimals);
+      } catch {
+        return 0;
+      }
+    }
+  } catch (error) {
+    console.error('Get balance error:', error);
+    return 0;
   }
 }
