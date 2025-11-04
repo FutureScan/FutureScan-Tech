@@ -1,12 +1,12 @@
 [
   {
     "content": "Fix build error in marketplace dashboard",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Fixing build error in marketplace dashboard"
   },
   {
     "content": "Implement complete x402 payment protocol integration",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Implementing complete x402 payment protocol"
   },
   {
