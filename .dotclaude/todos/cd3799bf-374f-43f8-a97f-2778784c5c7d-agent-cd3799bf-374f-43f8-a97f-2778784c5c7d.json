@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "content": "Add file upload/access info input to seller form",
+    "status": "in_progress",
+    "activeForm": "Adding product upload/access field"
+  },
+  {
+    "content": "Store and handle product files/access info",
+    "status": "pending",
+    "activeForm": "Implementing file storage"
+  },
+  {
+    "content": "Show purchased content to buyers after payment",
+    "status": "pending",
+    "activeForm": "Implementing buyer access to purchases"
+  },
+  {
+    "content": "Test complete upload and access flow",
+    "status": "pending",
+    "activeForm": "Testing end-to-end product delivery"
+  }
+]
