@@ -2,22 +2,22 @@
   {
     "content": "Fix build error in marketplace dashboard",
     "status": "completed",
-    "activeForm": "Fixing build error in marketplace dashboard"
+    "activeForm": "Fixing build error"
   },
   {
     "content": "Implement complete x402 payment protocol integration",
     "status": "completed",
-    "activeForm": "Implementing complete x402 payment protocol"
+    "activeForm": "Implementing x402 protocol"
   },
   {
     "content": "Update API endpoints to support payment token selection",
-    "status": "in_progress",
-    "activeForm": "Updating API to support payment tokens"
+    "status": "completed",
+    "activeForm": "Updating API endpoints"
   },
   {
-    "content": "Add seller crypto payment selection UI (SOL, USDC, BONK, etc)",
-    "status": "pending",
-    "activeForm": "Adding seller token selection UI"
+    "content": "Build seller listing creation UI with crypto payment selection",
+    "status": "in_progress",
+    "activeForm": "Building seller listing UI with token selection"
   },
   {
     "content": "Build working buyer purchase flow with wallet",
