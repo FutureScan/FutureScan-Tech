@@ -7,8 +7,8 @@ export interface Listing {
   title: string;
   description: string;
   category: 'signals' | 'research' | 'data' | 'tools' | 'bots' | 'api';
-  price: number;
-  payment_token: PaymentToken; // Seller chooses payment token
+  price_usd: number; // Price in USD (e.g., 5.00 for $5)
+  payment_token: PaymentToken; // Seller's preferred payment token
   seller: string;
   seller_wallet: string; // Solana wallet address
   features: string[];
@@ -27,7 +27,8 @@ export interface Purchase {
   listing_id: string;
   buyer_wallet: string;
   seller_wallet: string;
-  amount: number;
+  amount_usd: number; // Amount paid in USD
+  amount_token: number; // Actual token amount transferred
   payment_token: PaymentToken;
   transaction_signature: string;
   purchased_at: number;
