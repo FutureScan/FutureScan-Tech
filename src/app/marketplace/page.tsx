@@ -445,8 +445,9 @@ export default function MarketplacePage() {
                     <span className="text-sm font-bold text-green-400">FREE</span>
                   </div>
                 </div>
-              <p className="text-gray-400 text-lg">Buy and sell crypto intelligence products</p>
-              <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-purple-500 to-transparent rounded-full"></div>
+                <p className="text-gray-400 text-lg">Buy and sell crypto intelligence products</p>
+                <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-purple-500 to-transparent rounded-full"></div>
+              </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
