@@ -2,12 +2,12 @@
   {
     "content": "Scan entire site for errors",
     "status": "completed",
-    "activeForm": "Fixed marketplace ad"
+    "activeForm": "All fixed"
   },
   {
     "content": "Fix all errors found",
-    "status": "in_progress",
-    "activeForm": "Checking for runtime errors"
+    "status": "completed",
+    "activeForm": "All fixed"
   },
   {
     "content": "Remove logo from marketplace ad",
@@ -21,7 +21,7 @@
   },
   {
     "content": "Test everything works",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "in_progress",
+    "activeForm": "Testing final build"
   }
 ]
