@@ -1,17 +1,17 @@
 [
   {
     "content": "Fix API to ALWAYS return 402 first",
-    "status": "in_progress",
-    "activeForm": "Fixing x402 API flow"
+    "status": "completed",
+    "activeForm": "Fixed x402 API flow"
   },
   {
     "content": "Make all payment token options visible in UI",
-    "status": "pending",
-    "activeForm": "Fixing UI visibility"
+    "status": "completed",
+    "activeForm": "Added payment token selector"
   },
   {
     "content": "Test complete seller listing creation",
-    "status": "pending",
+    "status": "in_progress",
     "activeForm": "Testing seller flow"
   },
   {
