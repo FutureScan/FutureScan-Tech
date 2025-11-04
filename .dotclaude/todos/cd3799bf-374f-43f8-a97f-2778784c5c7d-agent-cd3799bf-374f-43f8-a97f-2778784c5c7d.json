@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "content": "Fix API to ALWAYS return 402 first",
+    "status": "in_progress",
+    "activeForm": "Fixing x402 API flow"
+  },
+  {
+    "content": "Make all payment token options visible in UI",
+    "status": "pending",
+    "activeForm": "Fixing UI visibility"
+  },
+  {
+    "content": "Test complete seller listing creation",
+    "status": "pending",
+    "activeForm": "Testing seller flow"
+  },
+  {
+    "content": "Test complete buyer purchase flow",
+    "status": "pending",
+    "activeForm": "Testing buyer flow"
+  },
+  {
+    "content": "Verify entire marketplace works perfectly",
+    "status": "pending",
+    "activeForm": "End-to-end verification"
+  }
+]
