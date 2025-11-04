@@ -423,15 +423,28 @@ export default function MarketplacePage() {
         {/* Header */}
         <div className="mb-10">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
-            <div className="relative">
-              <div className="flex items-center gap-4 mb-3">
-                <h1 className="text-5xl md:text-6xl font-black">
-                  <span className="gradient-text neon-text">Marketplace</span>
-                </h1>
-                <div className="px-4 py-1.5 neon-border rounded-full glass-card animate-pulse">
-                  <span className="text-sm font-bold text-green-400">FREE</span>
-                </div>
+            <div className="relative flex items-center gap-6">
+              {/* Logo */}
+              <div className="relative flex-shrink-0 hidden md:block">
+                <div className="absolute inset-0 bg-[#ff6b35] blur-2xl opacity-40 animate-pulse"></div>
+                <Image
+                  src="/logo.png"
+                  alt="FutureScan"
+                  width={64}
+                  height={64}
+                  className="relative z-10"
+                />
               </div>
+
+              <div>
+                <div className="flex items-center gap-4 mb-3">
+                  <h1 className="text-5xl md:text-6xl font-black">
+                    <span className="gradient-text neon-text">Marketplace</span>
+                  </h1>
+                  <div className="px-4 py-1.5 neon-border rounded-full glass-card animate-pulse">
+                    <span className="text-sm font-bold text-green-400">FREE</span>
+                  </div>
+                </div>
               <p className="text-gray-400 text-lg">Buy and sell crypto intelligence products</p>
               <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-purple-500 to-transparent rounded-full"></div>
             </div>
