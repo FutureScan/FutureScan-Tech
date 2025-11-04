@@ -7,10 +7,11 @@ import { getSellerStats, getListingsBySeller } from '@/lib/marketplace-store';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { address: string } }
+  { params }: { params: Promise<{ address: string }> }
 ) {
   try {
-    const sellerWallet = params.address;
+    const { address } = await params;
+    const sellerWallet = address;
 
     if (!sellerWallet) {
       return NextResponse.json(
