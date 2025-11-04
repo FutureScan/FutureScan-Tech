@@ -1,13 +1,13 @@
 [
   {
     "content": "Locate homepage and logo files",
-    "status": "in_progress",
-    "activeForm": "Finding homepage and logo"
+    "status": "completed",
+    "activeForm": "Added marketplace to homepage"
   },
   {
     "content": "Enhance dashboard design",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "in_progress",
+    "activeForm": "Enhancing dashboard UI"
   },
   {
     "content": "Integrate logo throughout UI",
@@ -16,7 +16,7 @@
   },
   {
     "content": "Add marketplace advertising to homepage",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "completed",
+    "activeForm": "Done"
   }
 ]

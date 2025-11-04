@@ -206,6 +206,160 @@ export default function Dashboard() {
             </Link>
           </div>
 
+          {/* x402 Marketplace Advertisement - Professional Banner */}
+          <div className="relative overflow-hidden">
+            {/* Animated gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#ff6b35]/10 via-purple-500/10 to-blue-500/10 animate-gradient"></div>
+
+            <div className="relative card p-8 md:p-12 border-2 border-[#ff6b35]/30">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                {/* Left: Content */}
+                <div>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff6b35]/20 border border-[#ff6b35]/40 mb-4">
+                    <Shield className="text-[#ff6b35]" size={16} />
+                    <span className="text-sm font-mono text-[#ff6b35] font-semibold">x402 Protocol • Powered by Solana</span>
+                  </div>
+
+                  <h2 className="text-3xl md:text-4xl font-black mb-4">
+                    <span className="gradient-text">Decentralized Marketplace</span>
+                  </h2>
+
+                  <p className="text-gray-400 text-lg leading-relaxed mb-6">
+                    Buy and sell crypto intelligence products with <span className="text-[#ff6b35] font-semibold">instant payment settlement</span> using the official x402 protocol. Trade signals, research, data feeds, and more.
+                  </p>
+
+                  {/* Features grid */}
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#ff6b35]/20 flex items-center justify-center">
+                        <Shield size={16} className="text-[#ff6b35]" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-sm mb-1">Secure Payments</div>
+                        <div className="text-xs text-gray-500">Blockchain-verified transactions</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                        <DollarSign size={16} className="text-purple-400" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-sm mb-1">Multiple Tokens</div>
+                        <div className="text-xs text-gray-500">SOL, USDC, BONK & more</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <Zap size={16} className="text-blue-400" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-sm mb-1">Instant Access</div>
+                        <div className="text-xs text-gray-500">Immediate product delivery</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+                        <TrendingUp size={16} className="text-green-400" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-sm mb-1">No Middleman</div>
+                        <div className="text-xs text-gray-500">Direct peer-to-peer</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CTA Buttons */}
+                  <div className="flex flex-wrap gap-4">
+                    <Link
+                      href="/marketplace"
+                      className="group relative px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-[#e85a26] hover:from-[#ff8c5a] hover:to-[#ff6b35] rounded-xl font-bold transition-all hover:scale-105 shadow-lg shadow-[#ff6b35]/30 flex items-center gap-2"
+                    >
+                      <ShoppingCart size={20} />
+                      Browse Marketplace
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </Link>
+
+                    <Link
+                      href="/marketplace/dashboard"
+                      className="px-8 py-4 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700 hover:border-[#ff6b35]/50 rounded-xl font-bold transition-all hover:scale-105 flex items-center gap-2"
+                    >
+                      Start Selling
+                      <ArrowRight size={18} />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Right: Visual with Logo */}
+                <div className="relative">
+                  {/* Background glow effects */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#ff6b35]/20 via-purple-500/20 to-blue-500/20 blur-3xl animate-pulse"></div>
+
+                  {/* Card with stats */}
+                  <div className="relative glass-card p-8 border border-[#ff6b35]/30">
+                    {/* Logo at top */}
+                    <div className="flex justify-center mb-6">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-[#ff6b35] blur-2xl opacity-50 animate-pulse"></div>
+                        <Image
+                          src="/logo.png"
+                          alt="FutureScan"
+                          width={120}
+                          height={120}
+                          className="relative z-10"
+                        />
+                      </div>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-center mb-6 gradient-text">Marketplace Stats</h3>
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-[#ff6b35]/10 to-transparent">
+                        <span className="text-gray-400">Active Listings</span>
+                        <span className="text-2xl font-black gradient-text">Live</span>
+                      </div>
+
+                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-transparent">
+                        <span className="text-gray-400">Payment Methods</span>
+                        <span className="text-2xl font-black text-purple-400">6 Tokens</span>
+                      </div>
+
+                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-transparent">
+                        <span className="text-gray-400">Settlement</span>
+                        <span className="text-2xl font-black text-blue-400">Instant</span>
+                      </div>
+
+                      <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-transparent">
+                        <span className="text-gray-400">Fees</span>
+                        <span className="text-2xl font-black text-green-400">0%</span>
+                      </div>
+                    </div>
+
+                    {/* Protocol badge */}
+                    <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-[#ff6b35]/20 to-purple-500/20 border border-[#ff6b35]/30 text-center">
+                      <div className="text-xs text-gray-400 mb-1">Powered by</div>
+                      <div className="font-mono font-bold text-[#ff6b35]">x402 Protocol</div>
+                      <div className="text-xs text-gray-500 mt-1">Official Coinbase Implementation</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <style jsx>{`
+              @keyframes gradient {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+              }
+              .animate-gradient {
+                background-size: 200% 200%;
+                animation: gradient 5s ease infinite;
+              }
+            `}</style>
+          </div>
+
           {/* Latest News */}
           <div className="card p-8">
             <div className="flex items-center justify-between mb-6">
