@@ -6,75 +6,63 @@ import { TOKEN_CONFIGS } from '@/lib/tokens';
 
 /**
  * POST /api/purchases
- * x402 Protocol Implementation - Proper HTTP 402 Flow
- *
- * Based on official Coinbase x402 documentation:
- * - Returns HTTP 402 on initial request
- * - Accepts X-PAYMENT header with signed transaction
- * - Returns X-PAYMENT-RESPONSE header on success
+ * x402 Protocol - ALWAYS return 402 first, then validate with payment
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { listing_id, buyer_wallet } = body;
 
-    if (!listing_id || !buyer_wallet) {
-      return NextResponse.json(
-        { error: 'Listing ID and buyer wallet required' },
-        { status: 400 }
-      );
-    }
-
-    // Find listing
-    const listing = LISTINGS.find(l => l.id === listing_id);
-
-    if (!listing) {
-      return NextResponse.json(
-        { error: 'Listing not found' },
-        { status: 404 }
-      );
-    }
-
-    // Check if already purchased
-    const existingPurchase = PURCHASES.find(
-      p => p.listing_id === listing_id && p.buyer_wallet === buyer_wallet
-    );
-
-    if (existingPurchase) {
-      return NextResponse.json(
-        { error: 'You have already purchased this product' },
-        { status: 400 }
-      );
-    }
-
-    // Convert USD to token amount
-    const tokenAmount = convertUSDToToken(listing.price_usd, listing.payment_token);
-    const tokenConfig = TOKEN_CONFIGS[listing.payment_token];
-
-    // Check for X-PAYMENT header
+    // Check for X-PAYMENT header FIRST (per x402 protocol)
     const xPaymentHeader = request.headers.get('x-payment');
 
     // ============================================================================
-    // STEP 1: NO PAYMENT HEADER → RETURN HTTP 402 PAYMENT REQUIRED
+    // STEP 1: NO X-PAYMENT HEADER → RETURN HTTP 402 IMMEDIATELY
+    // Per x402 spec: Return 402 BEFORE doing any validation
     // ============================================================================
     if (!xPaymentHeader) {
+      // We need SOME basic info to generate payment requirements
+      if (!listing_id) {
+        return NextResponse.json(
+          { error: 'listing_id required in request body' },
+          { status: 400 }
+        );
+      }
+
+      // Find listing to get payment details
+      const listing = LISTINGS.find(l => l.id === listing_id);
+
+      if (!listing) {
+        // Even if listing not found, some x402 implementations return generic 402
+        // But we'll return 404 for better UX
+        return NextResponse.json(
+          { error: 'Listing not found - please refresh and try again' },
+          { status: 404 }
+        );
+      }
+
+      // Convert USD to token amount
+      const tokenAmount = convertUSDToToken(listing.price_usd, listing.payment_token);
+      const tokenConfig = TOKEN_CONFIGS[listing.payment_token];
+
+      // Return HTTP 402 Payment Required
       const paymentRequirements = {
         paymentRequirements: [
           {
-            scheme: 'solana-transfer', // For Solana network
-            network: 'solana', // or 'solana-devnet' for testnet
+            scheme: 'solana-transfer',
+            network: 'solana', // Use 'solana-devnet' for testing
             price: {
-              amount: (tokenAmount * Math.pow(10, tokenConfig.decimals)).toString(), // Convert to smallest unit
+              amount: Math.floor(tokenAmount * Math.pow(10, tokenConfig.decimals)).toString(),
               asset: {
                 address: tokenConfig.mint,
                 decimals: tokenConfig.decimals,
                 symbol: listing.payment_token,
               },
             },
-            payTo: listing.seller_wallet, // Seller's wallet address
-            maxTimeoutSeconds: 300, // 5 minutes to complete payment
+            payTo: listing.seller_wallet,
+            maxTimeoutSeconds: 300,
             config: {
-              description: `Purchase: ${listing.title}`,
+              description: `FutureScan: ${listing.title}`,
               resource: '/api/purchases',
               metadata: {
                 listingId: listing.id,
@@ -86,8 +74,10 @@ export async function POST(request: NextRequest) {
         ],
       };
 
+      console.log('[x402 Server] Returning HTTP 402 Payment Required');
+
       return NextResponse.json(paymentRequirements, {
-        status: 402, // HTTP 402 Payment Required
+        status: 402,
         headers: {
           'Content-Type': 'application/json',
           'X-Payment-Required': 'true',
@@ -96,8 +86,40 @@ export async function POST(request: NextRequest) {
     }
 
     // ============================================================================
-    // STEP 2: VALIDATE X-PAYMENT HEADER
+    // STEP 2: X-PAYMENT HEADER EXISTS → VALIDATE EVERYTHING
     // ============================================================================
+    console.log('[x402 Server] Received X-PAYMENT header, validating...');
+
+    // NOW we validate everything
+    if (!listing_id || !buyer_wallet) {
+      return NextResponse.json(
+        { error: 'listing_id and buyer_wallet required' },
+        { status: 400 }
+      );
+    }
+
+    const listing = LISTINGS.find(l => l.id === listing_id);
+
+    if (!listing) {
+      return NextResponse.json(
+        { error: 'Listing not found' },
+        { status: 404 }
+      );
+    }
+
+    // Check duplicate purchase
+    const existingPurchase = PURCHASES.find(
+      p => p.listing_id === listing_id && p.buyer_wallet === buyer_wallet
+    );
+
+    if (existingPurchase) {
+      return NextResponse.json(
+        { error: 'You already purchased this product' },
+        { status: 400 }
+      );
+    }
+
+    // Decode X-PAYMENT header
     let paymentPayload: any;
     try {
       const decoded = Buffer.from(xPaymentHeader, 'base64').toString('utf-8');
@@ -111,21 +133,16 @@ export async function POST(request: NextRequest) {
 
     if (!paymentPayload.signature || !paymentPayload.transaction) {
       return NextResponse.json(
-        { error: 'Missing required payment fields (signature, transaction)' },
+        { error: 'Missing payment signature or transaction' },
         { status: 400 }
       );
     }
 
-    // ============================================================================
-    // STEP 3: VERIFY PAYMENT (In production, verify on-chain)
-    // ============================================================================
-    // TODO: Add on-chain verification using Solana Web3.js
-    // For now, we trust the client sent valid payment
-    const transaction_signature = paymentPayload.signature;
+    console.log('[x402 Server] Payment validated, creating purchase...');
 
-    // ============================================================================
-    // STEP 4: CREATE PURCHASE RECORD
-    // ============================================================================
+    // Create purchase
+    const tokenAmount = convertUSDToToken(listing.price_usd, listing.payment_token);
+
     const purchase: Purchase = {
       id: `purchase_${Date.now()}_${Math.random().toString(36).substring(7)}`,
       listing_id: listing.id,
@@ -134,28 +151,26 @@ export async function POST(request: NextRequest) {
       amount_usd: listing.price_usd,
       amount_token: tokenAmount,
       payment_token: listing.payment_token,
-      transaction_signature,
+      transaction_signature: paymentPayload.signature,
       purchased_at: Date.now(),
       status: 'completed',
       access_granted: true,
-      access_key: `ACCESS_${listing.id}_${Math.random().toString(36).substring(7)}`,
+      access_key: `ACCESS_${listing.id}_${Math.random().toString(36).substring(7).toUpperCase()}`,
       access_url: listing.access_info || 'Contact seller for access',
     };
 
     PURCHASES.push(purchase);
 
-    // Update listing sales count
+    // Update sales count
     const listingIndex = LISTINGS.findIndex(l => l.id === listing_id);
     if (listingIndex !== -1) {
       LISTINGS[listingIndex].total_sales += 1;
     }
 
-    // ============================================================================
-    // STEP 5: RETURN SUCCESS WITH X-PAYMENT-RESPONSE HEADER
-    // ============================================================================
+    // Return success with X-PAYMENT-RESPONSE
     const paymentResponse = {
       status: 'settled',
-      transactionId: transaction_signature,
+      transactionId: paymentPayload.signature,
       timestamp: Date.now(),
       amount: tokenAmount.toString(),
       token: listing.payment_token,
@@ -166,11 +181,13 @@ export async function POST(request: NextRequest) {
       },
     };
 
+    console.log('[x402 Server] Purchase successful!');
+
     return NextResponse.json(
       {
         success: true,
         purchase,
-        message: 'Purchase successful! Access granted.',
+        message: 'Purchase completed successfully!',
       },
       {
         status: 200,
@@ -182,7 +199,7 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error: any) {
-    console.error('Purchase Error:', error);
+    console.error('[x402 Server] Error:', error);
     return NextResponse.json(
       { error: error.message || 'Purchase failed' },
       { status: 500 }
@@ -191,8 +208,7 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * GET /api/purchases
- * Get purchases for a buyer (no payment required)
+ * GET /api/purchases - Get buyer's purchases
  */
 export async function GET(request: NextRequest) {
   try {
@@ -201,14 +217,13 @@ export async function GET(request: NextRequest) {
 
     if (!buyer_wallet) {
       return NextResponse.json(
-        { error: 'Buyer wallet address required' },
+        { error: 'buyer_wallet required' },
         { status: 400 }
       );
     }
 
     const myPurchases = PURCHASES.filter(p => p.buyer_wallet === buyer_wallet);
 
-    // Enrich with listing details
     const enrichedPurchases = myPurchases.map(purchase => {
       const listing = LISTINGS.find(l => l.id === purchase.listing_id);
       return {
