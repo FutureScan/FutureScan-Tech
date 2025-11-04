@@ -177,7 +177,7 @@ export default function MarketplacePage() {
     }
   }
 
-  // Purchase with X402 Payment Protocol - USD to Token Conversion
+  // Purchase with PROPER x402 Protocol (HTTP 402 Flow)
   async function handlePurchase(listing: Listing) {
     if (!wallet.connected || !wallet.publicKey) {
       alert('Please connect your wallet first');
@@ -190,16 +190,17 @@ export default function MarketplacePage() {
       return;
     }
 
-    // Convert USD price to token amount
+    // Convert USD price to token amount for display
     const tokenAmount = convertUSDToToken(listing.price_usd, listing.payment_token);
 
-    // Show purchase confirmation with both USD and token amounts
+    // Show purchase confirmation
     const confirmed = confirm(
       `Purchase "${listing.title}"?\n\n` +
       `Price: $${listing.price_usd.toFixed(2)} USD\n` +
       `You will pay: ${tokenAmount.toFixed(4)} ${listing.payment_token}\n\n` +
-      `Seller: ${listing.seller}\n` +
-      `Click OK to proceed with payment.`
+      `Seller: ${listing.seller}\n\n` +
+      `This will use the x402 payment protocol.\n` +
+      `Click OK to proceed.`
     );
 
     if (!confirmed) {
@@ -210,71 +211,147 @@ export default function MarketplacePage() {
     setSelectedProduct(listing);
 
     try {
-      // Step 1: Check balance (using token amount, not USD)
-      const balanceCheck = await checkBalance(
-        tokenAmount,
-        listing.payment_token,
-        wallet,
-        connection
-      );
+      // ============================================================================
+      // STEP 1: INITIAL REQUEST (NO PAYMENT) → EXPECT HTTP 402
+      // ============================================================================
+      console.log('[x402] Step 1: Making initial request without payment...');
 
-      if (!balanceCheck.sufficient) {
-        alert(
-          `Insufficient ${listing.payment_token} balance!\n\n` +
-          `Required: ${tokenAmount.toFixed(4)} ${listing.payment_token} ($${listing.price_usd.toFixed(2)} USD)\n` +
-          `Your balance: ${balanceCheck.balance.toFixed(4)} ${listing.payment_token}`
-        );
-        setPurchasing(false);
-        setSelectedProduct(null);
-        return;
-      }
-
-      // Step 2: Execute payment with correct token amount
-      const paymentResult = await executeDirectPayment(
-        {
-          amount: tokenAmount, // Use converted token amount!
-          token: listing.payment_token,
-          recipient: listing.seller_wallet,
-          memo: `FutureScan Marketplace: ${listing.title}`,
-        },
-        wallet,
-        connection
-      );
-
-      if (!paymentResult.success) {
-        alert(`Payment failed: ${paymentResult.error || 'Unknown error'}`);
-        setPurchasing(false);
-        setSelectedProduct(null);
-        return;
-      }
-
-      // Step 3: Record purchase
-      const purchaseResponse = await fetch('/api/purchases', {
+      const initialResponse = await fetch('/api/purchases', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           listing_id: listing.id,
           buyer_wallet: wallet.publicKey.toString(),
-          transaction_signature: paymentResult.signature,
         }),
       });
 
-      const purchaseResult = await purchaseResponse.json();
+      // ============================================================================
+      // STEP 2: HANDLE HTTP 402 PAYMENT REQUIRED
+      // ============================================================================
+      if (initialResponse.status === 402) {
+        console.log('[x402] Step 2: Received HTTP 402, extracting payment requirements...');
 
-      if (purchaseResponse.ok && purchaseResult.success) {
-        alert(
-          `✅ Purchase Successful! 🎉\n\n` +
-          `Paid: ${tokenAmount.toFixed(4)} ${listing.payment_token} ($${listing.price_usd.toFixed(2)} USD)\n\n` +
-          `Transaction: ${paymentResult.signature?.substring(0, 30)}...\n\n` +
-          `Access Key: ${purchaseResult.purchase.access_key}\n\n` +
-          `Check "My Purchases" for full details!`
+        const paymentRequiredResponse = await initialResponse.json();
+        const paymentRequirements = paymentRequiredResponse.paymentRequirements;
+
+        if (!paymentRequirements || paymentRequirements.length === 0) {
+          throw new Error('No payment requirements provided by server');
+        }
+
+        const requirement = paymentRequirements[0];
+        console.log('[x402] Payment required:', requirement);
+
+        // Verify we have sufficient balance
+        const requiredAmount = parseInt(requirement.price.amount) / Math.pow(10, requirement.price.asset.decimals);
+
+        const balanceCheck = await checkBalance(
+          requiredAmount,
+          listing.payment_token,
+          wallet,
+          connection
         );
-        await loadListings();
+
+        if (!balanceCheck.sufficient) {
+          alert(
+            `Insufficient ${listing.payment_token} balance!\n\n` +
+            `Required: ${requiredAmount.toFixed(4)} ${listing.payment_token} ($${listing.price_usd.toFixed(2)} USD)\n` +
+            `Your balance: ${balanceCheck.balance.toFixed(4)} ${listing.payment_token}`
+          );
+          setPurchasing(false);
+          setSelectedProduct(null);
+          return;
+        }
+
+        // ============================================================================
+        // STEP 3: CREATE AND SIGN PAYMENT
+        // ============================================================================
+        console.log('[x402] Step 3: Creating payment transaction...');
+
+        const paymentResult = await executeDirectPayment(
+          {
+            amount: requiredAmount,
+            token: listing.payment_token,
+            recipient: requirement.payTo,
+            memo: requirement.config.description,
+          },
+          wallet,
+          connection
+        );
+
+        if (!paymentResult.success) {
+          throw new Error(paymentResult.error || 'Payment transaction failed');
+        }
+
+        console.log('[x402] Payment transaction successful:', paymentResult.signature);
+
+        // ============================================================================
+        // STEP 4: CREATE X-PAYMENT HEADER AND RETRY
+        // ============================================================================
+        console.log('[x402] Step 4: Retrying request with X-PAYMENT header...');
+
+        // Create payment payload (x402 format)
+        const paymentPayload = {
+          scheme: requirement.scheme,
+          network: requirement.network,
+          signature: paymentResult.signature,
+          transaction: paymentResult.signature, // For Solana, signature is the transaction ID
+          timestamp: Date.now(),
+        };
+
+        // Encode as base64 for X-PAYMENT header
+        const xPaymentHeader = Buffer.from(JSON.stringify(paymentPayload)).toString('base64');
+
+        // Retry the purchase request with payment proof
+        const paidResponse = await fetch('/api/purchases', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Payment': xPaymentHeader, // Include payment proof
+          },
+          body: JSON.stringify({
+            listing_id: listing.id,
+            buyer_wallet: wallet.publicKey.toString(),
+          }),
+        });
+
+        // ============================================================================
+        // STEP 5: HANDLE SUCCESS RESPONSE
+        // ============================================================================
+        const purchaseResult = await paidResponse.json();
+
+        if (paidResponse.ok && purchaseResult.success) {
+          console.log('[x402] Step 5: Purchase completed successfully!');
+
+          // Extract X-PAYMENT-RESPONSE header (contains settlement details)
+          const xPaymentResponse = paidResponse.headers.get('x-payment-response');
+          if (xPaymentResponse) {
+            const paymentResponseData = JSON.parse(
+              Buffer.from(xPaymentResponse, 'base64').toString('utf-8')
+            );
+            console.log('[x402] Payment Response:', paymentResponseData);
+          }
+
+          alert(
+            `✅ Purchase Successful! 🎉\n\n` +
+            `Paid: ${tokenAmount.toFixed(4)} ${listing.payment_token} ($${listing.price_usd.toFixed(2)} USD)\n\n` +
+            `Transaction: ${paymentResult.signature?.substring(0, 30)}...\n\n` +
+            `Access Key: ${purchaseResult.purchase.access_key}\n\n` +
+            `✨ x402 Protocol Complete!\n\n` +
+            `Check "My Purchases" for full details!`
+          );
+
+          await loadListings();
+        } else {
+          throw new Error(purchaseResult.error || 'Purchase failed after payment');
+        }
       } else {
-        alert(`Failed to record purchase: ${purchaseResult.error || 'Unknown error'}`);
+        // Unexpected response (should have been 402)
+        const result = await initialResponse.json();
+        throw new Error(result.error || 'Unexpected server response');
       }
     } catch (error: any) {
-      alert(`Error: ${error.message}`);
+      console.error('[x402] Error:', error);
+      alert(`❌ Error: ${error.message}`);
     } finally {
       setPurchasing(false);
       setSelectedProduct(null);
