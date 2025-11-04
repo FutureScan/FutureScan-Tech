@@ -28,13 +28,14 @@ import { formatDistanceToNow } from 'date-fns';
 import { PaymentToken } from '@/types/marketplace';
 import { TOKEN_CONFIGS, formatTokenAmount } from '@/lib/tokens';
 import { executeDirectPayment, checkBalance } from '@/lib/x402-client';
+import { convertUSDToToken, formatPriceDisplay } from '@/lib/price-conversion';
 
 interface Listing {
   id: string;
   title: string;
   description: string;
   category: 'signals' | 'research' | 'data' | 'tools' | 'bots' | 'api';
-  price: number;
+  price_usd: number;
   payment_token: PaymentToken;
   seller: string;
   seller_wallet: string;
@@ -67,7 +68,7 @@ export default function MarketplacePage() {
     title: '',
     description: '',
     category: 'signals' as Listing['category'],
-    price: '',
+    price_usd: '', // Price in USD
     payment_token: 'SOL' as PaymentToken,
     seller: '',
     features: ['', '', ''],

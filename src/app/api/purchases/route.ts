@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Connection, PublicKey } from '@solana/web3.js';
 import type { Purchase } from '@/types/marketplace';
 import { LISTINGS, PURCHASES } from '@/lib/marketplace-store';
-
-const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
+import { convertUSDToToken } from '@/lib/price-conversion';
 
 /**
  * POST /api/purchases
  * Purchase a product with x402 payment protocol
- *
- * Payment is sent directly to the seller (peer-to-peer) using selected token
+ * USD prices are converted to crypto amounts automatically
  */
 export async function POST(request: NextRequest) {
   try {
@@ -45,8 +42,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // In production, verify transaction_signature on-chain here
-    // For now, we trust the client-side payment was successful
+    // Convert USD price to token amount
+    const tokenAmount = convertUSDToToken(listing.price_usd, listing.payment_token);
 
     // Create purchase record
     const purchase: Purchase = {
@@ -54,7 +51,8 @@ export async function POST(request: NextRequest) {
       listing_id: listing.id,
       buyer_wallet,
       seller_wallet: listing.seller_wallet,
-      amount: listing.price,
+      amount_usd: listing.price_usd,
+      amount_token: tokenAmount,
       payment_token: listing.payment_token,
       transaction_signature,
       purchased_at: Date.now(),
