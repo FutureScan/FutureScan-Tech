@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ShoppingCart,
   Star,

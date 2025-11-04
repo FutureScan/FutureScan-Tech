@@ -2,17 +2,17 @@
   {
     "content": "Locate homepage and logo files",
     "status": "completed",
-    "activeForm": "Added marketplace to homepage"
+    "activeForm": "Done"
   },
   {
     "content": "Enhance dashboard design",
-    "status": "in_progress",
-    "activeForm": "Enhancing dashboard UI"
+    "status": "completed",
+    "activeForm": "Dashboard enhanced"
   },
   {
     "content": "Integrate logo throughout UI",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "in_progress",
+    "activeForm": "Adding logo to other pages"
   },
   {
     "content": "Add marketplace advertising to homepage",

@@ -219,46 +219,62 @@ export default function DashboardPage() {
           </div>
         ) : (
           <>
-            {/* Stats Cards */}
+            {/* Enhanced Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10">
-                    <Package className="text-blue-400" size={28} />
+              <div className="glass-card p-6 border border-blue-500/20 hover:border-blue-500/40 transition-all group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 group-hover:scale-110 transition-transform">
+                      <Package className="text-blue-400" size={28} />
+                    </div>
+                    <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Listings</span>
                   </div>
-                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Total Listings</span>
+                  <div className="text-4xl font-black gradient-text mb-1">{stats.totalListings}</div>
+                  <div className="text-xs text-gray-500">Total Products</div>
                 </div>
-                <div className="text-4xl font-black gradient-text animate-count">{stats.totalListings}</div>
               </div>
 
-              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/10">
-                    <ShoppingBag className="text-green-400" size={28} />
+              <div className="glass-card p-6 border border-green-500/20 hover:border-green-500/40 transition-all group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/10 group-hover:scale-110 transition-transform">
+                      <ShoppingBag className="text-green-400" size={28} />
+                    </div>
+                    <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Sales</span>
                   </div>
-                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Total Sales</span>
+                  <div className="text-4xl font-black text-green-400 mb-1">{stats.totalSales}</div>
+                  <div className="text-xs text-gray-500">Completed Orders</div>
                 </div>
-                <div className="text-4xl font-black text-green-400 animate-count">{stats.totalSales}</div>
               </div>
 
-              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-[#ff6b35]/20 to-[#e85a26]/10 pulse-ring">
-                    <DollarSign className="text-[#ff6b35]" size={28} />
+              <div className="glass-card p-6 border border-[#ff6b35]/20 hover:border-[#ff6b35]/40 transition-all group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-[#ff6b35]/20 to-[#e85a26]/10 group-hover:scale-110 transition-transform">
+                      <DollarSign className="text-[#ff6b35]" size={28} />
+                    </div>
+                    <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Revenue</span>
                   </div>
-                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Total Revenue</span>
+                  <div className="text-4xl font-black gradient-text mb-1">${stats.totalRevenue.toFixed(2)}</div>
+                  <div className="text-xs text-gray-500">Total Earned (USD)</div>
                 </div>
-                <div className="text-4xl font-black gradient-text animate-count">${stats.totalRevenue.toFixed(2)}</div>
               </div>
 
-              <div className="glass-card p-6 holographic group hover:scale-105 transition-transform">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/10">
-                    <TrendingUp className="text-purple-400" size={28} />
+              <div className="glass-card p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/10 group-hover:scale-110 transition-transform">
+                      <TrendingUp className="text-purple-400" size={28} />
+                    </div>
+                    <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Active</span>
                   </div>
-                  <span className="text-xs text-gray-400 uppercase font-bold tracking-wider">Active</span>
+                  <div className="text-4xl font-black text-purple-400 mb-1">{stats.activeListings}</div>
+                  <div className="text-xs text-gray-500">Live Products</div>
                 </div>
-                <div className="text-4xl font-black text-purple-400 animate-count">{stats.activeListings}</div>
               </div>
             </div>
 
