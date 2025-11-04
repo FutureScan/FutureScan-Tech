@@ -10346,3 +10346,5 @@
 [DEBUG] Skipping SubagentStop hook execution - workspace trust not accepted
 [DEBUG] Summarizing last 1 of 326 messages (~135361 tokens)
 [DEBUG] Stream started - received first chunk
+[DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
+[DEBUG] Metrics export disabled by organization setting
