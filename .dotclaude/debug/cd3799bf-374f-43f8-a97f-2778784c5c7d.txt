@@ -8539,3 +8539,19 @@
 [DEBUG] Skills and commands included in Skill tool:
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Write
+[DEBUG] Skipping PreToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/api/purchases/route.ts.tmp.218.1762219206566
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 7507 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/api/purchases/route.ts.tmp.218.1762219206566 to /home/vibecode/workspace/src/app/api/purchases/route.ts
+[DEBUG] File /home/vibecode/workspace/src/app/api/purchases/route.ts written atomically
+[DEBUG] Skipping PostToolUse:Write hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk

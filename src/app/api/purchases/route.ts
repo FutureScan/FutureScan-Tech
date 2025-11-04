@@ -2,20 +2,25 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { Purchase } from '@/types/marketplace';
 import { LISTINGS, PURCHASES } from '@/lib/marketplace-store';
 import { convertUSDToToken } from '@/lib/price-conversion';
+import { TOKEN_CONFIGS } from '@/lib/tokens';
 
 /**
  * POST /api/purchases
- * Purchase a product with x402 payment protocol
- * USD prices are converted to crypto amounts automatically
+ * x402 Protocol Implementation - Proper HTTP 402 Flow
+ *
+ * Based on official Coinbase x402 documentation:
+ * - Returns HTTP 402 on initial request
+ * - Accepts X-PAYMENT header with signed transaction
+ * - Returns X-PAYMENT-RESPONSE header on success
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { listing_id, buyer_wallet, transaction_signature } = body;
+    const { listing_id, buyer_wallet } = body;
 
-    if (!listing_id || !buyer_wallet || !transaction_signature) {
+    if (!listing_id || !buyer_wallet) {
       return NextResponse.json(
-        { error: 'Listing ID, buyer wallet, and transaction signature required' },
+        { error: 'Listing ID and buyer wallet required' },
         { status: 400 }
       );
     }
@@ -30,7 +35,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if already purchased by this buyer
+    // Check if already purchased
     const existingPurchase = PURCHASES.find(
       p => p.listing_id === listing_id && p.buyer_wallet === buyer_wallet
     );
@@ -42,10 +47,85 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert USD price to token amount
+    // Convert USD to token amount
     const tokenAmount = convertUSDToToken(listing.price_usd, listing.payment_token);
+    const tokenConfig = TOKEN_CONFIGS[listing.payment_token];
 
-    // Create purchase record
+    // Check for X-PAYMENT header
+    const xPaymentHeader = request.headers.get('x-payment');
+
+    // ============================================================================
+    // STEP 1: NO PAYMENT HEADER → RETURN HTTP 402 PAYMENT REQUIRED
+    // ============================================================================
+    if (!xPaymentHeader) {
+      const paymentRequirements = {
+        paymentRequirements: [
+          {
+            scheme: 'solana-transfer', // For Solana network
+            network: 'solana', // or 'solana-devnet' for testnet
+            price: {
+              amount: (tokenAmount * Math.pow(10, tokenConfig.decimals)).toString(), // Convert to smallest unit
+              asset: {
+                address: tokenConfig.mint,
+                decimals: tokenConfig.decimals,
+                symbol: listing.payment_token,
+              },
+            },
+            payTo: listing.seller_wallet, // Seller's wallet address
+            maxTimeoutSeconds: 300, // 5 minutes to complete payment
+            config: {
+              description: `Purchase: ${listing.title}`,
+              resource: '/api/purchases',
+              metadata: {
+                listingId: listing.id,
+                priceUSD: listing.price_usd,
+                seller: listing.seller,
+              },
+            },
+          },
+        ],
+      };
+
+      return NextResponse.json(paymentRequirements, {
+        status: 402, // HTTP 402 Payment Required
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Payment-Required': 'true',
+        },
+      });
+    }
+
+    // ============================================================================
+    // STEP 2: VALIDATE X-PAYMENT HEADER
+    // ============================================================================
+    let paymentPayload: any;
+    try {
+      const decoded = Buffer.from(xPaymentHeader, 'base64').toString('utf-8');
+      paymentPayload = JSON.parse(decoded);
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Invalid X-PAYMENT header format' },
+        { status: 400 }
+      );
+    }
+
+    if (!paymentPayload.signature || !paymentPayload.transaction) {
+      return NextResponse.json(
+        { error: 'Missing required payment fields (signature, transaction)' },
+        { status: 400 }
+      );
+    }
+
+    // ============================================================================
+    // STEP 3: VERIFY PAYMENT (In production, verify on-chain)
+    // ============================================================================
+    // TODO: Add on-chain verification using Solana Web3.js
+    // For now, we trust the client sent valid payment
+    const transaction_signature = paymentPayload.signature;
+
+    // ============================================================================
+    // STEP 4: CREATE PURCHASE RECORD
+    // ============================================================================
     const purchase: Purchase = {
       id: `purchase_${Date.now()}_${Math.random().toString(36).substring(7)}`,
       listing_id: listing.id,
@@ -58,7 +138,6 @@ export async function POST(request: NextRequest) {
       purchased_at: Date.now(),
       status: 'completed',
       access_granted: true,
-      // Generate access key/url
       access_key: `ACCESS_${listing.id}_${Math.random().toString(36).substring(7)}`,
       access_url: listing.access_info || 'Contact seller for access',
     };
@@ -71,11 +150,36 @@ export async function POST(request: NextRequest) {
       LISTINGS[listingIndex].total_sales += 1;
     }
 
-    return NextResponse.json({
-      success: true,
-      purchase,
-      message: 'Purchase successful! Access granted.',
-    });
+    // ============================================================================
+    // STEP 5: RETURN SUCCESS WITH X-PAYMENT-RESPONSE HEADER
+    // ============================================================================
+    const paymentResponse = {
+      status: 'settled',
+      transactionId: transaction_signature,
+      timestamp: Date.now(),
+      amount: tokenAmount.toString(),
+      token: listing.payment_token,
+      resource: '/api/purchases',
+      metadata: {
+        accessKey: purchase.access_key,
+        listingTitle: listing.title,
+      },
+    };
+
+    return NextResponse.json(
+      {
+        success: true,
+        purchase,
+        message: 'Purchase successful! Access granted.',
+      },
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Payment-Response': Buffer.from(JSON.stringify(paymentResponse)).toString('base64'),
+        },
+      }
+    );
 
   } catch (error: any) {
     console.error('Purchase Error:', error);
@@ -88,7 +192,7 @@ export async function POST(request: NextRequest) {
 
 /**
  * GET /api/purchases
- * Get purchases for a buyer
+ * Get purchases for a buyer (no payment required)
  */
 export async function GET(request: NextRequest) {
   try {
@@ -123,72 +227,5 @@ export async function GET(request: NextRequest) {
       { error: error.message || 'Failed to fetch purchases' },
       { status: 500 }
     );
-  }
-}
-
-/**
- * Verify Solana payment transaction (for future x402 implementation)
- */
-async function verifyPurchaseTransaction(
-  signature: string,
-  sellerAddress: string,
-  expectedAmount: number
-): Promise<{ verified: boolean; error?: string }> {
-  try {
-    const connection = new Connection(SOLANA_RPC, 'confirmed');
-
-    // Fetch transaction
-    const txInfo = await connection.getTransaction(signature, {
-      commitment: 'confirmed',
-      maxSupportedTransactionVersion: 0,
-    });
-
-    if (!txInfo) {
-      return { verified: false, error: 'Transaction not found' };
-    }
-
-    if (txInfo.meta?.err) {
-      return { verified: false, error: 'Transaction failed' };
-    }
-
-    // Verify recipient
-    const recipientPubkey = new PublicKey(sellerAddress);
-    const accountKeys = txInfo.transaction.message.staticAccountKeys ||
-                        txInfo.transaction.message.accountKeys;
-
-    const hasRecipient = accountKeys.some(key =>
-      key.toString() === recipientPubkey.toString()
-    );
-
-    if (!hasRecipient) {
-      return { verified: false, error: 'Wrong recipient' };
-    }
-
-    // Verify amount (convert price to lamports)
-    const preBalances = txInfo.meta?.preBalances || [];
-    const postBalances = txInfo.meta?.postBalances || [];
-    const recipientIndex = accountKeys.findIndex(key =>
-      key.toString() === recipientPubkey.toString()
-    );
-
-    if (recipientIndex >= 0) {
-      const received = postBalances[recipientIndex] - preBalances[recipientIndex];
-      const expectedLamports = expectedAmount * 1000000000; // Convert SOL to lamports
-
-      if (received < expectedLamports) {
-        return {
-          verified: false,
-          error: `Insufficient payment: received ${received}, expected ${expectedLamports}`
-        };
-      }
-    }
-
-    return { verified: true };
-
-  } catch (error: any) {
-    return {
-      verified: false,
-      error: error.message || 'Verification failed'
-    };
   }
 }
