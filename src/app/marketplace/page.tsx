@@ -549,13 +549,21 @@ export default function MarketplacePage() {
 
                 {/* Pricing */}
                 <div className="mb-4 p-4 glass-card rounded-xl border border-[#ff6b35]/20 holographic">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-3xl font-black gradient-text">
-                      ${listing.price.toFixed(2)}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <CheckCircle className="text-green-400" size={14} />
-                      <span className="text-xs text-green-400 font-bold">No fees</span>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-3xl font-black gradient-text">
+                        ${listing.price_usd.toFixed(2)}
+                      </span>
+                      <span className="text-xs text-gray-400 font-semibold uppercase">USD</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-400">
+                        ≈ {convertUSDToToken(listing.price_usd, listing.payment_token).toFixed(4)} {TOKEN_CONFIGS[listing.payment_token].icon} {listing.payment_token}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <CheckCircle className="text-green-400" size={12} />
+                        <span className="text-xs text-green-400 font-bold">No fees</span>
+                      </div>
                     </div>
                   </div>
                 </div>
