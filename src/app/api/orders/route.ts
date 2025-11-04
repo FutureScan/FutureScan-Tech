@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
         listing_title: listing?.title || 'Unknown Product',
         buyer_wallet: purchase.buyer_wallet,
         buyer_name: `${purchase.buyer_wallet.slice(0, 4)}...${purchase.buyer_wallet.slice(-4)}`,
-        amount: purchase.amount,
+        amount: purchase.amount_usd,
         purchased_at: purchase.purchased_at,
         status: purchase.status,
       };

@@ -240,7 +240,7 @@ export default function DashboardPage() {
                             </div>
                             <div className="text-right">
                               <div className="text-2xl font-bold text-[#ff6b35]">
-                                ${listing.price.toFixed(2)}
+                                ${listing.price_usd.toFixed(2)}
                               </div>
                               <div className="text-xs text-gray-500">
                                 {listing.total_sales} sales
