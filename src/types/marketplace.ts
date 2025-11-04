@@ -1,11 +1,14 @@
 // Complete Marketplace Type Definitions
 
+export type PaymentToken = 'SOL' | 'USDC' | 'BONK' | 'USDT' | 'RAY' | 'ORCA';
+
 export interface Listing {
   id: string;
   title: string;
   description: string;
   category: 'signals' | 'research' | 'data' | 'tools' | 'bots' | 'api';
   price: number;
+  payment_token: PaymentToken; // Seller chooses payment token
   seller: string;
   seller_wallet: string; // Solana wallet address
   features: string[];
@@ -25,6 +28,7 @@ export interface Purchase {
   buyer_wallet: string;
   seller_wallet: string;
   amount: number;
+  payment_token: PaymentToken;
   transaction_signature: string;
   purchased_at: number;
   status: 'completed' | 'pending' | 'refunded';
