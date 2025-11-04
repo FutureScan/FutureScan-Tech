@@ -311,10 +311,7 @@ export default function DashboardPage() {
 
                         <div className="flex gap-2">
                           <button
-                            onClick={() => {
-                              // TODO: Implement edit
-                              alert('Edit functionality coming soon!');
-                            }}
+                            onClick={() => setEditingListing(listing)}
                             className="p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
                             title="Edit listing"
                           >
