@@ -72,6 +72,8 @@ export default function MarketplacePage() {
     payment_token: 'SOL' as PaymentToken,
     seller: '',
     features: ['', '', ''],
+    delivery_type: 'instant' as 'instant' | 'manual' | 'subscription',
+    access_info: '', // Download link, API key, access instructions, etc.
   });
 
   useEffect(() => {
@@ -103,8 +105,8 @@ export default function MarketplacePage() {
     }
 
     // Validate form
-    if (!formData.title || !formData.description || !formData.price_usd || !formData.seller) {
-      alert('Please fill in all required fields');
+    if (!formData.title || !formData.description || !formData.price_usd || !formData.seller || !formData.access_info) {
+      alert('Please fill in all required fields (including product access info)');
       return;
     }
 
