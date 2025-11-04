@@ -172,23 +172,46 @@ export default function PurchasesPage() {
                         <div className="flex items-start gap-3">
                           <Key className="text-green-400 flex-shrink-0 mt-0.5" size={20} />
                           <div className="flex-1">
-                            <div className="font-semibold text-green-400 mb-2">
-                              Access Granted
+                            <div className="font-semibold text-green-400 mb-3 flex items-center gap-2">
+                              <CheckCircle size={18} />
+                              Access Granted - Product Ready!
                             </div>
 
+                            {/* Product Access Instructions/Info */}
+                            {purchase.access_url && (
+                              <div className="mb-3">
+                                <div className="text-xs text-gray-400 mb-2 font-semibold uppercase">Product Access:</div>
+                                <div className="px-4 py-3 bg-black/50 border border-gray-700 rounded-lg">
+                                  <pre className="text-sm text-gray-200 whitespace-pre-wrap font-mono">
+{purchase.access_url}
+                                  </pre>
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(purchase.access_url!);
+                                    alert('Access info copied to clipboard!');
+                                  }}
+                                  className="mt-2 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded text-xs transition-colors"
+                                >
+                                  📋 Copy Access Info
+                                </button>
+                              </div>
+                            )}
+
+                            {/* Access Key (for reference) */}
                             {purchase.access_key && (
                               <div className="mb-2">
-                                <div className="text-xs text-gray-400 mb-1">Access Key:</div>
+                                <div className="text-xs text-gray-400 mb-1">Purchase ID:</div>
                                 <div className="flex items-center gap-2">
-                                  <code className="flex-1 px-3 py-2 bg-black/50 rounded font-mono text-sm">
+                                  <code className="flex-1 px-3 py-2 bg-black/30 rounded font-mono text-xs text-gray-400">
                                     {purchase.access_key}
                                   </code>
                                   <button
                                     onClick={() => {
                                       navigator.clipboard.writeText(purchase.access_key!);
-                                      alert('Access key copied to clipboard!');
+                                      alert('Purchase ID copied!');
                                     }}
-                                    className="px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded text-sm transition-colors"
+                                    className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded text-xs transition-colors"
                                   >
                                     Copy
                                   </button>
@@ -196,22 +219,7 @@ export default function PurchasesPage() {
                               </div>
                             )}
 
-                            {purchase.access_url && (
-                              <div>
-                                <div className="text-xs text-gray-400 mb-1">Access URL:</div>
-                                <a
-                                  href={purchase.access_url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-2 text-sm text-[#ff6b35] hover:text-[#ff8c5a] transition-colors"
-                                >
-                                  {purchase.access_url}
-                                  <ExternalLink size={14} />
-                                </a>
-                              </div>
-                            )}
-
-                            <div className="mt-3 text-xs text-gray-500">
+                            <div className="mt-3 pt-3 border-t border-gray-700 text-xs text-gray-500">
                               Purchased on {new Date(purchase.purchased_at).toLocaleString()}
                             </div>
                           </div>
