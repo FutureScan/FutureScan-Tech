@@ -19,7 +19,9 @@ interface Purchase {
   listing_id: string;
   buyer_wallet: string;
   seller_wallet: string;
-  amount: number;
+  amount_usd: number;
+  amount_token: number;
+  payment_token: string;
   transaction_signature: string;
   purchased_at: number;
   status: string;
@@ -151,7 +153,10 @@ export default function PurchasesPage() {
 
                       <div className="text-right">
                         <div className="text-2xl font-bold text-[#ff6b35] mb-1">
-                          ${purchase.amount.toFixed(2)}
+                          ${purchase.amount_usd.toFixed(2)}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {purchase.amount_token.toFixed(4)} {purchase.payment_token}
                         </div>
                         <span
                           className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${

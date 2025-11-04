@@ -9367,3 +9367,34 @@
 [DEBUG] Skills and commands included in Skill tool:
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx.tmp.218.1762220568958
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 10099 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx.tmp.218.1762220568958 to /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx
+[DEBUG] File /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
+[DEBUG] executePreToolHooks called for tool: Edit
+[DEBUG] Skipping PreToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Writing to temp file: /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx.tmp.218.1762220575441
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 10284 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx.tmp.218.1762220575441 to /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx
+[DEBUG] File /home/vibecode/workspace/src/app/marketplace/purchases/page.tsx written atomically
+[DEBUG] Skipping PostToolUse:Edit hook execution - workspace trust not accepted
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
