@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "content": "Implement proper x402.org protocol with HTTP 402 responses",
+    "status": "in_progress",
+    "activeForm": "Implementing proper x402 protocol"
+  },
+  {
+    "content": "Add USD-based pricing with crypto conversion",
+    "status": "pending",
+    "activeForm": "Adding USD price conversion"
+  },
+  {
+    "content": "Fix wallet connect for purchases and sales",
+    "status": "pending",
+    "activeForm": "Fixing wallet connection"
+  },
+  {
+    "content": "Test complete payment flow end-to-end",
+    "status": "pending",
+    "activeForm": "Testing real payments"
+  }
+]
