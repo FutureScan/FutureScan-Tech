@@ -1,23 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import bs58 from 'bs58';
-import type { Listing } from '@/types/marketplace';
+import type { Listing, PaymentToken } from '@/types/marketplace';
 import { LISTINGS } from '@/lib/marketplace-store';
-
-// x402 Configuration
-const X402_CONFIG = {
-  LISTING_FEE_LAMPORTS: 100_000_000, // 0.1 SOL
-  FEE_WALLET_ADDRESS: '6NXeYAn75nfunLCMbeEnBtrGJUb8tUs45ApbvPbdNRYD',
-  SOLANA_RPC: 'https://api.mainnet-beta.solana.com',
-  SOL_MINT: 'So11111111111111111111111111111111111111112', // Native SOL
-};
 
 /**
  * POST /api/listings
- * PAYMENT DISABLED - Create listings without fee (for testing)
- *
- * NOTE: x402 protocol implementation is commented out below.
- * To re-enable payments, uncomment the payment verification code.
+ * Create new marketplace listing (no listing fee required)
  */
 export async function POST(request: NextRequest) {
   try {
@@ -31,9 +20,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ============================================================================
-    // PAYMENT DISABLED - Create listing directly without payment
-    // ============================================================================
+    if (!body.title || !body.description || !body.price || !body.payment_token) {
+      return NextResponse.json(
+        { error: 'Missing required fields: title, description, price, payment_token' },
+        { status: 400 }
+      );
+    }
+
+    // Validate payment token
+    const validTokens: PaymentToken[] = ['SOL', 'USDC', 'BONK', 'USDT', 'RAY', 'ORCA'];
+    if (!validTokens.includes(body.payment_token)) {
+      return NextResponse.json(
+        { error: 'Invalid payment token' },
+        { status: 400 }
+      );
+    }
 
     const newListing: Listing = {
       id: `listing_${Date.now()}_${Math.random().toString(36).substring(7)}`,
@@ -41,6 +42,7 @@ export async function POST(request: NextRequest) {
       description: body.description,
       category: body.category,
       price: body.price,
+      payment_token: body.payment_token,
       seller: body.seller,
       seller_wallet: body.seller_wallet,
       features: body.features || [],
@@ -49,19 +51,18 @@ export async function POST(request: NextRequest) {
       updated_at: Date.now(),
       total_sales: 0,
       seller_rating: 0,
-      delivery_type: body.delivery_type || 'manual',
+      delivery_type: body.delivery_type || 'instant',
       access_info: body.access_info,
     };
 
     // Store listing (use database in production)
     LISTINGS.push(newListing);
 
-    // Return HTTP 200 OK with listing
     return NextResponse.json(
       {
         success: true,
         listing: newListing,
-        message: 'Listing created successfully (no payment required)',
+        message: 'Listing created successfully',
       },
       {
         status: 200,
@@ -70,34 +71,13 @@ export async function POST(request: NextRequest) {
         },
       }
     );
-
-    /* ============================================================================
-     * X402 PAYMENT PROTOCOL (COMMENTED OUT - UNCOMMENT TO RE-ENABLE)
-     * ============================================================================
-     *
-     * const xPaymentHeader = request.headers.get('X-PAYMENT');
-     *
-     * // STEP 1: No Payment Header → Return HTTP 402 with PaymentRequirements
-     * if (!xPaymentHeader) {
-     *   const paymentRequirements = {
-     *     paymentRequirements: [
-     *       {
-     *         scheme: 'solana-transfer',
-     *         network: 'solana-mainnet',
-     *         price: {
-     *           amount: X402_CONFIG.LISTING_FEE_LAMPORTS.toString(),
-     *           asset: {
-     *             address: X402_CONFIG.SOL_MINT,
-     *             decimals: 9,
-     *             symbol: 'SOL',
-     *           },
-     *         },
-     *         payTo: X402_CONFIG.FEE_WALLET_ADDRESS,
-     *         maxTimeoutSeconds: 300,
-     *         config: {
-     *           description: 'X402 Marketplace Listing Fee',
-     *           resource: '/api/listings',
-     *           metadata: {
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.message || 'Failed to create listing' },
+      { status: 500 }
+    );
+  }
+}
      *             listingTitle: body.title || 'New Product',
      *             category: body.category || 'unknown',
      *           },
