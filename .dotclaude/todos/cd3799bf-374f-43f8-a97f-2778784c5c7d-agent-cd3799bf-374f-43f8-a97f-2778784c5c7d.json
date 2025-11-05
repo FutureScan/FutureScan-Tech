@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "content": "Analyze current settings page",
+    "status": "in_progress",
+    "activeForm": "Reading current settings"
+  },
+  {
+    "content": "Design comprehensive settings structure",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Build complete settings UI",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Add all settings categories",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Test all settings functionality",
+    "status": "pending",
+    "activeForm": "Pending"
+  }
+]
