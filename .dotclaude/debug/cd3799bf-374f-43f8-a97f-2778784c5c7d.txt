@@ -10739,3 +10739,5 @@
 [DEBUG] Slash commands included in SlashCommand tool:
 [DEBUG] Stream started - received first chunk
 [DEBUG] Stream started - received first chunk
+[DEBUG] Metrics export disabled by organization setting
+[DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
