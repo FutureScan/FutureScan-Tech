@@ -435,6 +435,7 @@ export default function InsidersPage() {
           </div>
         )}
       </div>
+      </div>
     </div>
   );
 }
