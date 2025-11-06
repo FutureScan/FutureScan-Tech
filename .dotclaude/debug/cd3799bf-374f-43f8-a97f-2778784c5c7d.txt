@@ -10849,3 +10849,60 @@
 [DEBUG] Getting matching hook commands for Notification with query: undefined
 [DEBUG] Found 0 hook matchers in settings
 [DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.220.1762391460676
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37098 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.220.1762391460676 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global, using native: false
+[DEBUG] performStartupChecks called
+[DEBUG] Starting background plugin installations
+[DEBUG] performBackgroundPluginInstallations called
+[DEBUG] Lock acquisition took longer than expected - another Claude instance may be running
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.220.1762391463026
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37098 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.220.1762391463026 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.220.1762391463643
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37098 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.220.1762391463643 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Lock acquisition took longer than expected - another Claude instance may be running
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.220.1762391464113
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37206 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.220.1762391464113 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Setting installation status: 0 marketplaces, 0 installable plugins, 0 uninstallable plugins
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] Summarizing last 1 of 401 messages (~148961 tokens)
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.220.1762391464462
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37206 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.220.1762391464462 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.220.1762391465664
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 37411 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.220.1762391465664 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] npm view failed with code 1
+[DEBUG] npm stderr: (empty)
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
