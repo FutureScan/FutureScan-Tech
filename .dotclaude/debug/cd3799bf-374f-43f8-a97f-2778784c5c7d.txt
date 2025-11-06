@@ -11171,3 +11171,4 @@
 [DEBUG] Getting matching hook commands for PreCompact with query: auto
 [DEBUG] Found 0 hook matchers in settings
 [DEBUG] Matched 0 unique hooks for query "auto" (0 before deduplication)
+[DEBUG] Stream started - received first chunk
