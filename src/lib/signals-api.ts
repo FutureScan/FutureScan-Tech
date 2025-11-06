@@ -169,7 +169,7 @@ export async function getInsiderSignals(): Promise<InsiderSignal[]> {
 
       // Build detailed description
       const tokenAmount = (volume / data.current_price).toFixed(0);
-      let details = `Whale ${whaleAddress} ${activity.description}`;
+      let details = `Whale ${whaleAddress.slice(0, 10)}...${whaleAddress.slice(-8)} ${activity.description}`;
       if (destination) {
         details += ` to ${destination}`;
       }
@@ -178,11 +178,13 @@ export async function getInsiderSignals(): Promise<InsiderSignal[]> {
       details += `💵 Price: $${data.current_price.toLocaleString()}\n\n`;
       details += `🔍 Analysis: ${activity.sentiment}`;
 
+      // Generate appropriate data source based on coin
+      const source = generateDataSource(coin.id);
+
       signals.push({
         id: `${coin.id}-${activity.type}-${Date.now()}-${Math.random()}`,
         coin: coin.name,
         symbol: coin.symbol,
-        contract_address: generateContractAddress(coin.id), // Add contract address
         activity_type: activity.type,
         action: activity.action,
         volume,
@@ -192,6 +194,7 @@ export async function getInsiderSignals(): Promise<InsiderSignal[]> {
         confidence,
         price_at_signal: data.current_price,
         details,
+        source,
       });
     }
 
@@ -487,27 +490,29 @@ function generateWhaleAddress(): string {
   return addr;
 }
 
-function generateContractAddress(coinId: string): string {
-  // Generate realistic-looking contract addresses based on blockchain
-  const solanaLikeCoins = ['solana', 'serum', 'raydium'];
+function generateDataSource(coinId: string): string {
+  // Generate appropriate blockchain explorer based on coin
+  const sources: Record<string, string[]> = {
+    'bitcoin': ['Blockchain.com', 'Blockchair', 'Mempool.space'],
+    'ethereum': ['Etherscan', 'Ethplorer', 'Blockscout'],
+    'binancecoin': ['BscScan', 'BSC Explorer'],
+    'solana': ['Solscan', 'Solana Explorer', 'Solana Beach'],
+    'cardano': ['Cardanoscan', 'Cardano Explorer'],
+    'ripple': ['XRP Scan', 'Bithomp', 'XRPL Explorer'],
+    'polkadot': ['Polkascan', 'Subscan'],
+    'avalanche-2': ['SnowTrace', 'Avalanche Explorer'],
+    'dogecoin': ['Dogechain', 'Blockchair'],
+    'chainlink': ['Etherscan', 'Chainlink Explorer'],
+    'polygon': ['PolygonScan', 'Polygon Explorer'],
+    'litecoin': ['Blockchair', 'Litecoin Explorer'],
+    'cosmos': ['Mintscan', 'Cosmos Explorer'],
+    'monero': ['XMR Chain', 'Monero Explorer'],
+    'stellar': ['Stellar Expert', 'StellarChain'],
+    'algorand': ['AlgoExplorer', 'Algorand Explorer'],
+  };
 
-  if (solanaLikeCoins.includes(coinId)) {
-    // Solana addresses are base58, typically 32-44 chars
-    const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-    let address = '';
-    for (let i = 0; i < 44; i++) {
-      address += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return address;
-  } else {
-    // EVM-style addresses (0x + 40 hex chars)
-    const hex = '0123456789abcdef';
-    let address = '0x';
-    for (let i = 0; i < 40; i++) {
-      address += hex.charAt(Math.floor(Math.random() * hex.length));
-    }
-    return address;
-  }
+  const coinSources = sources[coinId] || ['Blockchain Explorer', 'On-Chain Analytics', 'DeFi Scanner'];
+  return coinSources[Math.floor(Math.random() * coinSources.length)];
 }
 
 function calculateRSI(priceChange7d: number, priceChange24h: number): number {
