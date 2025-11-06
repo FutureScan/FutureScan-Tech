@@ -11,13 +11,13 @@
   },
   {
     "content": "Make contract address copyable",
-    "status": "in_progress",
-    "activeForm": "Checking for CA field"
+    "status": "completed",
+    "activeForm": "Done"
   },
   {
     "content": "Fix marketplace UI overlapping issues",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "in_progress",
+    "activeForm": "Fixing marketplace UI overlaps"
   },
   {
     "content": "Clean up marketplace layout",
