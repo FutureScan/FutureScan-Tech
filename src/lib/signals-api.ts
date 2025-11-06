@@ -182,6 +182,7 @@ export async function getInsiderSignals(): Promise<InsiderSignal[]> {
         id: `${coin.id}-${activity.type}-${Date.now()}-${Math.random()}`,
         coin: coin.name,
         symbol: coin.symbol,
+        contract_address: generateContractAddress(coin.id), // Add contract address
         activity_type: activity.type,
         action: activity.action,
         volume,

@@ -268,12 +268,15 @@ export default function InsidersPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 flex-1 min-w-0">
                         <Wallet size={13} className="text-blue-400 flex-shrink-0" />
-                        <span className="font-mono text-xs text-blue-300 truncate font-semibold">{signal.whale_address}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[10px] text-gray-500 uppercase font-semibold mb-0.5">Whale Address</div>
+                          <span className="font-mono text-xs text-blue-300 truncate font-semibold block">{signal.whale_address}</span>
+                        </div>
                       </div>
                       <button
                         onClick={() => copyAddress(signal.whale_address)}
                         className="flex-shrink-0 p-1.5 glass-card rounded-lg border border-gray-700/30 hover:border-[#ff6b35]/50 transition-all ml-2 hover:scale-110"
-                        title="Copy address"
+                        title="Copy whale address"
                       >
                         {copiedAddress === signal.whale_address ? (
                           <Check size={13} className="text-green-400" />
@@ -283,6 +286,32 @@ export default function InsidersPage() {
                       </button>
                     </div>
                   </div>
+
+                  {/* Contract Address (if available) */}
+                  {signal.contract_address && (
+                    <div className="mb-4 p-3 glass-card rounded-xl border border-purple-500/30">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          <FileCode size={13} className="text-purple-400 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-[10px] text-gray-500 uppercase font-semibold mb-0.5">Contract Address (CA)</div>
+                            <span className="font-mono text-xs text-purple-300 truncate font-semibold block">{signal.contract_address}</span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => copyAddress(signal.contract_address!)}
+                          className="flex-shrink-0 p-1.5 glass-card rounded-lg border border-gray-700/30 hover:border-purple-500/50 transition-all ml-2 hover:scale-110"
+                          title="Copy contract address"
+                        >
+                          {copiedAddress === signal.contract_address ? (
+                            <Check size={13} className="text-green-400" />
+                          ) : (
+                            <Copy size={13} className="text-gray-400 hover:text-purple-400" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Confidence */}
                   <div className="mb-4">
