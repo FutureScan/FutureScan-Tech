@@ -1,18 +1,18 @@
 [
   {
     "content": "Analyze insiders page structure",
-    "status": "in_progress",
-    "activeForm": "Reading insiders page"
+    "status": "completed",
+    "activeForm": "Done"
   },
   {
     "content": "Add expandable details to coin cards",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "completed",
+    "activeForm": "Done"
   },
   {
     "content": "Make contract address copyable",
-    "status": "pending",
-    "activeForm": "Pending"
+    "status": "in_progress",
+    "activeForm": "Checking for CA field"
   },
   {
     "content": "Fix marketplace UI overlapping issues",

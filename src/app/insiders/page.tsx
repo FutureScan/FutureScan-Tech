@@ -300,9 +300,79 @@ export default function InsidersPage() {
 
                   {/* Expandable Details */}
                   {isExpanded && (
-                    <div className="mb-4 p-4 glass-card rounded-xl border border-[#ff6b35]/30">
-                      <div className="text-xs text-gray-300 whitespace-pre-line leading-relaxed">
-                        {signal.details}
+                    <div className="mb-4 space-y-3">
+                      {/* Why Listed */}
+                      <div className="p-4 glass-card rounded-xl border border-purple-500/30">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
+                            <span className="text-purple-400 text-sm">💡</span>
+                          </div>
+                          <span className="text-sm font-bold text-purple-300">Why This Signal?</span>
+                        </div>
+                        <div className="text-xs text-gray-300 leading-relaxed space-y-2">
+                          <p><strong className="text-white">• Significance:</strong> Large {getActivityLabel(signal.activity_type).toLowerCase()} detected with ${(signal.volume / 1e6).toFixed(1)}M volume</p>
+                          <p><strong className="text-white">• Action Context:</strong> {
+                            signal.action === 'bullish'
+                              ? `Whale accumulation pattern - ${signal.activity_type === 'exchange_withdrawal' ? 'moving to cold storage (long-term hold signal)' : 'increasing position (bullish sentiment)'}`
+                              : signal.action === 'bearish'
+                              ? `Potential distribution - ${signal.activity_type === 'exchange_deposit' ? 'moving to exchange (sell pressure expected)' : 'reducing exposure (bearish sentiment)'}`
+                              : 'Neutral movement - monitoring for directional confirmation'
+                          }</p>
+                          <p><strong className="text-white">• Timing:</strong> Activity detected {formatDistanceToNow(signal.timestamp, { addSuffix: true })}</p>
+                        </div>
+                      </div>
+
+                      {/* Moves Made */}
+                      <div className="p-4 glass-card rounded-xl border border-blue-500/30">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center">
+                            <span className="text-blue-400 text-sm">📊</span>
+                          </div>
+                          <span className="text-sm font-bold text-blue-300">Transaction Details</span>
+                        </div>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex items-center justify-between p-2 bg-black/30 rounded-lg">
+                            <span className="text-gray-400">Activity Type</span>
+                            <span className="font-bold text-white">{getActivityLabel(signal.activity_type)}</span>
+                          </div>
+                          <div className="flex items-center justify-between p-2 bg-black/30 rounded-lg">
+                            <span className="text-gray-400">Volume Moved</span>
+                            <span className="font-bold text-[#ff6b35]">${(signal.volume / 1e6).toFixed(2)}M</span>
+                          </div>
+                          <div className="flex items-center justify-between p-2 bg-black/30 rounded-lg">
+                            <span className="text-gray-400">Price at Activity</span>
+                            <span className="font-bold text-white">${signal.price_at_signal.toLocaleString()}</span>
+                          </div>
+                          {signal.destination && (
+                            <div className="flex items-center justify-between p-2 bg-black/30 rounded-lg">
+                              <span className="text-gray-400">Destination</span>
+                              <span className="font-bold text-[#ff6b35]">{signal.destination}</span>
+                            </div>
+                          )}
+                          <div className="flex items-center justify-between p-2 bg-black/30 rounded-lg">
+                            <span className="text-gray-400">Confidence Level</span>
+                            <span className="font-bold text-green-400">{signal.confidence}% {signal.confidence >= 80 ? '(High)' : signal.confidence >= 60 ? '(Medium)' : '(Low)'}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Additional Analysis */}
+                      <div className="p-4 glass-card rounded-xl border border-green-500/30">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                            <span className="text-green-400 text-sm">🎯</span>
+                          </div>
+                          <span className="text-sm font-bold text-green-300">Actionable Insights</span>
+                        </div>
+                        <div className="text-xs text-gray-300 leading-relaxed">
+                          {signal.details || `This ${signal.action} signal suggests ${
+                            signal.action === 'bullish'
+                              ? 'potential upward price movement. Consider monitoring for entry opportunities if other indicators align.'
+                              : signal.action === 'bearish'
+                              ? 'potential downward pressure. Watch for confirmation before taking positions.'
+                              : 'whale repositioning. Monitor for clearer directional signals.'
+                          }`}
+                        </div>
                       </div>
                     </div>
                   )}
