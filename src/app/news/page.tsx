@@ -54,25 +54,29 @@ export default function NewsPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-10">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-8">
             <div className="relative">
-              <h1 className="text-5xl md:text-6xl font-black mb-3">
-                <span className="gradient-text neon-text">Crypto News</span>
-              </h1>
-              <p className="text-gray-300 text-lg">
-                Real-time crypto news with AI-powered sentiment analysis
-              </p>
-              <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-cyan-500 to-transparent rounded-full"></div>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-1 h-12 bg-gradient-to-b from-[#ff6b35] to-cyan-500 rounded-full"></div>
+                <div>
+                  <h1 className="text-4xl md:text-5xl font-black text-white mb-1">
+                    Crypto News
+                  </h1>
+                  <p className="text-gray-400 text-sm md:text-base">
+                    Real-time crypto news with AI-powered sentiment analysis
+                  </p>
+                </div>
+              </div>
             </div>
             <button
               onClick={loadNews}
               disabled={loading}
-              className="glass-card p-4 hover:bg-gray-800/80 rounded-xl transition-all hover:scale-110 disabled:opacity-50 pulse-ring"
+              className="glass-card p-4 hover:bg-gray-800/80 rounded-xl transition-all hover:scale-110 disabled:opacity-50 group"
               title="Refresh news"
             >
               <RefreshCw
                 size={24}
-                className={loading ? 'animate-spin text-[#ff6b35]' : 'text-gray-400 hover:text-[#ff6b35] transition-colors'}
+                className={loading ? 'animate-spin text-[#ff6b35]' : 'text-gray-400 group-hover:text-[#ff6b35] transition-colors'}
               />
             </button>
           </div>
