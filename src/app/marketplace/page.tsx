@@ -499,9 +499,9 @@ export default function MarketplacePage() {
           </div>
 
           {/* Info Banner */}
-          <div className="glass-card holographic p-5 rounded-2xl mb-6 border border-[#ff6b35]/20">
+          <div className="glass-card p-5 rounded-2xl mb-6 border border-[#ff6b35]/20">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 pulse-ring">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
                 <Sparkles className="text-white" size={24} />
               </div>
               <div className="flex-1">
