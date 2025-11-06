@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "content": "Analyze insiders page structure",
+    "status": "in_progress",
+    "activeForm": "Reading insiders page"
+  },
+  {
+    "content": "Add expandable details to coin cards",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Make contract address copyable",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Fix marketplace UI overlapping issues",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Clean up marketplace layout",
+    "status": "pending",
+    "activeForm": "Pending"
+  }
+]
