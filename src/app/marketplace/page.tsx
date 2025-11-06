@@ -422,10 +422,10 @@ export default function MarketplacePage() {
 
         {/* Header */}
         <div className="mb-10">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
-            <div className="relative flex items-center gap-6">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-8">
+            <div className="relative flex items-center gap-4 md:gap-6 w-full lg:w-auto">
               {/* Logo */}
-              <div className="relative flex-shrink-0 hidden md:block">
+              <div className="relative flex-shrink-0 hidden sm:block">
                 <div className="absolute inset-0 bg-[#ff6b35] blur-2xl opacity-40 animate-pulse"></div>
                 <Image
                   src="/logo.png"
@@ -436,16 +436,16 @@ export default function MarketplacePage() {
                 />
               </div>
 
-              <div>
-                <div className="flex items-center gap-4 mb-3">
-                  <h1 className="text-5xl md:text-6xl font-black">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-3">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black">
                     <span className="gradient-text neon-text">Marketplace</span>
                   </h1>
-                  <div className="px-4 py-1.5 neon-border rounded-full glass-card animate-pulse">
+                  <div className="px-4 py-1.5 neon-border rounded-full glass-card animate-pulse flex-shrink-0">
                     <span className="text-sm font-bold text-green-400">FREE</span>
                   </div>
                 </div>
-                <p className="text-gray-400 text-lg">Buy and sell crypto intelligence products</p>
+                <p className="text-gray-400 text-base md:text-lg">Buy and sell crypto intelligence products</p>
                 <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-purple-500 to-transparent rounded-full"></div>
               </div>
             </div>
@@ -647,19 +647,19 @@ export default function MarketplacePage() {
                 {/* Pricing */}
                 <div className="mb-4 p-4 glass-card rounded-xl border border-[#ff6b35]/20 holographic">
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-3xl font-black gradient-text">
+                    <div className="flex items-baseline justify-between flex-wrap gap-2">
+                      <span className="text-2xl sm:text-3xl font-black gradient-text">
                         ${listing.price_usd.toFixed(2)}
                       </span>
                       <span className="text-xs text-gray-400 font-semibold uppercase">USD</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-400">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                      <span className="text-xs sm:text-sm text-gray-400 break-all">
                         ≈ {convertUSDToToken(listing.price_usd, listing.payment_token).toFixed(4)} {TOKEN_CONFIGS[listing.payment_token].icon} {listing.payment_token}
                       </span>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 flex-shrink-0">
                         <CheckCircle className="text-green-400" size={12} />
-                        <span className="text-xs text-green-400 font-bold">No fees</span>
+                        <span className="text-xs text-green-400 font-bold whitespace-nowrap">No fees</span>
                       </div>
                     </div>
                   </div>
