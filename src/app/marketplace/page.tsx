@@ -702,10 +702,10 @@ export default function MarketplacePage() {
 
         {/* Create Listing Modal */}
         {showListingForm && (
-          <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/50 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/30 my-4">
+          <div className="fixed inset-0 bg-black/95 flex items-start sm:items-center justify-center z-50 p-4 overflow-y-auto">
+            <div className="bg-[#0a0a0a] border-2 border-[#ff6b35]/50 rounded-2xl max-w-2xl w-full shadow-2xl shadow-[#ff6b35]/30 my-8 sm:my-4">
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-800">
+              <div className="flex items-center justify-between p-6 border-b border-gray-800 sticky top-0 bg-[#0a0a0a] z-10 rounded-t-2xl">
                 <div>
                   <h2 className="text-2xl font-bold gradient-text">List on Marketplace</h2>
                   <p className="text-xs text-gray-500 mt-1">Free listing - no payment required</p>
@@ -713,14 +713,14 @@ export default function MarketplacePage() {
                 <button
                   onClick={() => !creating && setShowListingForm(false)}
                   disabled={creating}
-                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors disabled:opacity-50"
+                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors disabled:opacity-50 flex-shrink-0"
                 >
                   <X size={20} />
                 </button>
               </div>
 
               {/* Form */}
-              <div className="p-6 max-h-[70vh] overflow-y-auto">
+              <div className="p-6 max-h-[calc(85vh-160px)] overflow-y-auto">
                 {creating ? (
                   // Creating Listing State
                   <div className="text-center py-12">
@@ -735,7 +735,7 @@ export default function MarketplacePage() {
                   </div>
                 ) : (
                   // Form Fields
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div>
                       <label className="block text-sm font-semibold text-gray-300 mb-2">Product Title *</label>
                       <input
