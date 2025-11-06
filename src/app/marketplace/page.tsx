@@ -426,7 +426,6 @@ export default function MarketplacePage() {
             <div className="relative flex items-center gap-4 md:gap-6 w-full lg:w-auto">
               {/* Logo */}
               <div className="relative flex-shrink-0 hidden sm:block">
-                <div className="absolute inset-0 bg-[#ff6b35] blur-2xl opacity-40 animate-pulse"></div>
                 <Image
                   src="/logo.png"
                   alt="FutureScan"
@@ -437,16 +436,20 @@ export default function MarketplacePage() {
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-3">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black">
-                    <span className="gradient-text neon-text">Marketplace</span>
-                  </h1>
-                  <div className="px-4 py-1.5 neon-border rounded-full glass-card animate-pulse flex-shrink-0">
-                    <span className="text-sm font-bold text-green-400">FREE</span>
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-1 h-12 bg-gradient-to-b from-[#ff6b35] to-purple-500 rounded-full"></div>
+                  <div>
+                    <div className="flex items-center gap-3 mb-1">
+                      <h1 className="text-4xl sm:text-5xl font-black text-white">
+                        Marketplace
+                      </h1>
+                      <div className="px-3 py-1 rounded-full glass-card border border-green-500/30 flex-shrink-0">
+                        <span className="text-xs font-bold text-green-400">FREE</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 text-sm md:text-base">Buy and sell crypto intelligence products</p>
                   </div>
                 </div>
-                <p className="text-gray-400 text-base md:text-lg">Buy and sell crypto intelligence products</p>
-                <div className="absolute -bottom-2 left-0 w-32 h-1 bg-gradient-to-r from-[#ff6b35] via-purple-500 to-transparent rounded-full"></div>
               </div>
             </div>
 
