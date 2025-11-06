@@ -1,12 +1,1 @@
-[
-  {
-    "content": "Fix dead buttons by adding pointer-events: none to pseudo-elements",
-    "status": "completed",
-    "activeForm": "Fixed CSS pointer-events blocking clicks"
-  },
-  {
-    "content": "Run build to verify all fixes work",
-    "status": "in_progress",
-    "activeForm": "Verifying build"
-  }
-]
+[]
