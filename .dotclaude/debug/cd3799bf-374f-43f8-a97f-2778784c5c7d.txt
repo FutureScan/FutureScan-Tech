@@ -11636,3 +11636,6 @@
 [DEBUG] Applied original permissions to temp file
 [DEBUG] Renaming /home/vibecode/.claude.json.tmp.220.1762392461772 to /home/vibecode/.claude.json
 [DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Getting matching hook commands for Notification with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
