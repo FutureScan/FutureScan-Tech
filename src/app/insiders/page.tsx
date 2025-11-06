@@ -245,6 +245,15 @@ export default function InsidersPage() {
                     </span>
                   </div>
 
+                  {/* Data Source */}
+                  <div className="mb-4 flex items-center gap-2 px-3 py-2 glass-card rounded-xl border border-green-500/30">
+                    <Database size={14} className="text-green-400" />
+                    <div className="flex-1">
+                      <span className="text-[10px] text-gray-500 uppercase font-semibold block">Data Source</span>
+                      <span className="text-xs font-bold text-green-400">{signal.source}</span>
+                    </div>
+                  </div>
+
                   {/* Volume & Price */}
                   <div className="mb-4 text-xs space-y-2">
                     <div className="flex justify-between items-center p-2 glass-card rounded-lg border border-gray-700/30">

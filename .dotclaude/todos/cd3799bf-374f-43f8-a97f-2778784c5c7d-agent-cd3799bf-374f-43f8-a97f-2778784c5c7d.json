@@ -11,7 +11,12 @@
   },
   {
     "content": "Add data sources to insider signals",
+    "status": "completed",
+    "activeForm": "Done"
+  },
+  {
+    "content": "Build project to verify all changes",
     "status": "in_progress",
-    "activeForm": "Adding data sources"
+    "activeForm": "Verifying build"
   }
 ]
