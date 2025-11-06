@@ -34,7 +34,6 @@ export interface InsiderSignal {
   id: string;
   coin: string;
   symbol: string;
-  contract_address?: string; // Optional contract address for the token
   activity_type: 'transfer' | 'exchange_deposit' | 'exchange_withdrawal' | 'staking' | 'dex_trade' | 'bridge' | 'smart_contract';
   action: 'bullish' | 'bearish' | 'neutral';
   volume: number;
@@ -44,6 +43,7 @@ export interface InsiderSignal {
   confidence: number; // 0-100
   price_at_signal: number;
   details: string;
+  source: string; // Data source (e.g., "Etherscan", "Solscan", "Blockchain Explorer")
 }
 
 // AI trading signal
