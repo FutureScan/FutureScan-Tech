@@ -14,7 +14,7 @@ import {
   Coins,
   Shuffle,
   Network,
-  FileCode,
+  Database,
   Minus,
   ChevronDown,
   ChevronUp,
