@@ -478,13 +478,10 @@ function generateCatalysts(coinName: string, metadata: any): string[] {
 // Helper functions
 
 function generateWhaleAddress(): string {
+  // Generate full 40-character hex address (Ethereum format)
   const chars = '0123456789abcdef';
   let addr = '0x';
-  for (let i = 0; i < 8; i++) {
-    addr += chars[Math.floor(Math.random() * chars.length)];
-  }
-  addr += '...';
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 40; i++) {
     addr += chars[Math.floor(Math.random() * chars.length)];
   }
   return addr;
