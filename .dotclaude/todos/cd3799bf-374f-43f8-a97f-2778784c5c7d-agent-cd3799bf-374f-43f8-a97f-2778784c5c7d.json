@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "content": "Generate full whale addresses and copy complete address",
+    "status": "in_progress",
+    "activeForm": "Fixing whale address copying"
+  },
+  {
+    "content": "Remove contract address from insider cards",
+    "status": "pending",
+    "activeForm": "Pending"
+  },
+  {
+    "content": "Add data sources to insider signals",
+    "status": "pending",
+    "activeForm": "Pending"
+  }
+]
