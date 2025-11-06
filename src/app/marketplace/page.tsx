@@ -691,9 +691,9 @@ export default function MarketplacePage() {
                 </button>
 
                 {/* Seller */}
-                <div className="mt-3 pt-3 border-t border-gray-800 text-xs text-gray-500 flex items-center justify-between">
-                  <span>by {listing.seller}</span>
-                  <span>{formatDistanceToNow(listing.created_at, { addSuffix: true })}</span>
+                <div className="mt-3 pt-3 border-t border-gray-800 text-xs text-gray-500 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                  <span className="truncate max-w-full">by {listing.seller}</span>
+                  <span className="whitespace-nowrap flex-shrink-0">{formatDistanceToNow(listing.created_at, { addSuffix: true })}</span>
                 </div>
               </div>
             ))}
