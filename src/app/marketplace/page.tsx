@@ -450,15 +450,15 @@ export default function MarketplacePage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full sm:w-auto">
               {/* My Purchases Link */}
               {wallet.connected && wallet.publicKey && (
                 <Link
                   href="/marketplace/purchases"
-                  className="flex items-center gap-2 px-5 py-2.5 glass-card hover:bg-gray-800/80 rounded-xl font-medium transition-all hover:scale-105 shine"
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 glass-card hover:bg-gray-800/80 rounded-xl font-medium transition-all hover:scale-105 shine whitespace-nowrap"
                 >
                   <ShoppingCart size={18} className="text-[#ff6b35]" />
-                  <span className="hidden md:inline">My Purchases</span>
+                  <span>My Purchases</span>
                 </Link>
               )}
 
@@ -466,10 +466,10 @@ export default function MarketplacePage() {
               {wallet.connected && wallet.publicKey && (
                 <Link
                   href="/marketplace/dashboard"
-                  className="flex items-center gap-2 px-5 py-2.5 glass-card hover:bg-gray-800/80 rounded-xl font-medium transition-all hover:scale-105 shine"
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 glass-card hover:bg-gray-800/80 rounded-xl font-medium transition-all hover:scale-105 shine whitespace-nowrap"
                 >
                   <Wallet size={18} className="text-[#ff6b35]" />
-                  <span className="hidden md:inline">My Dashboard</span>
+                  <span>My Dashboard</span>
                 </Link>
               )}
 
@@ -487,10 +487,10 @@ export default function MarketplacePage() {
                   }
                   setShowListingForm(true);
                 }}
-                className="cyber-button flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all hover:scale-105 glow-orange"
+                className="cyber-button flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold transition-all hover:scale-105 glow-orange whitespace-nowrap"
               >
                 <Plus size={20} />
-                <span className="hidden md:inline">List Product</span>
+                <span>List Product</span>
               </button>
             </div>
           </div>
@@ -720,7 +720,7 @@ export default function MarketplacePage() {
               </div>
 
               {/* Form */}
-              <div className="p-6 max-h-[60vh] overflow-y-auto">
+              <div className="p-6 max-h-[70vh] overflow-y-auto">
                 {creating ? (
                   // Creating Listing State
                   <div className="text-center py-12">
