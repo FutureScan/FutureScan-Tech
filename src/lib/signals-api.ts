@@ -490,6 +490,29 @@ function generateWhaleAddress(): string {
   return addr;
 }
 
+function generateContractAddress(coinId: string): string {
+  // Generate realistic-looking contract addresses based on blockchain
+  const solanaLikeCoins = ['solana', 'serum', 'raydium'];
+
+  if (solanaLikeCoins.includes(coinId)) {
+    // Solana addresses are base58, typically 32-44 chars
+    const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    let address = '';
+    for (let i = 0; i < 44; i++) {
+      address += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return address;
+  } else {
+    // EVM-style addresses (0x + 40 hex chars)
+    const hex = '0123456789abcdef';
+    let address = '0x';
+    for (let i = 0; i < 40; i++) {
+      address += hex.charAt(Math.floor(Math.random() * hex.length));
+    }
+    return address;
+  }
+}
+
 function calculateRSI(priceChange7d: number, priceChange24h: number): number {
   const weight7d = 0.6;
   const weight24h = 0.4;
