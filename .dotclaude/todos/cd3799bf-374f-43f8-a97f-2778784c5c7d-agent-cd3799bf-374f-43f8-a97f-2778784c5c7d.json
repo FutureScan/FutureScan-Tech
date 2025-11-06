@@ -16,12 +16,12 @@
   },
   {
     "content": "Fix marketplace UI overlapping issues",
-    "status": "in_progress",
-    "activeForm": "Fixing marketplace UI overlaps"
+    "status": "completed",
+    "activeForm": "Done"
   },
   {
-    "content": "Clean up marketplace layout",
-    "status": "pending",
-    "activeForm": "Pending"
+    "content": "Verify build completes successfully",
+    "status": "in_progress",
+    "activeForm": "Verifying build success"
   }
 ]
