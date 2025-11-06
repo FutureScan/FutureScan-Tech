@@ -78,7 +78,7 @@ export default function InsidersPage() {
       case 'bridge':
         return <Network size={18} />;
       case 'smart_contract':
-        return <FileCode size={18} />;
+        return <Database size={18} />;
       case 'transfer':
         return <Wallet size={18} />;
       default:
