@@ -13128,3 +13128,20 @@
 [DEBUG] File /home/vibecode/.claude.json written atomically
 [DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Metrics export disabled by organization setting
+[DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+[DEBUG] LSP Diagnostics: Checking registry - 0 pending
+[DEBUG] LSP Diagnostics: Returning 0 diagnostic set(s) for delivery
+[DEBUG] Hooks: getAsyncHookResponseAttachments called
+[DEBUG] Hooks: checkForNewResponses called
+[DEBUG] Hooks: Found 0 total hooks in registry
+[DEBUG] Hooks: checkForNewResponses returning 0 responses
+[DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] FileHistory: Making snapshot for message 0680de46-885a-404a-ac5b-0d2e6ff1ebe4
+[DEBUG] FileHistory: Missing tracked file: src/app/marketplace2/page.tsx
+[DEBUG] FileHistory: Added snapshot for 0680de46-885a-404a-ac5b-0d2e6ff1ebe4, tracking 40 files
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Stream started - received first chunk
