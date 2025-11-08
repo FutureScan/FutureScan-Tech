@@ -13126,3 +13126,5 @@
 [DEBUG] Applied original permissions to temp file
 [DEBUG] Renaming /home/vibecode/.claude.json.tmp.237.1762569162486 to /home/vibecode/.claude.json
 [DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
+[DEBUG] Metrics export disabled by organization setting
