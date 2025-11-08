@@ -13037,3 +13037,54 @@
 [DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
 [DEBUG] Failed to check metrics opt-out status: Request failed with status code 401
 [DEBUG] Metrics export disabled by organization setting
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.237.1762568981265
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 38022 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.237.1762568981265 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+[DEBUG] performStartupChecks called
+[DEBUG] Starting background plugin installations
+[DEBUG] performBackgroundPluginInstallations called
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.237.1762568982298
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 38022 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.237.1762568982298 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.237.1762568982392
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 38022 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.237.1762568982392 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.237.1762568982594
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 38130 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.237.1762568982594 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Setting installation status: 0 marketplaces, 0 installable plugins, 0 uninstallable plugins
+[DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+[DEBUG] Stream started - received first chunk
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.237.1762568982702
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 38326 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.237.1762568982702 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/vibecode/.claude.json.tmp.237.1762568983006
+[DEBUG] Preserving file permissions: 100644
+[DEBUG] Temp file written successfully, size: 38326 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/vibecode/.claude.json.tmp.237.1762568983006 to /home/vibecode/.claude.json
+[DEBUG] File /home/vibecode/.claude.json written atomically
+[DEBUG] Stream started - received first chunk
+[DEBUG] Stream started - received first chunk
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
