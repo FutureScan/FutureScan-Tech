@@ -1,125 +1,187 @@
-# FutureScan 🔥
+# FutureScan
 
-**Cryptocurrency Intelligence Platform for Swing Traders**
+> Next-generation crypto intelligence platform delivering institutional-grade market insights through AI-powered analytics, real-time blockchain monitoring, and decentralized commerce.
 
-FutureScan is a comprehensive crypto intelligence web application that provides real-time market data, sentiment analysis, insider trading signals, and AI-powered trading recommendations—all designed for swing traders seeking 2-4 week holding periods.
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)
+![Solana](https://img.shields.io/badge/Solana-Web3-purple?style=flat-square&logo=solana)
+![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)
 
-![FutureScan Logo](./public/logo.png)
+## 🌟 Overview
 
-## 🌟 Features
+FutureScan is a state-of-the-art cryptocurrency intelligence platform that combines on-chain analytics, artificial intelligence, and blockchain technology to provide traders with actionable market intelligence. Built with modern web technologies and integrated with the Solana blockchain, FutureScan offers professional-grade tools for crypto market analysis.
 
-### 📊 **Dashboard**
-- **Market Sentiment** - Real-time Fear & Greed Index
-- **Personal Watchlist** - Track your favorite cryptocurrencies
-- **Latest News** - Curated crypto news with sentiment analysis
-- **BTC Calculator** - Quick BTC/USD conversion tool
+## ✨ Core Features
 
-### 📰 **News Feed**
-- Real-time cryptocurrency news from 100+ sources
-- AI-powered sentiment classification (Bullish/Bearish/Neutral)
-- Filter by sentiment to find relevant market signals
-- Direct links to original articles
+### 🐋 Whale Activity Monitor
+Real-time tracking of large wallet movements across multiple blockchains:
+- Exchange deposits/withdrawals monitoring
+- Staking activities and DeFi interactions
+- DEX trades and cross-chain bridge transfers
+- Confidence scoring (60-92%) with verified sources
+- Integration with Etherscan, Solscan, BscScan, and 15+ blockchain explorers
 
-### 🐋 **Insider Trading Signals**
-- Detect whale wallet movements
-- Track accumulation and distribution patterns
-- Confidence scoring for each signal
-- Volume analysis and price impact predictions
+### 🤖 AI Trading Signals
+Machine learning-powered trading recommendations with advanced technical analysis:
+- **Long-term holds** (6-18 months): Blue-chip asset accumulation strategies
+- **Medium-term swings** (2-6 weeks): Mean reversion and momentum plays
+- **Short-term trades** (1-7 days): Breakout and volatility opportunities
+- **Technology picks**: Next-gen blockchain infrastructure analysis
+- **Fundamental value**: Real-world utility and adoption metrics
 
-### ⚡ **AI Trading Signals**
-- Data-driven Buy/Hold/Sell recommendations
-- Entry prices, target prices, and stop-loss levels
-- Technical indicators (RSI, MACD, volume trends)
-- Confidence scores and detailed reasoning
-- Optimized for 2-4 week swing trades
+Technical indicators: RSI, MACD, volume trends, sentiment scoring
 
-### ⚙️ **Settings**
-- Customizable watchlist management
-- Search 10,000+ cryptocurrencies
-- Add/remove coins with real-time updates
-- Local storage for privacy
+### 📰 Crypto News Intelligence
+AI-powered sentiment analysis on real-time crypto news:
+- Multi-source aggregation from top crypto news outlets
+- Bullish/Bearish/Neutral sentiment classification
+- Category-based filtering (Bitcoin, DeFi, Regulation, etc.)
+- Real-time updates with source attribution
 
-### 📄 **Documentation**
-- **Whitepaper** - Comprehensive technical documentation
-- **Privacy Policy** - Full data privacy and security details
-- **Support** - Direct email contact form
+### 🛒 Decentralized Marketplace
+Peer-to-peer marketplace for crypto intelligence products:
+- **x402 Protocol**: HTTP 402 Payment Required implementation
+- **Direct Solana payments**: USDC, USDT, SOL, BONK, RAY, ORCA support
+- **Zero platform fees**: Sellers receive 100% of revenue
+- **Instant settlement**: Non-custodial, trustless transactions
+- Product categories: Trading signals, research reports, data feeds, tools, bots, API access
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
-- **Framework:** Next.js 16.0.1 (React 19.2.0)
-- **Language:** TypeScript 5.x
-- **Styling:** Tailwind CSS 4.x
-- **State Management:** Zustand with persistence
-- **Charts:** Recharts
-- **Icons:** Lucide React
-- **Package Manager:** Bun
+### Frontend
+- **Framework**: Next.js 16 (App Router) with TypeScript
+- **Styling**: TailwindCSS with custom glassmorphism design system
+- **UI/UX**: Professional animations, responsive design, dark theme
+- **State Management**: Zustand for global state
 
-## 🔌 Data Sources
+### Blockchain
+- **Network**: Solana mainnet
+- **Wallet Integration**: @solana/wallet-adapter-react
+- **Payment Protocol**: x402 (HTTP 402 Payment Required)
+- **Multi-token support**: Native SPL token handling
 
-FutureScan integrates with multiple free APIs:
-
-1. **CoinGecko API** - Real-time prices, market caps, and trading volumes
-2. **CryptoCompare API** - News aggregation and market data
-3. **Alternative.me API** - Fear & Greed Index
-
-All APIs use proper rate limiting and caching to ensure reliable performance.
+### Backend & APIs
+- **Runtime**: Node.js with Next.js API routes
+- **Data Sources**: CoinGecko API, multi-source news aggregation
+- **Caching**: In-memory caching with TTL management
+- **Real-time Updates**: Efficient data polling and refresh mechanisms
 
 ## 🚀 Getting Started
 
-The development server is managed by Vibecode. Access the app through the Vibecode interface.
+### Prerequisites
+- Node.js 18+ and npm
+- Solana wallet (Phantom, Solflare, etc.)
 
-### Build Commands
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/futurescan.git
+cd futurescan
+
 # Install dependencies
-bun install
+npm install
 
 # Run development server
-bun run dev
-
-# Build for production
-bun run build
-
-# Start production server
-bun run start
-
-# Run linter
-bun run lint
+npm run dev
 ```
 
-## 📱 Pages
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-- `/` - Dashboard with watchlist and market overview
-- `/news` - Filtered news feed with sentiment analysis
-- `/insiders` - Whale trading signals
-- `/signals` - AI-powered trading recommendations
-- `/settings` - Watchlist management
-- `/whitepaper` - Technical documentation
-- `/privacy` - Privacy policy
-- `/support` - Contact and support
+### Build for Production
 
-## 🔒 Security & Privacy
+```bash
+# Create optimized production build
+npm run build
 
-- **No user accounts** - All data stored locally in browser
-- **No personal data collection** - Complete privacy
-- **HTTPS encryption** - Secure API connections
-- **Rate limiting** - Prevents API abuse
-- **No wallet access** - Never handles private keys
+# Start production server
+npm start
+```
+
+## 📁 Project Structure
+
+```
+futurescan/
+├── src/
+│   ├── app/              # Next.js 16 app directory
+│   │   ├── api/          # API routes
+│   │   ├── insiders/     # Whale tracking page
+│   │   ├── signals/      # AI signals page
+│   │   ├── news/         # News intelligence page
+│   │   ├── marketplace/  # Decentralized marketplace
+│   │   └── settings/     # User settings
+│   ├── components/       # React components
+│   ├── lib/              # Utility functions and APIs
+│   │   ├── signals-api.ts
+│   │   ├── crypto-api.ts
+│   │   ├── x402-client.ts
+│   │   └── tokens.ts
+│   ├── types/            # TypeScript type definitions
+│   └── app/globals.css   # Global styles
+├── public/               # Static assets
+└── package.json
+```
+
+## 🎨 Design System
+
+FutureScan features a custom design system with:
+- **Glassmorphism UI**: Frosted glass effects with backdrop blur
+- **Cyber aesthetic**: Neon accents, gradient borders, holographic effects
+- **Color palette**: Orange (#ff6b35) primary, dark backgrounds, gradient accents
+- **Animations**: Smooth transitions, hover effects, loading states
+- **Responsive**: Mobile-first design with breakpoints
+
+## 🔐 Security Features
+
+- Non-custodial wallet integration (users control their keys)
+- Client-side transaction signing
+- Verified blockchain explorer sources
+- Input validation and sanitization
+- HTTPS-only in production
+
+## 📊 Key Metrics
+
+- **12+ Whale Activity Types**: Comprehensive on-chain monitoring
+- **15+ Signal Indicators**: Multi-factor analysis
+- **20+ News Sources**: Aggregated intelligence
+- **6 Payment Tokens**: Flexible payment options
+- **Zero Platform Fees**: 100% revenue to sellers
+
+## 🌐 Use Cases
+
+### For Traders
+- Monitor whale movements for alpha opportunities
+- Receive AI-powered trading recommendations
+- Access sentiment-analyzed news feeds
+- Track portfolio performance indicators
+
+### For Intelligence Providers
+- Monetize trading signals and research
+- Reach crypto-native audience
+- Accept payments in multiple tokens
+- Keep 100% of revenue
+
+### For DeFi Users
+- Track large wallet DeFi interactions
+- Monitor staking and farming activities
+- Identify cross-chain bridge movements
+- Analyze DEX trading patterns
 
 ## ⚠️ Disclaimer
 
 **NOT FINANCIAL ADVICE:** FutureScan provides information for educational purposes only. Cryptocurrency trading carries significant risk. Always conduct your own research and consult with qualified financial advisors before making investment decisions.
 
-## 📧 Support
+## 📄 License
 
-For questions or feedback, contact us at:
+Copyright © 2025 FutureScan. All rights reserved.
+
+This is proprietary software. Unauthorized copying, distribution, or modification is strictly prohibited.
+
+## 📧 Contact
+
+For questions or business inquiries:
 **Future_Scan@tech-center.com**
-
-## 📝 License
-
-© 2025 FutureScan. All rights reserved.
 
 ---
 
-Built with ❤️ for crypto swing traders
-
+Built with ⚡ by the FutureScan team | Powered by Solana
